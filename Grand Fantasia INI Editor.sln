@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grand Fantasia INI Editor", "Grand Fantasia INI Editor.csproj", "{B3C4AEDB-369B-4CC5-83F2-D1D1B5663E13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3C4AEDB-369B-4CC5-83F2-D1D1B5663E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C4AEDB-369B-4CC5-83F2-D1D1B5663E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C4AEDB-369B-4CC5-83F2-D1D1B5663E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C4AEDB-369B-4CC5-83F2-D1D1B5663E13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AD83BE5-F5E7-4D43-B4B5-FC581EE9555D}
+	EndGlobalSection
+EndGlobal
