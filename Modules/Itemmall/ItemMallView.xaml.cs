@@ -200,6 +200,14 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
 
         private void PopulateCombos()
         {
+            if (RestrictGenderCombo != null)
+            {
+                RestrictGenderCombo.ItemsSource = RESTRICT_GENDER
+                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                    .OrderBy(x => x.Value)
+                    .ToList();
+            }
+
             if (RestrictAlignCombo != null)
             {
                 RestrictAlignCombo.ItemsSource = RESTRICT_ALIGN
@@ -588,7 +596,7 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
                 : new List<string>();
 
 
-            SetListValue(row, IDX_RESTRICT_GENDER, GetBoxText(RestrictGenderBox));
+            SetListValue(row, IDX_RESTRICT_GENDER, GetComboValueOrKeepOriginal(RestrictGenderCombo, IDX_RESTRICT_GENDER));
             SetListValue(row, IDX_REBIRTH_SCORE, GetBoxText(RebirthScoreBox));
 
 
@@ -1107,7 +1115,12 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
                 SetText(TreasureBuff4Box, GetValue(_currentRow, IDX_TREASURE_BUFF_4));
 
 
-                SetText(RestrictGenderBox, GetValue(_currentRow, IDX_RESTRICT_GENDER));
+                if (int.TryParse(GetValue(_currentRow, IDX_RESTRICT_GENDER), out var restrictGender))
+                    SelectComboByValue(RestrictGenderCombo, restrictGender);
+                else if (RestrictGenderCombo != null)
+                    RestrictGenderCombo.SelectedIndex = -1;
+
+
                 SetText(RebirthScoreBox, GetValue(_currentRow, IDX_REBIRTH_SCORE));
 
 
@@ -1615,6 +1628,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
                 control.ToolTip = tooltip;
         }
 
+        // Dicionario Do tipo de Item
+
         private readonly Dictionary<int, string> ITEM_TYPE = new()
         {
             {0,"Unknown"},
@@ -1627,25 +1642,25 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {7,"Espada 1H"},
             {8,"Espada 2H"},
             {9,"Martelo"},
-            {10,"WarHammer"},
-            {11,"Axe"},
-            {12,"BattleAxe"},
-            {13,"Bow"},
-            {14,"Gun"},
-            {15,"HolyItem"},
-            {16,"Staff"},
-            {17,"Shield"},
+            {10,"Martelo 2H"},
+            {11,"Machado"},
+            {12,"Machado 2H"},
+            {13,"Arco"},
+            {14,"Rifle"},
+            {15,"Relyc"},
+            {16,"Cajado"},
+            {17,"Escudo"},
             {18,"Trinket"},
-            {19,"Arrow"},
-            {20,"Bullet"},
-            {21,"Backpack"},
+            {19,"Flecha"},
+            {20,"Munição"},
+            {21,"Mochila"},
             {22,"Item"},
             {23,"Material"},
-            {24,"Rune"},
-            {25,"Scroll"},
-            {26,"SpellStone"},
-            {27,"EquipSet"},
-            {28,"Treasure"},
+            {24,"Pedra"},
+            {25,"Pergaminho"},
+            {26,"Pedr. Habil."},
+            {27,"Equip Set"},
+            {28,"Tesouro"},
             {29,"LuckyBag"},
             {30,"ElfStone"},
             {31,"ElfEquip"},
@@ -1664,7 +1679,7 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {44,"WitchCraft"},
             {45,"Building"},
             {46,"UnBindItem"},
-            {47,"ElfBackpack"},
+            {47,"Mochila Sprit."},
             {48,"Food"},
             {49,"MatchItem"},
             {50,"KusoTrinket"},
@@ -1692,6 +1707,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {10000,"Max"},
         };
 
+        // dicionario de status elemental 
+
         private readonly Dictionary<int, string> ITEM_ATTRIBUTE = new()
         {
             {0, "None"},
@@ -1702,6 +1719,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {5, "Gelo"},
             {6, "Natureza"},
         };
+
+        // dicionario de tipo de equipamento
 
         private readonly Dictionary<int, string> EQUIP_TYPE = new()
         {
@@ -1752,6 +1771,9 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {44,"Max"},
         };
 
+
+        // Dicionario  de alvo do item
+
         private readonly Dictionary<int, string> ITEM_TARGET = new()
         {
             {0,"Vazio"},
@@ -1779,6 +1801,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {22,"ToSpellAA"},
         };
 
+        // dicionario de qualidade do item
+
         private readonly Dictionary<int, string> ITEM_QUALITY = new()
         {
             {0,"None"},
@@ -1791,6 +1815,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {7,"Red"},
             {8,"End"},
         };
+
+        // dicionario de moedas 
 
         private readonly Dictionary<int, string> SHOP_PRICE_TYPE = new()
         {
@@ -1806,6 +1832,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             {11, "Vingança de Ilya"},
             {12, "Mercenários Jale"},
         };
+
+        // dicionario de flags de uso
 
         private readonly List<FlagDef> OP_FLAGS = new()
         {
@@ -1843,6 +1871,8 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             new FlagDef { Label = "UnBindItem", Value = 536870912 },
         };
 
+        // dicionario de flags de uso 2
+
         private readonly List<FlagDef> OP_FLAGS_PLUS = new()
         {
             new FlagDef { Label = "IKCombine", Value = 1 },
@@ -1868,6 +1898,9 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             new FlagDef { Label = "StorageForbidden", Value = 2097152 },
             new FlagDef { Label = "FamilyStorageForbidden", Value = 4194304 },
         };
+
+
+        // dicionario de classe 
 
         private readonly List<FlagDef> RESTRICT_CLASSES = new()
         {
@@ -1933,46 +1966,59 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             new FlagDef { Label = "Mestre Dimensional", Value = 0x1000000000000000 },
             new FlagDef { Label = "Cronos", Value = 0x2000000000000000 },
         };
+
+        // dicionario de famas
+
         private readonly Dictionary<int, string> RESTRICT_ALIGN = new()
-{
+        {
   
-    { 1, "KASLOW" },
-    { 2, "JALE" },
-    { 3, "ILYA" },
-    { 4, "ELSALAND" },
-    { 200, "SANTA KASLOW" },
-    { 201, "VINGANÇA DE ILYA" },
-    { 202, "MERCENÁRIOS DE JALE" },
-    { 203, "ASSOCIAÇÃO DE GAS KASLOW" },
-    { 204, "ASSOCIAÇÃO DE ARTE JALE" },
-    { 5, "QUATRO MARES" },
-    { 6, "COCO VERMELHO" },
-    { 7, "ANGONIELA" },
-    { 11, "LIVROS DE QUILL" },
-    { 20, "GUARDIÃO DE SHAPAEL" },
-    { 12, "MINERAÇÃO JALE" },
-    { 13, "COLETA ILYA" },
-    { 14, "CAÇA KASLOW" },
-    { 15, "CAÇADORES DE DEMÔNIOS" },
-    { 17, "SPRITE SOMBRIO" },
-    { 21, "MENSAGEIRO SPRITE" },
-    { 16, "PVP" },
-    { 18, "GVG" },
-    { 19, "CLUBE PK (CHANNEL PVP)" },
-    { 100, "CLASSE" },
-    { 22, "BODOR" },
-    { 23, "ALICE" },
-    { 24, "RONTO" },
-    { 25, "SMULCA" },
-    { 26, "EWAN" },
-    { 27, "BAHADO" },
-    { 28, "QUILL" },
-    { 29, "MOSUNK" },
-    { 30, "JUNO" },
-    { 31, "SIROPAS" },
-    { 32, "CONGELADO = ILYANA" },
-    { 33, "GINNY" },
-};
+             { 1, "KASLOW" },
+             { 2, "JALE" },
+             { 3, "ILYA" },
+             { 4, "ELSALAND" },
+             { 200, "SANTA KASLOW" },
+             { 201, "VINGANÇA DE ILYA" },
+             { 202, "MERCENÁRIOS DE JALE" },
+             { 203, "ASSOCIAÇÃO DE GAS KASLOW" },
+             { 204, "ASSOCIAÇÃO DE ARTE JALE" },
+             { 5, "QUATRO MARES" },
+             { 6, "COCO VERMELHO" },
+             { 7, "ANGONIELA" },
+             { 11, "LIVROS DE QUILL" },
+             { 20, "GUARDIÃO DE SHAPAEL" },
+             { 12, "MINERAÇÃO JALE" },
+             { 13, "COLETA ILYA" },
+             { 14, "CAÇA KASLOW" },
+             { 15, "CAÇADORES DE DEMÔNIOS" },
+             { 17, "SPRITE SOMBRIO" },
+             { 21, "MENSAGEIRO SPRITE" },
+             { 16, "PVP" },
+             { 18, "GVG" },
+             { 19, "CLUBE PK (CHANNEL PVP)" },
+             { 100, "CLASSE" },
+             { 22, "BODOR" },
+             { 23, "ALICE" },
+             { 24, "RONTO" },
+             { 25, "SMULCA" },
+             { 26, "EWAN" },
+             { 27, "BAHADO" },
+             { 28, "QUILL" },
+             { 29, "MOSUNK" },
+             { 30, "JUNDO" },
+             { 31, "SIROPAS" },
+             { 32, "CONGELADO = ILYANA" },
+             { 33, "GINNY" },
+        };
+
+        //dicionario de sexo 
+
+        private readonly Dictionary<int, string> RESTRICT_GENDER = new()
+        {
+            { 1, "Masculino" },
+            { 2, "Feminino" },
+        };
+
+
         private ItemDb LoadItemDb(string clientPath)
         {
             var db = new ItemDb();

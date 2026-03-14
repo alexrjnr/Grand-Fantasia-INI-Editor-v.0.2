@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using GrandFantasiaINIEditor.Modules.ItemMall;
 using GrandFantasiaINIEditor.Modules.Geral;
 using GrandFantasiaINIEditor.Modules.Item;
+using GrandFantasiaINIEditor.Modules.ItemMall;
+using GrandFantasiaINIEditor.Modules.Mission;
 
 namespace GrandFantasiaINIEditor.Modules.Main
 {
@@ -32,6 +33,11 @@ namespace GrandFantasiaINIEditor.Modules.Main
         private void ItemMall_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new ItemMallView(clientPath);
+        }
+
+        private void Mission_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new MissionView(clientPath);
         }
     }
 }
