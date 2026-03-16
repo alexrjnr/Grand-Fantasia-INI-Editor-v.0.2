@@ -1,4 +1,5 @@
-﻿using Pfim;
+using GrandFantasiaINIEditor.Core;
+using Pfim;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +19,8 @@ namespace GrandFantasiaINIEditor.Modules.Item
     public partial class ItemView : UserControl
     {
         private readonly string clientPath;
-        private ItemDb db;
+        private readonly string schemasPath;
+        private GenericIniDb db;
         private readonly ObservableCollection<ItemEntry> Items = new();
         private readonly Dictionary<string, BitmapSource> iconCache = new();
         private CancellationTokenSource searchCts;
@@ -136,13 +138,14 @@ namespace GrandFantasiaINIEditor.Modules.Item
         private const int IDX_EXTRA_DATA_2 = 90;
         private const int IDX_EXTRA_DATA_3 = 91;
 
-        public ItemView(string clientPath)
+        public ItemView(string clientPath, string schemasPath)
         {
             InitializeComponent();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             this.clientPath = clientPath;
+            this.schemasPath = schemasPath;
             ItemList.ItemsSource = Items;
 
             PopulateCombos();
@@ -157,18 +160,6 @@ namespace GrandFantasiaINIEditor.Modules.Item
             public string Name { get; set; }
 
             public override string ToString() => $"{Id} - {Name}";
-        }
-
-        private sealed class ItemTranslation
-        {
-            public string Name;
-            public string Description;
-        }
-
-        private sealed class ItemDb
-        {
-            public Dictionary<string, List<string>> CRows = new();
-            public Dictionary<string, ItemTranslation> TRows = new();
         }
 
         private sealed class ComboOption
@@ -574,12 +565,12 @@ namespace GrandFantasiaINIEditor.Modules.Item
 
         private void LoadDatabase()
         {
-            db = LoadItemDb(clientPath);
+            db = GenericIniLoader.Load(clientPath, schemasPath, "S_Item.ini", "T_Item.ini");
             Items.Clear();
 
-            foreach (var r in db.CRows.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
+            foreach (var r in db.Rows.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
             {
-                var name = db.TRows.TryGetValue(r.Key, out var t) ? t.Name : "Unknown";
+                var name = db.Translations.TryGetValue(r.Key, out var t) ? t.Name : "Unknown";
 
                 Items.Add(new ItemEntry
                 {
@@ -834,7 +825,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             _currentRow = editedRow;
 
             if (!string.IsNullOrWhiteSpace(currentId))
-                db.CRows[currentId] = _currentRow;
+                db.Rows[currentId] = _currentRow;
         }
 
         private bool HasCurrentItemChanges()
@@ -879,7 +870,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (!string.IsNullOrEmpty(header))
                 lines.Add(header);
 
-            foreach (var kv in db.CRows.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
+            foreach (var kv in db.Rows.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
                 lines.Add(string.Join("|", kv.Value));
 
             using var sw = new StreamWriter(path, false, encoding);
@@ -900,7 +891,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (!string.IsNullOrEmpty(header))
                 lines.Add(header);
 
-            foreach (var kv in db.TRows.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
+            foreach (var kv in db.Translations.OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds)))
             {
                 string id = kv.Key ?? string.Empty;
                 string name = kv.Value?.Name ?? string.Empty;
@@ -941,13 +932,13 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (File.Exists(cItemPath))
                 PatchIniRowInPlace(cItemPath, Encoding.GetEncoding(950), currentId, changedColumns, editedRow);
 
-            if (translateChanged || !db.TRows.ContainsKey(currentId))
+            if (translateChanged || !db.Translations.ContainsKey(currentId))
                 PatchTranslateRowInPlace(tItemPath, Encoding.GetEncoding(1252), currentId, currentName, currentDesc);
 
             _currentRow = editedRow;
-            db.CRows[currentId] = new List<string>(editedRow);
+            db.Rows[currentId] = new List<string>(editedRow);
 
-            db.TRows[currentId] = new ItemTranslation
+            db.Translations[currentId] = new GenericTranslation
             {
                 Name = currentName,
                 Description = currentDesc
@@ -1009,17 +1000,17 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 {
                     token.ThrowIfCancellationRequested();
 
-                    return db.CRows
+                    return db.Rows
                         .Where(x =>
                             string.IsNullOrEmpty(filter) ||
                             x.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                            (db.TRows.ContainsKey(x.Key) &&
-                             (db.TRows[x.Key].Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) ?? false)))
+                            (db.Translations.ContainsKey(x.Key) &&
+                             (db.Translations[x.Key].Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) ?? false)))
                         .OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds))
                         .Select(x => new ItemEntry
                         {
                             Id = x.Key,
-                            Name = db.TRows.TryGetValue(x.Key, out var t) ? t.Name : "Unknown"
+                            Name = db.Translations.TryGetValue(x.Key, out var t) ? t.Name : "Unknown"
                         })
                         .ToList();
                 }, token);
@@ -1052,7 +1043,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 }
             }
 
-            if (!db.CRows.TryGetValue(entry.Id, out var rowFromDb))
+            if (!db.Rows.TryGetValue(entry.Id, out var rowFromDb))
                 return;
 
             _currentRow = rowFromDb.Select(x => x?.Trim() ?? string.Empty).ToList();
@@ -1065,7 +1056,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 SetText(ModelFileBox, GetValue(_currentRow, IDX_MODEL_FILE));
                 SetText(LevelBox, GetValue(_currentRow, IDX_RESTRICT_LEVEL));
 
-                if (db.TRows.TryGetValue(entry.Id, out var translation))
+                if (db.Translations.TryGetValue(entry.Id, out var translation))
                 {
                     SetText(NameBox, translation.Name ?? string.Empty);
                     SetText(DescBox, translation.Description ?? string.Empty);
@@ -1458,7 +1449,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 return;
             }
 
-            if (!db.CRows.TryGetValue(selected.Id, out var row))
+            if (!db.Rows.TryGetValue(selected.Id, out var row))
                 return;
 
             string newId = PromptNewId("Clonar item", "Informe o novo ID:");
@@ -1476,7 +1467,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 return;
             }
 
-            if (db.CRows.ContainsKey(newId))
+            if (db.Rows.ContainsKey(newId))
             {
                 MessageBox.Show(
                     "Esse ID já existe. Escolha outro ID.",
@@ -1491,11 +1482,11 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 clonedRow.Add(string.Empty);
 
             clonedRow[IDX_ID] = newId;
-            db.CRows[newId] = clonedRow;
+            db.Rows[newId] = clonedRow;
 
-            if (db.TRows.TryGetValue(selected.Id, out var translation))
+            if (db.Translations.TryGetValue(selected.Id, out var translation))
             {
-                db.TRows[newId] = new ItemTranslation
+                db.Translations[newId] = new GenericTranslation
                 {
                     Name = translation.Name,
                     Description = translation.Description
@@ -1503,7 +1494,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             }
             else
             {
-                db.TRows[newId] = new ItemTranslation
+                db.Translations[newId] = new GenericTranslation
                 {
                     Name = selected.Name,
                     Description = string.Empty
@@ -1560,54 +1551,27 @@ namespace GrandFantasiaINIEditor.Modules.Item
 
         private void LoadIcon(string iconName)
         {
-            try
+            if (string.IsNullOrWhiteSpace(iconName))
             {
-                if (string.IsNullOrWhiteSpace(iconName))
-                {
-                    if (ItemIcon != null)
-                        ItemIcon.Source = null;
-                    return;
-                }
+                if (ItemIcon != null) ItemIcon.Source = null;
+                return;
+            }
 
-                if (iconCache.TryGetValue(iconName, out var cached))
-                {
-                    if (ItemIcon != null)
-                        ItemIcon.Source = cached;
-                    return;
-                }
+            if (iconCache.TryGetValue(iconName, out var cached))
+            {
+                if (ItemIcon != null) ItemIcon.Source = cached;
+                return;
+            }
 
-                string iconPath = Path.Combine(clientPath, "UI", "itemicon", iconName + ".dds");
+            string iconPath = Path.Combine(clientPath, "UI", "itemicon", iconName + ".dds");
 
-                if (!File.Exists(iconPath))
-                {
-                    if (ItemIcon != null)
-                        ItemIcon.Source = null;
-                    return;
-                }
+            var bitmap = DdsLoader.Load(iconPath);
 
-                using var image = Pfimage.FromFile(iconPath);
-
-                var bitmap = BitmapSource.Create(
-                    image.Width,
-                    image.Height,
-                    96,
-                    96,
-                    PixelFormats.Bgra32,
-                    null,
-                    image.Data,
-                    image.Stride);
-
-                bitmap.Freeze();
+            if (bitmap != null)
                 iconCache[iconName] = bitmap;
 
-                if (ItemIcon != null)
-                    ItemIcon.Source = bitmap;
-            }
-            catch
-            {
-                if (ItemIcon != null)
-                    ItemIcon.Source = null;
-            }
+            if (ItemIcon != null)
+                ItemIcon.Source = bitmap;
         }
 
         private static void SetText(TextBox box, string value)
@@ -2016,88 +1980,5 @@ namespace GrandFantasiaINIEditor.Modules.Item
             { 1, "Masculino" },
             { 2, "Feminino" },
         };
-        private ItemDb LoadItemDb(string clientPath)
-        {
-            var db = new ItemDb();
-
-            string sPath = Path.Combine(clientPath, "data", "db", "S_Item.ini");
-            string tPath = Path.Combine(clientPath, "data", "translate", "T_Item.ini");
-
-            if (File.Exists(sPath))
-            {
-                var lines = File.ReadAllLines(sPath, Encoding.GetEncoding(950));
-
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    var parts = lines[i].Split('|');
-
-                    if (parts.Length < 20 || string.IsNullOrWhiteSpace(parts[0]))
-                        continue;
-
-                    db.CRows[parts[0].Trim()] = parts.Select(x => x.Trim()).ToList();
-                }
-            }
-            if (File.Exists(tPath))
-            {
-                var rawLines = File.ReadAllLines(tPath, Encoding.GetEncoding(1252));
-
-                string currentId = null;
-                string currentName = null;
-                var currentDesc = new StringBuilder();
-
-                void FlushCurrent()
-                {
-                    if (!string.IsNullOrWhiteSpace(currentId))
-                    {
-                        db.TRows[currentId] = new ItemTranslation
-                        {
-                            Name = currentName?.Trim() ?? string.Empty,
-                            Description = currentDesc.ToString().TrimEnd()
-                        };
-                    }
-                }
-
-                for (int i = 1; i < rawLines.Length; i++)
-                {
-                    string line = rawLines[i] ?? string.Empty;
-
-                    int firstPipe = line.IndexOf('|');
-                    bool startsWithId =
-                        firstPipe > 0 &&
-                        int.TryParse(line.Substring(0, firstPipe).Trim(), out _);
-
-                    if (startsWithId)
-                    {
-                        FlushCurrent();
-
-                        var parts = line.Split(new[] { '|' }, 3);
-
-                        currentId = parts.Length > 0 ? parts[0].Trim() : string.Empty;
-                        currentName = parts.Length > 1 ? parts[1].Trim() : string.Empty;
-
-                        currentDesc.Clear();
-                        if (parts.Length > 2)
-                            currentDesc.Append(parts[2]);
-                    }
-                    else
-                    {
-                        if (currentId == null)
-                            continue;
-
-                        if (line == "|")
-                            continue;
-
-                        if (currentDesc.Length > 0)
-                            currentDesc.AppendLine();
-
-                        currentDesc.Append(line);
-                    }
-                }
-
-                FlushCurrent();
-            }
-
-            return db;
-        }
     }
 }

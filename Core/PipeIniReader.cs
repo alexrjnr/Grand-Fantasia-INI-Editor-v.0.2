@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,34 +38,88 @@ namespace GrandFantasiaINIEditor.Core
 
             Encoding enc = schema.Kind == "SC" ? BIG5 : ANSI;
 
-            var lines = File.ReadAllLines(path, enc).ToList();
+            var rawLines = File.ReadAllLines(path, enc);
+
+            var rows = new List<List<string>>();
 
             if (schema.Kind == "SC")
             {
+                var lines = rawLines.ToList();
                 if (lines.Count <= 1)
                     return new IniFileResult();
 
                 lines.RemoveAt(0); // remove header
+
+                foreach (var line in lines)
+                {
+                    var cols = line.Split('|');
+
+                    if (cols.Length < schema.Columns)
+                        continue;
+
+                    var row = new List<string>();
+
+                    for (int i = 0; i < schema.Columns; i++)
+                        row.Add(cols[i].Trim());
+
+                    if (string.IsNullOrWhiteSpace(row[0]))
+                        continue;
+
+                    rows.Add(row);
+                }
             }
-
-            var rows = new List<List<string>>();
-
-            foreach (var line in lines)
+            else
             {
-                var cols = line.Split('|');
+                string currentId = null;
+                string currentName = null;
+                var currentDesc = new StringBuilder();
 
-                if (cols.Length < schema.Columns)
-                    continue;
+                void FlushCurrent()
+                {
+                    if (!string.IsNullOrWhiteSpace(currentId))
+                    {
+                        rows.Add(new List<string> { currentId, currentName, currentDesc.ToString() });
+                    }
+                }
 
-                var row = new List<string>();
+                for (int i = 1; i < rawLines.Length; i++)
+                {
+                    string line = rawLines[i] ?? string.Empty;
 
-                for (int i = 0; i < schema.Columns; i++)
-                    row.Add(cols[i].Trim());
+                    int firstPipe = line.IndexOf('|');
+                    bool startsWithId =
+                        firstPipe > 0 &&
+                        int.TryParse(line.Substring(0, firstPipe).Trim(), out _);
 
-                if (string.IsNullOrWhiteSpace(row[0]))
-                    continue;
+                    if (startsWithId)
+                    {
+                        FlushCurrent();
 
-                rows.Add(row);
+                        var parts = line.Split(new[] { '|' }, 3);
+
+                        currentId = parts.Length > 0 ? parts[0].Trim() : string.Empty;
+                        currentName = parts.Length > 1 ? parts[1].Trim() : string.Empty;
+
+                        currentDesc.Clear();
+                        if (parts.Length > 2)
+                            currentDesc.Append(parts[2]);
+                    }
+                    else
+                    {
+                        if (currentId == null)
+                            continue;
+
+                        if (line == "|")
+                            continue;
+
+                        if (currentDesc.Length > 0)
+                            currentDesc.AppendLine();
+
+                        currentDesc.Append(line);
+                    }
+                }
+
+                FlushCurrent();
             }
 
             return new IniFileResult
