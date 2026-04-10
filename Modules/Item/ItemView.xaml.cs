@@ -22,7 +22,6 @@ namespace GrandFantasiaINIEditor.Modules.Item
         private readonly string schemasPath;
         private GenericIniDb db;
         private readonly ObservableCollection<ItemEntry> Items = new();
-        private readonly Dictionary<string, BitmapSource> iconCache = new();
         private CancellationTokenSource searchCts;
 
         private readonly List<(ulong value, CheckBox cb)> _opflagsChecks = new();
@@ -193,67 +192,74 @@ namespace GrandFantasiaINIEditor.Modules.Item
         {
             if (RestrictGenderCombo != null)
             {
-                RestrictGenderCombo.ItemsSource = RESTRICT_GENDER
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                RestrictGenderCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.RestrictGender")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (RestrictAlignCombo != null)
             {
-                RestrictAlignCombo.ItemsSource = RESTRICT_ALIGN
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                RestrictAlignCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.RestrictAlign")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (ItemTypeCombo != null)
             {
-                ItemTypeCombo.ItemsSource = ITEM_TYPE
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                ItemTypeCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.ItemType")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (QualityCombo != null)
             {
-                QualityCombo.ItemsSource = ITEM_QUALITY
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                QualityCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.ItemQuality")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (EquipTypeCombo != null)
             {
-                EquipTypeCombo.ItemsSource = EQUIP_TYPE
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                EquipTypeCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.EquipType")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (TargetCombo != null)
             {
-                TargetCombo.ItemsSource = ITEM_TARGET
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                TargetCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.ItemTarget")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (ShopPriceTypeCombo != null)
             {
-                ShopPriceTypeCombo.ItemsSource = SHOP_PRICE_TYPE
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                ShopPriceTypeCombo.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.ShopPriceType")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
 
             if (AttributeBox != null)
             {
-                AttributeBox.ItemsSource = ITEM_ATTRIBUTE
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                AttributeBox.ItemsSource = LocalizationManager.Instance.GetDictionary("Item.ItemAttribute")
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
+        }
+
+        private List<FlagDef> GetFlagDefs(string key)
+        {
+            return LocalizationManager.Instance.GetDictionary(key)
+                .Select(kv => new FlagDef { Label = kv.Value, Value = ulong.Parse(kv.Key) })
+                .ToList();
         }
 
         private void InitFlagsUi()
@@ -265,8 +271,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (op_grid != null)
             {
                 op_grid.Children.Clear();
-
-                foreach (var def in OP_FLAGS)
+                foreach (var def in GetFlagDefs("Item.OpFlags"))
                 {
                     var cb = new CheckBox
                     {
@@ -274,7 +279,6 @@ namespace GrandFantasiaINIEditor.Modules.Item
                         Foreground = Brushes.AliceBlue,
                         Margin = new Thickness(0, 0, 14, 10)
                     };
-
                     _opflagsChecks.Add((def.Value, cb));
                     op_grid.Children.Add(cb);
                 }
@@ -283,8 +287,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (opplus_grid != null)
             {
                 opplus_grid.Children.Clear();
-
-                foreach (var def in OP_FLAGS_PLUS)
+                foreach (var def in GetFlagDefs("Item.OpFlagsPlus"))
                 {
                     var cb = new CheckBox
                     {
@@ -292,7 +295,6 @@ namespace GrandFantasiaINIEditor.Modules.Item
                         Foreground = Brushes.AliceBlue,
                         Margin = new Thickness(0, 0, 14, 10)
                     };
-
                     _opflagsPlusChecks.Add((def.Value, cb));
                     opplus_grid.Children.Add(cb);
                 }
@@ -301,8 +303,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (class_grid != null)
             {
                 class_grid.Children.Clear();
-
-                foreach (var def in RESTRICT_CLASSES)
+                foreach (var def in GetFlagDefs("Item.Classes"))
                 {
                     var cb = new CheckBox
                     {
@@ -310,7 +311,6 @@ namespace GrandFantasiaINIEditor.Modules.Item
                         Foreground = Brushes.AliceBlue,
                         Margin = new Thickness(0, 0, 14, 10)
                     };
-
                     _classChecks.Add((def.Value, cb));
                     class_grid.Children.Add(cb);
                 }
@@ -366,7 +366,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                     total |= value;
             }
 
-            total = PreserveUnknownBits(IDX_OP_FLAGS, total, OP_FLAGS);
+            total = PreserveUnknownBits(IDX_OP_FLAGS, total, GetFlagDefs("Item.OpFlags"));
 
             SetRowValue(IDX_OP_FLAGS, FormatBitmaskLikeOriginal(IDX_OP_FLAGS, total));
 
@@ -387,7 +387,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                     total |= value;
             }
 
-            total = PreserveUnknownBits(IDX_OP_FLAGS_PLUS, total, OP_FLAGS_PLUS);
+            total = PreserveUnknownBits(IDX_OP_FLAGS_PLUS, total, GetFlagDefs("Item.OpFlagsPlus"));
 
             SetRowValue(IDX_OP_FLAGS_PLUS, FormatBitmaskLikeOriginal(IDX_OP_FLAGS_PLUS, total));
 
@@ -408,7 +408,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                     total |= value;
             }
 
-            total = PreserveUnknownBits(IDX_RESTRICT_CLASS, total, RESTRICT_CLASSES);
+            total = PreserveUnknownBits(IDX_RESTRICT_CLASS, total, GetFlagDefs("Item.Classes"));
 
             SetRowValue(IDX_RESTRICT_CLASS, FormatBitmaskLikeOriginal(IDX_RESTRICT_CLASS, total));
 
@@ -422,6 +422,32 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 $"Valor hexadecimal: 0x{total:X}\n" +
                 $"Composição: {BuildClassDecomposition(total)}\n\n" +
                 $"{BuildClassSummary(total)}");
+        }
+
+        private void ClassBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_loading || _currentRow == null) return;
+
+            string text = ClassBox.Text;
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            if (text.Contains("|"))
+                text = text.Split('|')[0].Trim();
+
+            ulong val = 0;
+            bool success = false;
+
+            if (text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                success = ulong.TryParse(text.Substring(2), NumberStyles.HexNumber, null, out val);
+            else
+                success = ulong.TryParse(text, out val);
+
+            if (success)
+            {
+                SetChecksFromValue(_classChecks, val, ClassCheckChanged);
+                SetRowValue(IDX_RESTRICT_CLASS, FormatBitmaskLikeOriginal(IDX_RESTRICT_CLASS, val));
+                RefreshFlagDisplays(GetULongFromCurrentRow(IDX_OP_FLAGS), val);
+            }
         }
 
         private void SetChecksFromValue(
@@ -695,7 +721,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 if (cb.IsChecked == true)
                     opFlagsValue |= value;
             }
-            opFlagsValue = PreserveUnknownBits(IDX_OP_FLAGS, opFlagsValue, OP_FLAGS);
+            opFlagsValue = PreserveUnknownBits(IDX_OP_FLAGS, opFlagsValue, GetFlagDefs("Item.OpFlags"));
             SetListValue(row, IDX_OP_FLAGS, FormatBitmaskLikeOriginal(IDX_OP_FLAGS, opFlagsValue));
 
             ulong opFlagsPlusValue = 0;
@@ -704,7 +730,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 if (cb.IsChecked == true)
                     opFlagsPlusValue |= value;
             }
-            opFlagsPlusValue = PreserveUnknownBits(IDX_OP_FLAGS_PLUS, opFlagsPlusValue, OP_FLAGS_PLUS);
+            opFlagsPlusValue = PreserveUnknownBits(IDX_OP_FLAGS_PLUS, opFlagsPlusValue, GetFlagDefs("Item.OpFlagsPlus"));
             SetListValue(row, IDX_OP_FLAGS_PLUS, FormatBitmaskLikeOriginal(IDX_OP_FLAGS_PLUS, opFlagsPlusValue));
 
             ulong classValue = 0;
@@ -713,7 +739,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 if (cb.IsChecked == true)
                     classValue |= value;
             }
-            classValue = PreserveUnknownBits(IDX_RESTRICT_CLASS, classValue, RESTRICT_CLASSES);
+            classValue = PreserveUnknownBits(IDX_RESTRICT_CLASS, classValue, GetFlagDefs("Item.Classes"));
             SetListValue(row, IDX_RESTRICT_CLASS, FormatBitmaskLikeOriginal(IDX_RESTRICT_CLASS, classValue));
             
             return row;
@@ -1221,21 +1247,21 @@ namespace GrandFantasiaINIEditor.Modules.Item
                     $"Composição: {BuildClassDecomposition(classValue)}\n\n" +
                     $"{BuildClassSummary(classValue)}");
 
-                string opFlagsText = BuildFlagsSummary(opFlagsValue, OP_FLAGS);
+                string opFlagsText = BuildFlagsSummary(opFlagsValue, GetFlagDefs("Item.OpFlags"));
                 string opFlagsHex = $"0x{opFlagsValue:X}";
                 string opTooltip = $"Valor decimal: {opFlagsValue} | {opFlagsHex}\n{opFlagsText}";
 
                 foreach (var (_, cb) in _opflagsChecks)
                     cb.ToolTip = opTooltip;
 
-                string opFlagsPlusText = BuildFlagsSummary(opFlagsPlusValue, OP_FLAGS_PLUS);
+                string opFlagsPlusText = BuildFlagsSummary(opFlagsPlusValue, GetFlagDefs("Item.OpFlagsPlus"));
                 string opFlagsPlusHex = $"0x{opFlagsPlusValue:X}";
                 string opPlusTooltip = $"Valor decimal: {opFlagsPlusValue} | {opFlagsPlusHex}\n{opFlagsPlusText}";
 
                 foreach (var (_, cb) in _opflagsPlusChecks)
                     cb.ToolTip = opPlusTooltip;
 
-                LoadIcon(GetValue(_currentRow, IDX_ICON));
+                LoadIcon(entry.Id);
 
                 _lastSelectedItemId = entry.Id;
                 _originalRowSnapshot = _currentRow.Select(s => s ?? string.Empty).ToList();
@@ -1273,7 +1299,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
 
         private string BuildClassSummary(ulong value)
         {
-            var classes = DecodeFlags(value, RESTRICT_CLASSES);
+            var classes = DecodeFlags(value, GetFlagDefs("Item.Classes"));
 
             if (classes.Count == 0)
                 return "Nenhuma classe marcada";
@@ -1283,7 +1309,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
 
         private string BuildClassDecomposition(ulong value)
         {
-            var classes = DecodeFlags(value, RESTRICT_CLASSES);
+            var classes = DecodeFlags(value, GetFlagDefs("Item.Classes"));
 
             if (classes.Count == 0)
                 return "0";
@@ -1549,29 +1575,45 @@ namespace GrandFantasiaINIEditor.Modules.Item
             _lastSelectedItemId = null;
         }
 
-        private void LoadIcon(string iconName)
+        private void LoadIcon(string itemId)
         {
-            if (string.IsNullOrWhiteSpace(iconName))
+            if (string.IsNullOrWhiteSpace(itemId))
             {
                 if (ItemIcon != null) ItemIcon.Source = null;
                 return;
             }
 
-            if (iconCache.TryGetValue(iconName, out var cached))
+            // Get icon name from db (S_Item.ini row)
+            if (db != null && db.Rows.TryGetValue(itemId, out var row) && row.Count > IDX_ICON)
             {
-                if (ItemIcon != null) ItemIcon.Source = cached;
-                return;
+                string iconName = row[IDX_ICON]?.Trim() ?? string.Empty;
+                if (!string.IsNullOrEmpty(iconName))
+                {
+                    string[] folders = {
+                        Path.Combine(clientPath, "data", "icon"),
+                        Path.Combine(clientPath, "Data", "icon"),
+                        Path.Combine(clientPath, "UI", "itemicon"),
+                        Path.Combine(clientPath, "ui", "itemicon"),
+                        Path.Combine(clientPath, "data", "item"),
+                        Path.Combine(clientPath, "Data", "item")
+                    };
+
+                    foreach (var folder in folders)
+                    {
+                        if (Directory.Exists(folder))
+                        {
+                            string path = Path.Combine(folder, iconName + ".dds");
+                            if (File.Exists(path))
+                            {
+                                if (ItemIcon != null) ItemIcon.Source = DdsLoader.Load(path);
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
-            string iconPath = Path.Combine(clientPath, "UI", "itemicon", iconName + ".dds");
-
-            var bitmap = DdsLoader.Load(iconPath);
-
-            if (bitmap != null)
-                iconCache[iconName] = bitmap;
-
-            if (ItemIcon != null)
-                ItemIcon.Source = bitmap;
+            if (ItemIcon != null) ItemIcon.Source = null;
         }
 
         private static void SetText(TextBox box, string value)
@@ -1591,394 +1633,5 @@ namespace GrandFantasiaINIEditor.Modules.Item
             if (control != null)
                 control.ToolTip = tooltip;
         }
-        // Dicionario Do tipo de Item
-
-        private readonly Dictionary<int, string> ITEM_TYPE = new()
-        {
-            {0,"Unknown"},
-            {1,"Capacete"},
-            {2,"Peito"},
-            {3,"Calça"},
-            {4,"Luva"},
-            {5,"Pés"},
-            {6,"Capa"},
-            {7,"Espada 1H"},
-            {8,"Espada 2H"},
-            {9,"Martelo"},
-            {10,"WarHammer"},
-            {11,"Axe"},
-            {12,"BattleAxe"},
-            {13,"Bow"},
-            {14,"Gun"},
-            {15,"HolyItem"},
-            {16,"Staff"},
-            {17,"Shield"},
-            {18,"Trinket"},
-            {19,"Arrow"},
-            {20,"Bullet"},
-            {21,"Backpack"},
-            {22,"Item"},
-            {23,"Material"},
-            {24,"Rune"},
-            {25,"Scroll"},
-            {26,"SpellStone"},
-            {27,"EquipSet"},
-            {28,"Treasure"},
-            {29,"LuckyBag"},
-            {30,"ElfStone"},
-            {31,"ElfEquip"},
-            {32,"Chip"},
-            {33,"Formula"},
-            {34,"Crystal"},
-            {35,"Kuso"},
-            {36,"Fantasia 1H"},
-            {37,"Fantasia 2H"},
-            {38,"Fantasia Cajado"},
-            {39,"Fantasia Arco"},
-            {40,"Fantasia Arma"},
-            {41,"Fantasia Escudo"},
-            {42,"Fantasia Corpo"},
-            {43,"ElfGameItem"},
-            {44,"WitchCraft"},
-            {45,"Building"},
-            {46,"UnBindItem"},
-            {47,"ElfBackpack"},
-            {48,"Food"},
-            {49,"MatchItem"},
-            {50,"KusoTrinket"},
-            {51,"ElfBook1"},
-            {52,"ElfBook2"},
-            {53,"ElfBook3"},
-            {54,"Arma Mecha 1H"},
-            {55,"Arma Mecha 2H"},
-            {56,"Canhão"},
-            {57,"Bala de Canhão"},
-            {58,"KusoSoulCrystal"},
-            {59,"Katana"},
-            {60,"Chave"},
-            {61,"Cartão Postal"},
-            {62,"Souvenir"},
-            {63,"OptionalLuckyBag"},
-            {8001,"CombineRate"},
-            {8002,"StrengthenRate"},
-            {8003,"CookRate"},
-            {8004,"MatchRate"},
-            {8005,"StrengthenTransfer"},
-            {8006,"RideCombinePoint"},
-            {9001,"OpenUIStart"},
-            {9999,"OpenUIEnd"},
-            {10000,"Max"},
-        };
-
-        // dicionario de status elemental 
-
-        private readonly Dictionary<int, string> ITEM_ATTRIBUTE = new()
-        {
-            {0, "None"},
-            {1, "Luz"},
-            {2, "Escuridão"},
-            {3, "Relâmpago"},
-            {4, "Fogo"},
-            {5, "Gelo"},
-            {6, "Natureza"},
-        };
-
-        // dicionario de tipo de equipamento
-
-        private readonly Dictionary<int, string> EQUIP_TYPE = new()
-        {
-            {-1,"Unknow"},
-            {0,"None"},
-            {1,"Capacete"},
-            {2,"Peito"},
-            {3,"Calça"},
-            {4,"Luva"},
-            {5,"Pes"},
-            {6,"Capa"},
-            {7,"Uma mão"},
-            {8,"LeftHand"},
-            {9,"Duas Mãos"},
-            {10,"Shoot"},
-            {11,"Trinket"},
-            {13,"Munição"},
-            {14,"Mochila"},
-            {15,"SpellStoneA"},
-            {16,"SpellStoneB"},
-            {17,"SpellStoneC"},
-            {18,"SpellStoneD"},
-            {19,"ElfStoneA"},
-            {20,"ElfStoneB"},
-            {21,"ElfCap"},
-            {22,"ElfClothes"},
-            {23,"ElfFurnitureA"},
-            {24,"ElfFurnitureB"},
-            {25,"ElfFurnitureC"},
-            {26,"Piso Sprite"},
-            {27,"Parede Sprite"},
-            {28,"Uma Mão"},
-            {29,"TrinketOnly"},
-            {30,"SpellStoneE"},
-            {31,"SpellStoneF"},
-            {32,"SpellStoneG"},
-            {33,"SpellStoneH"},
-            {34,"IsleEquipA"},
-            {35,"IsleEquipB"},
-            {36,"IsleEquipC"},
-            {37,"IsleEquipD"},
-            {38,"IsleEquipE"},
-            {39,"IsleEquipF"},
-            {40,"IKRide"},
-            {41,"GKRide"},
-            {42,"SoulCrystal"},
-            {43,"Souvenir"},
-            {44,"Max"},
-        };
-
-
-        // Dicionario  de alvo do item
-
-        private readonly Dictionary<int, string> ITEM_TARGET = new()
-        {
-            {0,"Vazio"},
-            {1,"None"},
-            {2,"ToSelf"},
-            {3,"ToElf"},
-            {4,"ToChar"},
-            {5,"ToItem"},
-            {6,"ToCrop"},
-            {7,"ToFarm"},
-            {8,"ToIsleScene"},
-            {9,"ToIsleStatue"},
-            {10,"ToHiredFarm"},
-            {11,"ToFishGround"},
-            {12,"ToFish"},
-            {13,"ToPit"},
-            {14,"ToMineral"},
-            {15,"ToPlant"},
-            {16,"ToIsleFarm"},
-            {17,"ToCattle"},
-            {18,"ToPasturage"},
-            {19,"ToESShortcut"},
-            {20,"ToMonster"},
-            {21,"ToNPC"},
-            {22,"ToSpellAA"},
-        };
-
-        // dicionario de qualidade do item
-
-        private readonly Dictionary<int, string> ITEM_QUALITY = new()
-        {
-            {0,"None"},
-            {1,"Cinza"},
-            {2,"Verde"},
-            {3,"Azul"},
-            {4,"Laranja"},
-            {5,"Amarelo"},
-            {6,"Roxo"},
-            {7,"Red"},
-            {8,"End"},
-        };
-
-        // dicionario de moedas 
-
-        private readonly Dictionary<int, string> SHOP_PRICE_TYPE = new()
-        {
-            {1, "Gold"},
-            {2, "Ponto PvP"},
-            {3, "Emblema Rosa Cristal"},
-            {4, "Ponto Casal"},
-            {5, "Ponto GvG"},
-            {6, "Selo de Caça"},
-            {7, "Moedas Coco"},
-            {9, "Reputação de Classe"},
-            {10, "Resistência Kaslow"},
-            {11, "Vingança de Ilya"},
-            {12, "Mercenários Jale"},
-        };
-
-        // dicionario de flags de uso
-
-        private readonly List<FlagDef> OP_FLAGS = new()
-        {
-            new FlagDef { Label = "Usavel", Value = 1 },
-            new FlagDef { Label = "Não Gasta", Value = 2 },
-            new FlagDef { Label = "Não trocavel", Value = 4 },
-            new FlagDef { Label = "Não joga fora", Value = 8 },
-            new FlagDef { Label = "NoEnhance (16)", Value = 16 },
-            new FlagDef { Label = "NoRepair", Value = 32 },
-            new FlagDef { Label = "Combineable", Value = 64 },
-            new FlagDef { Label = "BindOnEquip", Value = 128 },
-            new FlagDef { Label = "Acumula Tempo", Value = 256 },
-            new FlagDef { Label = "NoSameBuff", Value = 512 },
-            new FlagDef { Label = "Proibido em combate", Value = 1024 },
-            new FlagDef { Label = "NoInTown", Value = 2048 },
-            new FlagDef { Label = "NoInCave", Value = 4096 },
-            new FlagDef { Label = "NoInInstance", Value = 8192 },
-            new FlagDef { Label = "LinkToQuest", Value = 16384 },
-            new FlagDef { Label = "Usar Morto", Value = 32768 },
-            new FlagDef { Label = "Only1", Value = 65536 },
-            new FlagDef { Label = "Only2", Value = 131072 },
-            new FlagDef { Label = "Only3", Value = 262144 },
-            new FlagDef { Label = "Only4", Value = 524288 },
-            new FlagDef { Label = "Only5", Value = 1048576 },
-            new FlagDef { Label = "Only", Value = 2031616 },
-            new FlagDef { Label = "Replaceable1", Value = 2097152 },
-            new FlagDef { Label = "Replaceable2", Value = 4194304 },
-            new FlagDef { Label = "Replaceable3", Value = 8388608 },
-            new FlagDef { Label = "Replaceable4", Value = 16777216 },
-            new FlagDef { Label = "Replaceable5", Value = 33554432 },
-            new FlagDef { Label = "Replaceable", Value = 65011712 },
-            new FlagDef { Label = "Proibido Arena", Value = 67108864 },
-            new FlagDef { Label = "NoInField", Value = 134217728 },
-            new FlagDef { Label = "Some se mudar de mapa", Value = 268435456 },
-            new FlagDef { Label = "UnBindItem", Value = 536870912 },
-        };
-
-        // dicionario de flags de uso 2
-
-        private readonly List<FlagDef> OP_FLAGS_PLUS = new()
-        {
-            new FlagDef { Label = "IKCombine", Value = 1 },
-            new FlagDef { Label = "GKCombine", Value = 2 },
-            new FlagDef { Label = "EquipShow", Value = 4 },
-            new FlagDef { Label = "PurpleWLimit", Value = 8 },
-            new FlagDef { Label = "PurpleALimit", Value = 16 },
-            new FlagDef { Label = "UseBind", Value = 32 },
-            new FlagDef { Label = "OneStack", Value = 64 },
-            new FlagDef { Label = "RideCombineIK", Value = 128 },
-            new FlagDef { Label = "RideCombineGK", Value = 256 },
-            new FlagDef { Label = "VIP", Value = 512 },
-            new FlagDef { Label = "ChairCombineIK", Value = 2048 },
-            new FlagDef { Label = "ChairCombineGK", Value = 4096 },
-            new FlagDef { Label = "RedWLimit", Value = 8192 },
-            new FlagDef { Label = "RedALimit", Value = 16384 },
-            new FlagDef { Label = "CrystalCombo", Value = 32768 },
-            new FlagDef { Label = "SouvenirCombo", Value = 65536 },
-            new FlagDef { Label = "GodAreaCombo", Value = 131072 },
-            new FlagDef { Label = "ElftabletEquip", Value = 262144 },
-            new FlagDef { Label = "ElftabletExp", Value = 524288 },
-            new FlagDef { Label = "ShowProbability", Value = 1048576 },
-            new FlagDef { Label = "StorageForbidden", Value = 2097152 },
-            new FlagDef { Label = "FamilyStorageForbidden", Value = 4194304 },
-        };
-
-
-        // dicionario de classe 
-
-        private readonly List<FlagDef> RESTRICT_CLASSES = new()
-        {
-            new FlagDef { Label = "Novato", Value = 0x0001 },
-            new FlagDef { Label = "Guerreiro (0002)", Value = 0x0002 },
-            new FlagDef { Label = "Guerreiro (0004)", Value = 0x0004 },
-            new FlagDef { Label = "Berzeker", Value = 0x0008 },
-            new FlagDef { Label = "Paladino", Value = 0x0010 },
-            new FlagDef { Label = "Arqueiro (0020)", Value = 0x0020 },
-            new FlagDef { Label = "Arqueiro (0040)", Value = 0x0040 },
-            new FlagDef { Label = "Ranger", Value = 0x0080 },
-            new FlagDef { Label = "Assassino", Value = 0x0100 },
-            new FlagDef { Label = "Sacerdote (0200)", Value = 0x0200 },
-            new FlagDef { Label = "Sacerdote (0400)", Value = 0x0400 },
-            new FlagDef { Label = "Clerigo", Value = 0x0800 },
-            new FlagDef { Label = "Sabio", Value = 0x1000 },
-            new FlagDef { Label = "Mago (2000)", Value = 0x2000 },
-            new FlagDef { Label = "Mago (4000)", Value = 0x4000 },
-            new FlagDef { Label = "Feiticeiro", Value = 0x8000 },
-            new FlagDef { Label = "Necromante", Value = 0x10000 },
-            new FlagDef { Label = "Tita", Value = 0x20000 },
-            new FlagDef { Label = "Templa", Value = 0x40000 },
-            new FlagDef { Label = "F.A.", Value = 0x80000 },
-            new FlagDef { Label = "S. S.", Value = 0x100000 },
-            new FlagDef { Label = "Profeta", Value = 0x200000 },
-            new FlagDef { Label = "Mistico", Value = 0x400000 },
-            new FlagDef { Label = "A.M.", Value = 0x800000 },
-            new FlagDef { Label = "D.M.", Value = 0x1000000 },
-            new FlagDef { Label = "Maquinista (200 0000)", Value = 0x2000000 },
-            new FlagDef { Label = "Maquinista (400 0000)", Value = 0x4000000 },
-            new FlagDef { Label = "Agressor", Value = 0x8000000 },
-            new FlagDef { Label = "Demolidor", Value = 0x10000000 },
-            new FlagDef { Label = "Prime", Value = 0x20000000 },
-            new FlagDef { Label = "Optimus", Value = 0x40000000 },
-            new FlagDef { Label = "Cavaleiro da Morte", Value = 0x100000000 },
-            new FlagDef { Label = "Cavaleiro Real", Value = 0x200000000 },
-            new FlagDef { Label = "Mercenario", Value = 0x400000000 },
-            new FlagDef { Label = "Ninja", Value = 0x800000000 },
-            new FlagDef { Label = "Mensajeiro Divino", Value = 0x1000000000 },
-            new FlagDef { Label = "Xama", Value = 0x2000000000 },
-            new FlagDef { Label = "Arcano", Value = 0x4000000000 },
-            new FlagDef { Label = "Emissario do Mortos", Value = 0x8000000000 },
-            new FlagDef { Label = "Destruidor", Value = 0x10000000000 },
-            new FlagDef { Label = "Cavaleiro Sagrado", Value = 0x20000000000 },
-            new FlagDef { Label = "Predador", Value = 0x40000000000 },
-            new FlagDef { Label = "Shinobi", Value = 0x80000000000 },
-            new FlagDef { Label = "Arcanjo", Value = 0x100000000000 },
-            new FlagDef { Label = "Druida", Value = 0x200000000000 },
-            new FlagDef { Label = "Bruxo", Value = 0x400000000000 },
-            new FlagDef { Label = "Shinigami", Value = 0x800000000000 },
-            new FlagDef { Label = "Megatron", Value = 0x1000000000000 },
-            new FlagDef { Label = "Galvatron", Value = 0x2000000000000 },
-            new FlagDef { Label = "Omega", Value = 0x4000000000000 },
-            new FlagDef { Label = "Tita Celeste", Value = 0x8000000000000 },
-            new FlagDef { Label = "Nomade (10 0000 0000 0000)", Value = 0x10000000000000 },
-            new FlagDef { Label = "Nomade (20 0000 0000 0000)", Value = 0x20000000000000 },
-            new FlagDef { Label = "Espadachim", Value = 0x40000000000000 },
-            new FlagDef { Label = "Ilusionista", Value = 0x80000000000000 },
-            new FlagDef { Label = "Samurai", Value = 0x100000000000000 },
-            new FlagDef { Label = "Augure", Value = 0x200000000000000 },
-            new FlagDef { Label = "Ronin", Value = 0x400000000000000 },
-            new FlagDef { Label = "Oraculo", Value = 0x800000000000000 },
-            new FlagDef { Label = "Mestre Dimensional", Value = 0x1000000000000000 },
-            new FlagDef { Label = "Cronos", Value = 0x2000000000000000 },
-        };
-
-        // dicionario de famas
-
-        private readonly Dictionary<int, string> RESTRICT_ALIGN = new()
-        {
-
-             { 1, "KASLOW" },
-             { 2, "JALE" },
-             { 3, "ILYA" },
-             { 4, "ELSALAND" },
-             { 200, "SANTA KASLOW" },
-             { 201, "VINGANÇA DE ILYA" },
-             { 202, "MERCENÁRIOS DE JALE" },
-             { 203, "ASSOCIAÇÃO DE GAS KASLOW" },
-             { 204, "ASSOCIAÇÃO DE ARTE JALE" },
-             { 5, "QUATRO MARES" },
-             { 6, "COCO VERMELHO" },
-             { 7, "ANGONIELA" },
-             { 11, "LIVROS DE QUILL" },
-             { 20, "GUARDIÃO DE SHAPAEL" },
-             { 12, "MINERAÇÃO JALE" },
-             { 13, "COLETA ILYA" },
-             { 14, "CAÇA KASLOW" },
-             { 15, "CAÇADORES DE DEMÔNIOS" },
-             { 17, "SPRITE SOMBRIO" },
-             { 21, "MENSAGEIRO SPRITE" },
-             { 16, "PVP" },
-             { 18, "GVG" },
-             { 19, "CLUBE PK (CHANNEL PVP)" },
-             { 100, "CLASSE" },
-             { 22, "BODOR" },
-             { 23, "ALICE" },
-             { 24, "RONTO" },
-             { 25, "SMULCA" },
-             { 26, "EWAN" },
-             { 27, "BAHADO" },
-             { 28, "QUILL" },
-             { 29, "MOSUNK" },
-             { 30, "JUNO" },
-             { 31, "SIROPAS" },
-             { 32, "CONGELADO = ILYANA" },
-             { 33, "GINNY" },
-        };
-
-        //dicionario de sexo 
-
-        private readonly Dictionary<int, string> RESTRICT_GENDER = new()
-        {
-            { 1, "Masculino" },
-            { 2, "Feminino" },
-        };
     }
 }

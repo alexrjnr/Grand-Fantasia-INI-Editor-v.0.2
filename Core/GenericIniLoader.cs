@@ -25,7 +25,9 @@ namespace GrandFantasiaINIEditor.Core
             var db = new GenericIniDb
             {
                 Schema = dataSchema,
-                FilePath = dataRead.FilePath
+                FilePath = dataRead.FilePath,
+                VersionLine = dataRead.VersionLine,
+                ColumnHeader = dataRead.ColumnHeader
             };
 
             foreach (var row in dataRead.Rows)
@@ -61,11 +63,9 @@ namespace GrandFantasiaINIEditor.Core
                         if (string.IsNullOrWhiteSpace(id))
                             continue;
 
-                        db.Translations[id] = new GenericTranslation
-                        {
-                            Name = row[1]?.Trim() ?? string.Empty,
-                            Description = row.Count > 2 ? row[2].TrimEnd() : string.Empty
-                        };
+                        var trans = new GenericTranslation();
+                        trans.Values.AddRange(row.Select(x => x?.Trim() ?? string.Empty));
+                        db.Translations[id] = trans;
                     }
                 }
             }

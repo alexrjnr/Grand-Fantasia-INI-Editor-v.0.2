@@ -22,13 +22,12 @@ namespace GrandFantasiaINIEditor.Modules.Store
         private readonly string schemasPath;
         private GenericIniDb db;
 
-        private readonly ObservableCollection<StoreEntry> Stores = new();
+        private readonly ObservableCollection<StoreEntry> Entries = new();
+        private readonly Dictionary<string, string> itemIcons = new(StringComparer.OrdinalIgnoreCase);
         private readonly ObservableCollection<StoreSlotView> LeftSlots = new();
         private readonly ObservableCollection<StoreSlotView> RightSlots = new();
 
         private readonly Dictionary<string, string> _itemNames = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<string, string> _itemIcons = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<string, BitmapSource> _iconCache = new(StringComparer.OrdinalIgnoreCase);
 
         private bool _loading;
         private bool _suppressSelectionChanged;
@@ -47,7 +46,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
         private const int IDX_ID = 0;
         private const int IDX_DISCOUNT = 1;
 
-        // 0 = id, 1 = desconto, depois começa itemId/nomeBruto/qtd
+        // 0 = id, 1 = desconto, depois comeÃ§a itemId/nomeBruto/qtd
         private const int FIRST_SLOT_COLUMN = 2;
         private const int SLOT_STRIDE = 3;
         private const int ITEMS_PER_PAGE = 10;
@@ -61,19 +60,21 @@ namespace GrandFantasiaINIEditor.Modules.Store
             this.clientPath = clientPath;
             this.schemasPath = schemasPath;
 
-            StoreList.ItemsSource = Stores;
+            StoreList.ItemsSource = Entries;
             LeftSlotsList.ItemsSource = LeftSlots;
             RightSlotsList.ItemsSource = RightSlots;
 
             PopulateCombos();
             LoadItemLookups();
-            LoadDatabase();
+            LoadDatabases();
             UpdatePageUi();
         }
 
         private sealed class StoreEntry
         {
             public string Id { get; set; }
+            public string Name { get; set; }
+            public BitmapSource Icon { get; set; }
             public string Discount { get; set; }
             public string DiscountText { get; set; }
         }
@@ -227,29 +228,68 @@ namespace GrandFantasiaINIEditor.Modules.Store
         {
             if (DiscountCombo != null)
             {
-                DiscountCombo.ItemsSource = ALIGNMENT_DISCOUNT
-                    .Select(kv => new ComboOption
-                    {
-                        Value = kv.Key,
-                        Label = kv.Value
-                    })
-                    .OrderBy(x => x.Value)
-                    .ToList();
+                var discountTypes = LocalizationManager.Instance.GetDictionary("Store.DiscountTypes");
+                if (discountTypes != null && discountTypes.Count > 0)
+                {
+                    DiscountCombo.ItemsSource = discountTypes
+                        .Select(kv => new ComboOption
+                        {
+                            Value = int.TryParse(kv.Key, out int v) ? v : 0,
+                            Label = kv.Value
+                        })
+                        .OrderBy(x => x.Value)
+                        .ToList();
+                }
+                else
+                {
+                    DiscountCombo.ItemsSource = ALIGNMENT_DISCOUNT
+                        .Select(kv => new ComboOption
+                        {
+                            Value = kv.Key,
+                            Label = kv.Value
+                        })
+                        .OrderBy(x => x.Value)
+                        .ToList();
+                }
             }
         }
 
-        private void LoadDatabase()
+        private void LoadIcons(string path)
+        {
+            if (!File.Exists(path)) return;
+            var lines = File.ReadAllLines(path, Encoding.GetEncoding(950));
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split('|');
+                if (parts.Length < 2) continue;
+                string id = parts[0].Trim();
+                string icon = parts[1].Trim();
+                if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(icon))
+                    itemIcons[id] = icon;
+            }
+        }
+
+        private void LoadDatabases()
         {
             db = GenericIniLoader.Load(clientPath, schemasPath, "S_Store.ini");
-            Stores.Clear();
+            Entries.Clear();
 
             foreach (var r in db.Rows.OrderBy(x => x.Key, Comparer<string>.Create(CompareStoreIds)))
             {
                 string discountRaw = GetValue(r.Value, IDX_DISCOUNT);
+                
+                string firstItem = "";
+                for (int s = FIRST_SLOT_COLUMN; s + SLOT_STRIDE - 1 < r.Value.Count; s += SLOT_STRIDE)
+                {
+                    if (!string.IsNullOrWhiteSpace(r.Value[s])) { firstItem = r.Value[s]; break; }
+                }
 
-                Stores.Add(new StoreEntry
+                string nameTemplate = LocalizationManager.Instance.GetLocalizedString("Store.Legends.NameFormat") ?? "Loja {0}";
+                Entries.Add(new StoreEntry
                 {
                     Id = r.Key,
+                    Name = string.Format(nameTemplate, r.Key),
+                    Icon = !string.IsNullOrEmpty(firstItem) ? LoadIconByItemId(firstItem) : null,
                     Discount = discountRaw,
                     DiscountText = GetDiscountDisplayText(discountRaw)
                 });
@@ -275,10 +315,21 @@ namespace GrandFantasiaINIEditor.Modules.Store
         private void LoadItemLookups()
         {
             _itemNames.Clear();
-            _itemIcons.Clear();
+            itemIcons.Clear();
 
             LoadItemTranslations();
-            LoadItemIcons();
+            LoadItemIconMappings();
+        }
+
+        private void LoadItemIconMappings()
+        {
+            string dataDb = Path.Combine(clientPath, "data", "db");
+            if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
+            if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "DB");
+            if (!Directory.Exists(dataDb)) dataDb = clientPath;
+
+            LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
+            LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
         }
 
         private void LoadItemTranslations()
@@ -320,39 +371,6 @@ namespace GrandFantasiaINIEditor.Modules.Store
             Flush();
         }
 
-        private void LoadItemIcons()
-        {
-            // S_Item.ini is the authoritative icon source (column 1 = icon name)
-            LoadIconsFromFile(Path.Combine(clientPath, "data", "db", "S_Item.ini"));
-
-            // C_Item.ini may contain additional/overridden entries; add only what's missing
-            LoadIconsFromFile(Path.Combine(clientPath, "data", "db", "C_Item.ini"), overwrite: false);
-        }
-
-        private void LoadIconsFromFile(string path, bool overwrite = true)
-        {
-            if (!File.Exists(path))
-                return;
-
-            var lines = File.ReadAllLines(path, Encoding.GetEncoding(950));
-
-            for (int i = 1; i < lines.Length; i++)
-            {
-                var parts = lines[i].Split('|');
-
-                if (parts.Length < 2)
-                    continue;
-
-                string id   = (parts[0] ?? string.Empty).Trim();
-                string icon = (parts[1] ?? string.Empty).Trim();
-
-                if (string.IsNullOrWhiteSpace(id))
-                    continue;
-
-                if (overwrite || !_itemIcons.ContainsKey(id))
-                    _itemIcons[id] = icon;
-            }
-        }
 
         private static int CompareStoreIds(string a, string b)
         {
@@ -417,10 +435,14 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
         private string GetDiscountDisplayText(string raw)
         {
-            if (int.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value) &&
-                ALIGNMENT_DISCOUNT.TryGetValue(value, out var label))
+            if (int.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value))
             {
-                return $"{label} ({value})";
+                var discountTypes = LocalizationManager.Instance.GetDictionary("Store.DiscountTypes");
+                if (discountTypes != null && discountTypes.TryGetValue(value.ToString(), out var localizedLabel))
+                    return $"{localizedLabel} ({value})";
+
+                if (ALIGNMENT_DISCOUNT.TryGetValue(value, out var label))
+                    return $"{label} ({value})";
             }
 
             return string.IsNullOrWhiteSpace(raw) ? "None (0)" : raw;
@@ -478,20 +500,20 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
                 if (string.IsNullOrWhiteSpace(itemId))
                 {
-                    visualName = "(vazio)";
-                    visualInfo = "Slot livre";
+                    visualName = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotName") ?? "(vazio)";
+                    visualInfo = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotInfo") ?? "Slot livre";
                 }
                 else
                 {
                     if (_itemNames.TryGetValue(itemId, out var translatedName) && !string.IsNullOrWhiteSpace(translatedName))
                         visualName = translatedName;
                     else
-                        visualName = $"Item {itemId}";
+                        visualName = string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualNameFallback") ?? "Item {0}", itemId);
 
                     icon = LoadIconByItemId(itemId);
                     visualInfo = string.IsNullOrWhiteSpace(quantity)
                         ? $"ID {itemId}"
-                        : $"ID {itemId} | Qtd {quantity}";
+                        : string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualInfoFormat") ?? "ID {0} | Qtd {1}", itemId, quantity);
                 }
 
                 var view = new StoreSlotView
@@ -519,8 +541,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
                     BaseColumnIndex = baseCol,
                     ItemId = string.Empty,
                     Quantity = string.Empty,
-                    VisualName = "(vazio)",
-                    VisualInfo = "Slot livre",
+                    VisualName = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotName") ?? "(vazio)",
+                    VisualInfo = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotInfo") ?? "Slot livre",
                     Icon = null
                 });
             }
@@ -542,10 +564,16 @@ namespace GrandFantasiaINIEditor.Modules.Store
             int totalPages = Math.Max(1, (int)Math.Ceiling(Math.Max(0, totalSlots) / (double)ITEMS_PER_PAGE));
 
             if (PageInfoText != null)
-                PageInfoText.Text = $"Página {_currentPage + 1} / {totalPages}";
+            {
+                string template = LocalizationManager.Instance.GetLocalizedString("Store.Legends.PageInfo") ?? "Página {0} / {1}";
+                PageInfoText.Text = string.Format(template, _currentPage + 1, totalPages);
+            }
 
             if (StoreSummaryText != null)
-                StoreSummaryText.Text = totalSlots > 0 ? $"Slots: {totalSlots}" : string.Empty;
+            {
+                string template = LocalizationManager.Instance.GetLocalizedString("Store.Legends.Summary") ?? "Slots: {0}";
+                StoreSummaryText.Text = totalSlots > 0 ? string.Format(template, totalSlots) : string.Empty;
+            }
 
             if (PrevPageButton != null)
                 PrevPageButton.IsEnabled = _currentPage > 0;
@@ -556,22 +584,27 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
         private BitmapSource LoadIconByItemId(string itemId)
         {
-            if (string.IsNullOrWhiteSpace(itemId))
-                return null;
+            if (string.IsNullOrEmpty(itemId)) return null;
+            if (!itemIcons.TryGetValue(itemId, out var iconName) || string.IsNullOrEmpty(iconName)) return null;
 
-            if (!_itemIcons.TryGetValue(itemId.Trim(), out var iconName) || string.IsNullOrWhiteSpace(iconName))
-                return null;
+            string[] folders = {
+                Path.Combine(clientPath, "data", "icon"),
+                Path.Combine(clientPath, "Data", "icon"),
+                Path.Combine(clientPath, "UI", "itemicon"),
+                Path.Combine(clientPath, "ui", "itemicon"),
+                Path.Combine(clientPath, "data", "item"),
+                Path.Combine(clientPath, "Data", "item")
+            };
 
-            if (_iconCache.TryGetValue(iconName, out var cached))
-                return cached;
-
-            string iconPath = Path.Combine(clientPath, "UI", "itemicon", iconName + ".dds");
-            var bitmap = DdsLoader.Load(iconPath);
-
-            if (bitmap != null)
-                _iconCache[iconName] = bitmap;
-
-            return _iconCache.TryGetValue(iconName, out var result) ? result : bitmap;
+            foreach (var folder in folders)
+            {
+                if (Directory.Exists(folder))
+                {
+                    string path = Path.Combine(folder, iconName + ".dds");
+                    if (File.Exists(path)) return DdsLoader.Load(path);
+                }
+            }
+            return null;
         }
 
         private async void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -592,27 +625,72 @@ namespace GrandFantasiaINIEditor.Modules.Store
                     token.ThrowIfCancellationRequested();
 
                     return db.Rows
-                        .Where(x =>
-                            string.IsNullOrWhiteSpace(filter) ||
-                            x.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                            GetDiscountDisplayText(GetValue(x.Value, IDX_DISCOUNT)).Contains(filter, StringComparison.OrdinalIgnoreCase))
+                        .Where(x => StoreRowMatchesFilter(x.Key, x.Value, filter))
                         .OrderBy(x => x.Key, Comparer<string>.Create(CompareStoreIds))
-                        .Select(x => new StoreEntry
+                        .Select(x =>
                         {
-                            Id = x.Key,
-                            Discount = GetValue(x.Value, IDX_DISCOUNT),
-                            DiscountText = GetDiscountDisplayText(GetValue(x.Value, IDX_DISCOUNT))
+                            string firstItem = "";
+                            for (int s = FIRST_SLOT_COLUMN; s + SLOT_STRIDE - 1 < x.Value.Count; s += SLOT_STRIDE)
+                            {
+                                if (!string.IsNullOrWhiteSpace(x.Value[s])) { firstItem = x.Value[s]; break; }
+                            }
+                            return new StoreEntry
+                            {
+                                Id = x.Key,
+                                Name = $"Loja {x.Key}",
+                                Icon = !string.IsNullOrEmpty(firstItem) ? LoadIconByItemId(firstItem) : null,
+                                Discount = GetValue(x.Value, IDX_DISCOUNT),
+                                DiscountText = GetDiscountDisplayText(GetValue(x.Value, IDX_DISCOUNT))
+                            };
                         })
                         .ToList();
                 }, token);
 
-                Stores.Clear();
+                Entries.Clear();
                 foreach (var item in result)
-                    Stores.Add(item);
+                    Entries.Add(item);
             }
             catch (OperationCanceledException)
             {
             }
+        }
+
+        /// <summary>
+        /// Returns true if the store row matches the filter string.
+        /// Checks: store ID, discount label, and â€“ for every slot â€“ item ID and item name.
+        /// </summary>
+        private bool StoreRowMatchesFilter(string storeId, List<string> row, string filter)
+        {
+            if (string.IsNullOrWhiteSpace(filter))
+                return true;
+
+            // Store ID
+            if (storeId.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            // Discount label
+            if (GetDiscountDisplayText(GetValue(row, IDX_DISCOUNT))
+                    .Contains(filter, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            // Each slot: itemId at FIRST_SLOT_COLUMN + s*SLOT_STRIDE
+            int totalCols = row.Count;
+            for (int start = FIRST_SLOT_COLUMN; start + SLOT_STRIDE - 1 < totalCols; start += SLOT_STRIDE)
+            {
+                string slotItemId = GetValue(row, start);
+                if (string.IsNullOrWhiteSpace(slotItemId)) continue;
+
+                // Match on raw item ID
+                if (slotItemId.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                // Match on resolved item name from T_Item
+                if (_itemNames.TryGetValue(slotItemId, out var name) &&
+                    name.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
 
         private void StoreList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -628,7 +706,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 if (!ConfirmSaveIfNeeded())
                 {
                     _suppressSelectionChanged = true;
-                    StoreList.SelectedItem = Stores.FirstOrDefault(x => x.Id == _lastSelectedStoreId);
+                    StoreList.SelectedItem = Entries.FirstOrDefault(x => x.Id == _lastSelectedStoreId);
                     _suppressSelectionChanged = false;
                     return;
                 }
@@ -812,7 +890,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 return;
             }
 
-            throw new InvalidOperationException($"Store {oldStoreId} não foi encontrada em {Path.GetFileName(path)}.");
+            throw new InvalidOperationException($"Store {oldStoreId} nÃ£o foi encontrada em {Path.GetFileName(path)}.");
         }
 
         private bool HasCurrentStoreChanges()
@@ -841,8 +919,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 return true;
 
             var result = MessageBox.Show(
-                "Esta store foi modificada. Deseja salvar antes de trocar para outra store?",
-                "Salvar alterações",
+                LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.Modified") ?? "Esta loja foi modificada. Deseja salvar antes de trocar para outra loja?",
+                LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.SaveTitle") ?? "Salvar alterações",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question);
 
@@ -858,8 +936,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        "Erro ao salvar arquivos:\n\n" + ex.Message,
-                        "Erro",
+                        string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.ErrorSaving") ?? "Erro ao salvar arquivos:\n\n{0}", ex.Message),
+                        LocalizationManager.Instance.GetLocalizedString("Common.Error") ?? "Erro",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                     return false;
@@ -884,10 +962,10 @@ namespace GrandFantasiaINIEditor.Modules.Store
             string newId = GetValue(editedRow, IDX_ID);
 
             if (string.IsNullOrWhiteSpace(newId))
-                throw new InvalidOperationException("O ID da Store não pode ficar vazio.");
+                throw new InvalidOperationException(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.IdEmpty") ?? "O ID da Loja não pode ficar vazio.");
 
             if (!string.Equals(oldId, newId, StringComparison.Ordinal) && db.Rows.ContainsKey(newId))
-                throw new InvalidOperationException($"Já existe uma Store com ID {newId}.");
+                throw new InvalidOperationException(string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.IdExists") ?? "Já existe uma Loja com ID {0}.", newId));
 
             var changedColumns = GetChangedColumnIndices(_originalRowSnapshot, editedRow);
 
@@ -904,13 +982,13 @@ namespace GrandFantasiaINIEditor.Modules.Store
             _originalRowSnapshot = editedRow.Select(x => x ?? string.Empty).ToList();
             _lastSelectedStoreId = newId;
 
-            LoadDatabase();
+            LoadDatabases();
 
             _suppressSelectionChanged = true;
-            StoreList.SelectedItem = Stores.FirstOrDefault(x => x.Id == newId);
+            StoreList.SelectedItem = Entries.FirstOrDefault(x => x.Id == newId);
             _suppressSelectionChanged = false;
 
-            StoreList.SelectedItem = Stores.FirstOrDefault(x => x.Id == newId);
+            StoreList.SelectedItem = Entries.FirstOrDefault(x => x.Id == newId);
         }
 
         private async void SlotItemId_TextChanged(object sender, TextChangedEventArgs e)
@@ -932,8 +1010,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
             if (string.IsNullOrWhiteSpace(itemId))
             {
-                slot.VisualName = "(vazio)";
-                slot.VisualInfo = "Slot livre";
+                slot.VisualName = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotName") ?? "(vazio)";
+                slot.VisualInfo = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotInfo") ?? "Slot livre";
                 slot.Icon = null;
                 return;
             }
@@ -946,7 +1024,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
                     string name = _itemNames.TryGetValue(itemId, out var translatedName) && !string.IsNullOrWhiteSpace(translatedName)
                         ? translatedName
-                        : $"Item {itemId}";
+                        : string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualNameFallback") ?? "Item {0}", itemId);
 
                     BitmapSource icon = LoadIconByItemId(itemId);
 
@@ -959,7 +1037,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 slot.VisualName = result.name;
                 slot.VisualInfo = string.IsNullOrWhiteSpace(slot.Quantity)
                     ? $"ID {itemId}"
-                    : $"ID {itemId} | Qtd {slot.Quantity}";
+                    : string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualInfoFormat") ?? "ID {0} | Qtd {1}", itemId, slot.Quantity);
                 slot.Icon = result.icon;
             }
             catch (OperationCanceledException)
@@ -967,80 +1045,6 @@ namespace GrandFantasiaINIEditor.Modules.Store
             }
         }
 
-        private string PromptNewId(string title, string label)
-        {
-            var window = new Window
-            {
-                Title = title,
-                Width = 360,
-                Height = 160,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                ResizeMode = ResizeMode.NoResize,
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A1C22")),
-                Foreground = Brushes.White,
-                Owner = Window.GetWindow(this)
-            };
-
-            var root = new Grid { Margin = new Thickness(15) };
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            var text = new TextBlock
-            {
-                Text = label,
-                Margin = new Thickness(0, 0, 0, 10),
-                Foreground = Brushes.AliceBlue
-            };
-
-            var input = new TextBox
-            {
-                Height = 30,
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#23262E")),
-                Foreground = Brushes.White,
-                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#333"))
-            };
-
-            var buttons = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(0, 12, 0, 0)
-            };
-
-            var okButton = new Button
-            {
-                Content = "OK",
-                Width = 80,
-                Height = 30,
-                Margin = new Thickness(0, 0, 8, 0)
-            };
-
-            var cancelButton = new Button
-            {
-                Content = "Cancelar",
-                Width = 80,
-                Height = 30
-            };
-
-            okButton.Click += (_, __) => window.DialogResult = true;
-            cancelButton.Click += (_, __) => window.DialogResult = false;
-
-            buttons.Children.Add(okButton);
-            buttons.Children.Add(cancelButton);
-
-            Grid.SetRow(text, 0);
-            Grid.SetRow(input, 1);
-            Grid.SetRow(buttons, 2);
-
-            root.Children.Add(text);
-            root.Children.Add(input);
-            root.Children.Add(buttons);
-
-            window.Content = root;
-
-            return window.ShowDialog() == true ? input.Text?.Trim() ?? string.Empty : null;
-        }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -1049,57 +1053,43 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 SaveCurrentStoreFiles();
 
                 MessageBox.Show(
-                    $"Alterações salvas com sucesso em {STORE_FILE_NAME}.",
-                    "Salvar",
+                    LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.SaveSuccess") ?? "Alterações salvas com sucesso em S_Store.ini.",
+                    LocalizationManager.Instance.GetLocalizedString("Common.Save") ?? "Salvar",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Erro ao salvar arquivos:\n\n" + ex.Message,
-                    "Erro",
+                    string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.ErrorSaving") ?? "Erro ao salvar arquivos:\n\n{0}", ex.Message),
+                    LocalizationManager.Instance.GetLocalizedString("Common.Error") ?? "Erro",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
 
-        private void Clone_Click(object sender, RoutedEventArgs e)
+        private async void Clone_Click(object sender, RoutedEventArgs e)
         {
-            if (StoreList.SelectedItem is not StoreEntry selected)
-            {
-                MessageBox.Show(
-                    "Selecione uma store para clonar.",
-                    "Clonar store",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+            if (StoreList.SelectedItem is not StoreEntry selected || db == null)
                 return;
-            }
 
             if (!db.Rows.TryGetValue(selected.Id, out var row))
                 return;
 
-            string newId = PromptNewId("Clonar store", "Informe o novo ID:");
-
-            if (newId == null)
+            var dlg = new InputDialog(
+                LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.ClonePrompt") ?? "Informe o novo ID:", 
+                LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.CloneTitle") ?? "Clonar loja") 
+                { Owner = Window.GetWindow(this) };
+            if (dlg.ShowDialog() != true || string.IsNullOrWhiteSpace(dlg.InputText))
                 return;
 
-            if (string.IsNullOrWhiteSpace(newId))
-            {
-                MessageBox.Show(
-                    "O novo ID não pode ficar vazio.",
-                    "Clonar store",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-                return;
-            }
-
+            string newId = dlg.InputText.Trim();
             if (db.Rows.ContainsKey(newId))
             {
                 MessageBox.Show(
-                    "Esse ID já existe. Escolha outro ID.",
-                    "Clonar store",
-                    MessageBoxButton.OK,
+                    LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.IdAlreadyExists") ?? "Esse ID já existe. Escolha outro ID.", 
+                    LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.CloneTitle") ?? "Clonar loja", 
+                    MessageBoxButton.OK, 
                     MessageBoxImage.Warning);
                 return;
             }
@@ -1115,30 +1105,33 @@ namespace GrandFantasiaINIEditor.Modules.Store
             {
                 string sStorePath = Path.Combine(clientPath, "data", "db", STORE_FILE_NAME);
                 SaveDataIni(sStorePath, Encoding.GetEncoding(950));
+                await Task.Run(() => {
+                    LoadDatabases();
+                    
+                    // Load item icons for lookup
+                    string dataDb = Path.Combine(clientPath, "data", "db");
+                    if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
+                    LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
+                    LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
+                });
+                _suppressSelectionChanged = true;
+                StoreList.SelectedItem = Entries.FirstOrDefault(x => x.Id == newId);
+                _suppressSelectionChanged = false;
+
+                MessageBox.Show(
+                    string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.CloneSuccess") ?? "Loja clonada com sucesso para o ID {0}.", newId), 
+                    LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.CloneTitle") ?? "Clonar loja", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "A store foi clonada em memória, mas houve erro ao salvar:\n\n" + ex.Message,
-                    "Erro",
-                    MessageBoxButton.OK,
+                    string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Dialogs.ErrorSaving") ?? "Erro ao salvar arquivos:\n\n{0}", ex.Message), 
+                    LocalizationManager.Instance.GetLocalizedString("Common.Error") ?? "Erro", 
+                    MessageBoxButton.OK, 
                     MessageBoxImage.Error);
-                return;
             }
-
-            LoadDatabase();
-
-            _suppressSelectionChanged = true;
-            StoreList.SelectedItem = Stores.FirstOrDefault(x => x.Id == newId);
-            _suppressSelectionChanged = false;
-
-            StoreList.SelectedItem = Stores.FirstOrDefault(x => x.Id == newId);
-
-            MessageBox.Show(
-                $"Store clonada com sucesso para o ID {newId}.",
-                "Clonar store",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
         }
 
         private void SaveDataIni(string path, Encoding encoding)
@@ -1171,7 +1164,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 return;
 
             LoadItemLookups();
-            LoadDatabase();
+            LoadDatabases();
 
             _currentRow = null;
             _originalRowSnapshot = null;

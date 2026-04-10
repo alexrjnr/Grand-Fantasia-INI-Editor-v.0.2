@@ -9,6 +9,8 @@ namespace GrandFantasiaINIEditor.Core
     public class IniFileResult
     {
         public string FilePath;
+        public string VersionLine;
+        public string ColumnHeader;
         public List<List<string>> Rows = new();
     }
 
@@ -39,94 +41,118 @@ namespace GrandFantasiaINIEditor.Core
             Encoding enc = schema.Kind == "SC" ? BIG5 : ANSI;
 
             var rawLines = File.ReadAllLines(path, enc);
+            var result = new IniFileResult { FilePath = path };
+
+            if (rawLines.Length > 0)
+            {
+                if (rawLines[0].Trim().StartsWith("#"))
+                {
+                    result.VersionLine = rawLines[0];
+                    if (rawLines.Length > 1) result.ColumnHeader = rawLines[1];
+                }
+                else
+                {
+                    result.ColumnHeader = rawLines[0];
+                }
+            }
 
             var rows = new List<List<string>>();
 
             if (schema.Kind == "SC")
             {
-                var lines = rawLines.ToList();
-                if (lines.Count <= 1)
-                    return new IniFileResult();
-
-                lines.RemoveAt(0); // remove header
-
-                foreach (var line in lines)
+                // Read the whole file to handle multi-line records correctly
+                string allContent = File.ReadAllText(path, enc);
+                
+                // Group lines to preserve the header rule
+                var allLines = rawLines.ToList();
+                if (allLines.Count <= 1) return new IniFileResult();
+                
+                // Join everything AFTER the header line
+                // We use the rawLines already read to skip the first line accurately
+                int skipLines = !string.IsNullOrEmpty(result.VersionLine) ? 2 : 1;
+                string dataBody = string.Join("\n", allLines.Skip(skipLines));
+                
+                // Split by Pipe
+                string[] allFields = dataBody.Split('|');
+                
+                // Each record has exactly schema.Columns fields
+                for (int i = 0; i + schema.Columns <= allFields.Length; i += schema.Columns)
                 {
-                    var cols = line.Split('|');
-
-                    if (cols.Length < schema.Columns)
-                        continue;
-
                     var row = new List<string>();
-
-                    for (int i = 0; i < schema.Columns; i++)
-                        row.Add(cols[i].Trim());
-
-                    if (string.IsNullOrWhiteSpace(row[0]))
-                        continue;
-
-                    rows.Add(row);
+                    for (int j = 0; j < schema.Columns; j++)
+                    {
+                        row.Add(allFields[i + j].Trim());
+                    }
+                    
+                    if (!string.IsNullOrWhiteSpace(row[0]))
+                    {
+                        rows.Add(row);
+                    }
                 }
             }
             else
             {
                 string currentId = null;
-                string currentName = null;
-                var currentDesc = new StringBuilder();
+                List<string> currentValues = new List<string>();
+                var currentLastField = new StringBuilder();
 
                 void FlushCurrent()
                 {
                     if (!string.IsNullOrWhiteSpace(currentId))
                     {
-                        rows.Add(new List<string> { currentId, currentName, currentDesc.ToString() });
+                        if (currentLastField.Length > 0)
+                        {
+                            currentValues.Add(currentLastField.ToString());
+                            currentLastField.Clear();
+                        }
+                        rows.Add(currentValues);
                     }
                 }
 
-                for (int i = 1; i < rawLines.Length; i++)
+                int startFrom = !string.IsNullOrEmpty(result.VersionLine) ? 2 : 1;
+                for (int i = startFrom; i < rawLines.Length; i++)
                 {
                     string line = rawLines[i] ?? string.Empty;
+                    if (string.IsNullOrWhiteSpace(line)) continue;
 
-                    int firstPipe = line.IndexOf('|');
-                    bool startsWithId =
-                        firstPipe > 0 &&
-                        int.TryParse(line.Substring(0, firstPipe).Trim(), out _);
+                    var parts = line.Split('|').ToList();
+                    // Handle leading pipe
+                    if (parts.Count > 0 && string.IsNullOrWhiteSpace(parts[0]))
+                    {
+                        parts.RemoveAt(0);
+                    }
+
+                    bool startsWithId = parts.Count > 0 && int.TryParse(parts[0].Trim(), out _);
 
                     if (startsWithId)
                     {
                         FlushCurrent();
-
-                        var parts = line.Split(new[] { '|' }, 3);
-
-                        currentId = parts.Length > 0 ? parts[0].Trim() : string.Empty;
-                        currentName = parts.Length > 1 ? parts[1].Trim() : string.Empty;
-
-                        currentDesc.Clear();
-                        if (parts.Length > 2)
-                            currentDesc.Append(parts[2]);
+                        currentId = parts[0].Trim();
+                        currentValues = parts.Select(p => p.Trim()).ToList();
+                        
+                        // If there was a trailing pipe, the last part might be empty
+                        if (currentValues.Count > 1 && string.IsNullOrWhiteSpace(currentValues.Last()))
+                        {
+                            currentValues.RemoveAt(currentValues.Count - 1);
+                        }
                     }
                     else
                     {
-                        if (currentId == null)
-                            continue;
-
-                        if (line == "|")
-                            continue;
-
-                        if (currentDesc.Length > 0)
-                            currentDesc.AppendLine();
-
-                        currentDesc.Append(line);
+                        if (currentId == null) continue;
+                        if (currentValues.Count > 0)
+                        {
+                            // Append to the last column (Description/Max field)
+                            int lastIdx = currentValues.Count - 1;
+                            currentValues[lastIdx] += "\n" + line.Trim();
+                        }
                     }
                 }
 
                 FlushCurrent();
             }
 
-            return new IniFileResult
-            {
-                FilePath = path,
-                Rows = rows
-            };
+            result.Rows = rows;
+            return result;
         }
     }
 }

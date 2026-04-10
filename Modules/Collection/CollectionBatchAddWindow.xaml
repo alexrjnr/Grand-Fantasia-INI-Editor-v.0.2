@@ -1,0 +1,70 @@
+<Window x:Class="GrandFantasiaINIEditor.Modules.Collection.CollectionBatchAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Batch Add Items" Height="430" Width="500" WindowStartupLocation="CenterOwner"
+        Background="#1A1C22" Foreground="White">
+    <Border Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Batch Add Items" FontSize="18" FontWeight="Bold" Margin="0,0,0,5"/>
+            <TextBlock Text="Format: 34955-34960, 34965" Foreground="#AAA" FontSize="12" Grid.Row="1" Margin="0,0,0,10"/>
+
+            
+                <StackPanel>
+                    <TextBlock Text="IDs / Ranges:" Foreground="AliceBlue" Margin="0,5,0,2"/>
+                    <TextBox x:Name="InputTextBox" Background="#23262E" Foreground="White" 
+                             BorderBrush="#3A8DFF" BorderThickness="1" Padding="5" AcceptsReturn="True" 
+                             Height="60" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock Text="Category:" Foreground="AliceBlue" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="CategoryCombo" SelectionChanged="CategoryCombo_SelectionChanged" 
+                                      DisplayMemberPath="Name" IsEditable="True" IsTextSearchEnabled="True"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Subcategory:" Foreground="AliceBlue" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="SubCategoryCombo" DisplayMemberPath="Name" 
+                                      IsEditable="True" IsTextSearchEnabled="True"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Common Name (Internal):" Foreground="AliceBlue" Margin="0,10,0,2"/>
+                    <TextBox x:Name="BatchNameBox" Background="#23262E" Foreground="White" BorderBrush="#3A8DFF" BorderThickness="1" Padding="5"/>
+
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock Text="Description:" Foreground="AliceBlue" Margin="0,0,0,2"/>
+                            <TextBox x:Name="BatchDescBox" Background="#23262E" Foreground="White" BorderBrush="#3A8DFF" BorderThickness="1" Padding="5"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Points:" Foreground="AliceBlue" Margin="0,0,0,2"/>
+                            <TextBox x:Name="BatchPointsBox" Text="1" Background="#23262E" Foreground="White" BorderBrush="#3A8DFF" BorderThickness="1" Padding="5"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <CheckBox x:Name="IsBottomCheck" Content="Item Mall (Bottom Window)" Foreground="White" Margin="0,15,0,0"/>
+                </StackPanel>
+            
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                <Button Content="Process" Width="80" Height="30" Background="#3A8DFF" Foreground="White" BorderThickness="0" Click="ProcessButton_Click" IsDefault="True"/>
+                <Button Content="Cancel" Width="80" Height="30" Background="#444" Foreground="White" BorderThickness="0" Margin="10,0,0,0" Click="CancelButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

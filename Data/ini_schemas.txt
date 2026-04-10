@@ -103,3 +103,4 @@ T_Title.ini|3|T
 T_Collection.ini|2|T
 T_Item.ini|3|T
 T_ItemMall.ini|3|T
+T_Enchant.ini|5|T

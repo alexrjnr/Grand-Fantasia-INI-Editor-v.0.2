@@ -1,0 +1,3398 @@
+{
+  "1001": {
+    "name": "惠普",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      "#正向价值观，治愈；负值，HP瞬间受损"
+    ]
+  },
+  "1002": {
+    "name": "高压区",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "兰德",
+      "#治疗基于发射器的充电量和治疗值百分比"
+    ]
+  },
+  "1003": {
+    "name": "HPEX",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      "Mob_Id1",
+      "比率1",
+      "Mob_Id2",
+      "比率2",
+      "#正向价值观，治愈；负值，对特定生物造成即时伤害"
+    ]
+  },
+  "1004": {
+    "name": "惠普MPHeal",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "最低HP",
+      "最大马力",
+      "最小MP",
+      "最大MP",
+      null,
+      null,
+      "#正向价值观，治愈；负值，即时伤害（HP 和 MP 的百分比）"
+    ]
+  },
+  "1011": {
+    "name": "国会议员",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      "#正向价值观，治愈；负值，瞬间伤害MP"
+    ]
+  },
+  "1012": {
+    "name": "多点组合",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "兰德",
+      "#根据发射器的充电次数和百分比治疗值治愈 MP"
+    ]
+  },
+  "1021": {
+    "name": "Dmg2HP",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      null,
+      null,
+      "#将造成的伤害百分比转化为HP"
+    ]
+  },
+  "1022": {
+    "name": "Dmg2MP",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      null,
+      null,
+      "#将造成的伤害百分比转换为MP"
+    ]
+  },
+  "1023": {
+    "name": "宠物医生",
+    "group": "ID-治愈/HP_MP",
+    "status": "OK",
+    "params": [
+      "高压记录",
+      "最低速率",
+      "最大速率",
+      null,
+      null,
+      "#吸收召唤生命百分比，恢复固定数量的生命"
+    ]
+  },
+  "1031": {
+    "name": "多冲程",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "%率D",
+      "%LimitDanD",
+      "%率T",
+      "%限制DanT",
+      null,
+      null,
+      "#额外伤害按初始伤害的%计算，三倍伤害按双倍伤害计算； %LimitDanD，双倍伤害； %LimitDanT，三倍伤害；"
+    ]
+  },
+  "1041": {
+    "name": "AA点",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      "#赠送一定数量的大师积分"
+    ]
+  },
+  "1071": {
+    "name": "解除召唤",
+    "group": "召唤",
+    "status": "NO",
+    "params": [
+      "%率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#未测试"
+    ]
+  },
+  "1072": {
+    "name": "宠物指导",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#命令宠物攻击"
+    ]
+  },
+  "1073": {
+    "name": "宠物自杀",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "%HP最小值",
+      "%HP最大值",
+      null,
+      null,
+      null,
+      null,
+      "#对宠物的生命值造成伤害"
+    ]
+  },
+  "1074": {
+    "name": "面积法线",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "ID移动",
+      "量子点",
+      "限制节点",
+      "区域节点",
+      "效果ID",
+      "身高",
+      "#在给定地图上、给定区域中召唤一定数量的小怪，具有效果和高度"
+    ]
+  },
+  "1075": {
+    "name": "总区任务",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "ID移动",
+      "量子点",
+      "限制节点",
+      "区域节点",
+      "效果ID",
+      "身高",
+      "#在给定地图上、给定区域中召唤一定数量的小怪，具有效果和高度（任务物品）"
+    ]
+  },
+  "1076": {
+    "name": "项目事件",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "ID节点",
+      "区域节点",
+      null,
+      null,
+      null,
+      null,
+      "#给定地图和区域的物品限制器"
+    ]
+  },
+  "1077": {
+    "name": "NPC召唤",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "NPC ID",
+      "量子点",
+      "团队",
+      "添加时间",
+      null,
+      null,
+      "#在一定时间内召唤一个NPC"
+    ]
+  },
+  "1078": {
+    "name": "绑定附魔",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "识别码1",
+      "识别码2",
+      "识别码3",
+      "识别码4",
+      "识别码5",
+      "识别码6",
+      "#一定时间后移除最多 6 个附魔"
+    ]
+  },
+  "1079": {
+    "name": "呼叫附魔",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "率%",
+      "附魔ID",
+      "团队",
+      "时间类型",
+      null,
+      null,
+      "#根据%的几率召唤一个附魔，持续一段时间"
+    ]
+  },
+  "1800": {
+    "name": "TP2宠物",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "开关",
+      "游侠",
+      "Tp型",
+      "buff目标",
+      "附魔ID",
+      "团队",
+      "#传送到特定游侠上的宠物类型（type1，pet；type2，tokenpet），具有特定的动画，并在激活时应用附魔一段时间"
+    ]
+  },
+  "1801": {
+    "name": "函数 Teletrnp",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "案例1~11",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#传送到某种类型的Case，范围从1到11；值得注意的价值, 1 灵魂, 2 逃脱, 9 gotoLove, 10 MarkedPointSave, 11 MarkedPointLoad"
+    ]
+  },
+  "1802": {
+    "name": "Tp2目标",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "距离",
+      "Tp型",
+      null,
+      null,
+      null,
+      null,
+      "#传送到目标，输入TP； 1次传送，2次奔跑"
+    ]
+  },
+  "1803": {
+    "name": "远方",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "距离",
+      "Tp型",
+      null,
+      null,
+      null,
+      null,
+      "#向后传送 Pj"
+    ]
+  },
+  "1804": {
+    "name": "行进距离",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "距离",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将目标从内部传送到外部"
+    ]
+  },
+  "1805": {
+    "name": "Tp2节点+区域",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "场景ID",
+      "专区",
+      null,
+      null,
+      null,
+      null,
+      "#传送到区域中的节点"
+    ]
+  },
+  "1806": {
+    "name": "到 GoEx 的距离",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "距离",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将阿尔瓦从外部传送到内部"
+    ]
+  },
+  "1807": {
+    "name": "到这里",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将目标传送到发射器附近"
+    ]
+  },
+  "1808": {
+    "name": "到这里来宠物",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "游侠",
+      "Tp型",
+      "开关",
+      "附魔ID",
+      "团队",
+      null,
+      "#将目标传送到靠近主人的地方"
+    ]
+  },
+  "1811": {
+    "name": "复活",
+    "group": "复活",
+    "status": "OK",
+    "params": [
+      "%HP",
+      "%MP",
+      "%减少Exp",
+      "%减少装备",
+      "地点",
+      null,
+      "#复活目标；地点1，阿尔玛水晶；地点2、地面"
+    ]
+  },
+  "1821": {
+    "name": "随机杀戮",
+    "group": "附魔动作",
+    "status": "OK",
+    "params": [
+      "%概率1",
+      "Qnt1",
+      "%概率2",
+      "Qnt2",
+      null,
+      null,
+      "#随机移除负面附魔，如果使用1，请勿使用2。"
+    ]
+  },
+  "1822": {
+    "name": "取消",
+    "group": "附魔动作",
+    "status": "NO",
+    "params": [
+      null
+    ]
+  },
+  "1823": {
+    "name": "杀",
+    "group": "附魔动作",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      "ID_2",
+      "ID_3",
+      "ID_4",
+      "ID_5",
+      "ID_6",
+      "#移除最多 6 个附魔"
+    ]
+  },
+  "1824": {
+    "name": "杀一号",
+    "group": "附魔动作",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#仅移除 1 个附魔"
+    ]
+  },
+  "1901": {
+    "name": "凿槽",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "%率",
+      "%耐用性",
+      "最大左室容积",
+      "奇幻",
+      null,
+      null,
+      "#装备和服装中的开放槽位，服装的Param4必须等于1"
+    ]
+  },
+  "1911": {
+    "name": "类型MarretaRep",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "%耐用性",
+      "1（数？）",
+      null,
+      null,
+      null,
+      null,
+      "#% 失败"
+    ]
+  },
+  "1912": {
+    "name": "%MarretaDurMax",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "%耐用性",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#% 恢复"
+    ]
+  },
+  "1913": {
+    "name": "播放效果",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "效果ID",
+      "身高",
+      "ID_动画",
+      null,
+      null,
+      null,
+      "#播放效果"
+    ]
+  },
+  "1914": {
+    "name": "取消绑定项目",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "苏克特",
+      "布尔克特",
+      "持续率",
+      "杜珀",
+      "左",
+      "目标类型",
+      "#解锁物品；目标类型，0 装备，1 恶毒，2 坐骑"
+    ]
+  },
+  "1915": {
+    "name": "返回AA积分",
+    "group": "附魔物品",
+    "status": "OK",
+    "params": [
+      "AA型",
+      "AAEsp型",
+      "常量",
+      "%AA点回报",
+      null,
+      null,
+      "#大师点返还"
+    ]
+  },
+  "1921": {
+    "name": "效果下一个ID",
+    "group": "附魔法术",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "持续时间",
+      "效果下一个ID2其他",
+      null,
+      null,
+      "#调用另一个附魔的概率； EffectNextID2其他； 0 关闭，1 开启，调用第二个效果"
+    ]
+  },
+  "1999": {
+    "name": "法术攻击",
+    "group": "附魔法术",
+    "status": "OK",
+    "params": [
+      "拼写_ID",
+      "成本MP",
+      null,
+      null,
+      null,
+      null,
+      "#使用附魔进行攻击，消耗 MP 费用"
+    ]
+  },
+  "2000": {
+    "name": "附魔杂项",
+    "group": "附魔法术",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#这基本上是琐事、任务、咒语等。"
+    ]
+  },
+  "2001": {
+    "name": "最大马力",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#额外HP点数"
+    ]
+  },
+  "2002": {
+    "name": "最大HP速率",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#额外 HP（%Maximum）"
+    ]
+  },
+  "2003": {
+    "name": "RgenHPTick",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#每刻 HP 再生"
+    ]
+  },
+  "2011": {
+    "name": "最大MP",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#额外 MP 点数"
+    ]
+  },
+  "2012": {
+    "name": "成本铸造",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "点MP",
+      "%率MP",
+      "点HP",
+      "%率HP",
+      null,
+      null,
+      "#正值，增加法术成本；负值，降低法术成本； mp 和 hp 的百分比为 10 至 1%"
+    ]
+  },
+  "2013": {
+    "name": "最大MP速率",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#额外 MP（%Maximum）"
+    ]
+  },
+  "2014": {
+    "name": "RgenMPTick",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "每 Tick #MP 再生"
+    ]
+  },
+  "2019": {
+    "name": "Dmg2HP施法者",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "最低%",
+      "最大%",
+      "最小%D",
+      "最大%D",
+      null,
+      null,
+      "#吸收%的物理和魔法伤害来恢复生命值"
+    ]
+  },
+  "2020": {
+    "name": "Dmg2MP施法者",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "最低%",
+      "最大%",
+      "最小%D",
+      "最大%D",
+      null,
+      null,
+      "#吸收%的物理和魔法伤害来治疗MP"
+    ]
+  },
+  "2021": {
+    "name": "Dmg2HPCasterB",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "最小%M",
+      "最大%M",
+      null,
+      null,
+      null,
+      null,
+      "#吸收普通攻击伤害的%来恢复生命值"
+    ]
+  },
+  "2022": {
+    "name": "Dmg2MPCasterB",
+    "group": "高压MP",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      null,
+      null,
+      null,
+      null,
+      "#在普通攻击中窃取目标一定量的法力来恢复MP"
+    ]
+  },
+  "2023": {
+    "name": "笔奖金",
+    "group": "笔",
+    "status": "OK",
+    "params": [
+      "笔-F",
+      "笔-M",
+      "还原笔-F",
+      "还原笔-M",
+      null,
+      null,
+      "#除了钢笔减少外，还有物理和魔法穿透加成"
+    ]
+  },
+  "2024": {
+    "name": "反映",
+    "group": "笔",
+    "status": "OK",
+    "params": [
+      "%率F",
+      "伤害百分比",
+      "%率M",
+      "%伤害M",
+      null,
+      null,
+      "#反映物理和魔法穿透伤害"
+    ]
+  },
+  "2030": {
+    "name": "药物免疫",
+    "group": "笔",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#免疫任何类型的伤害"
+    ]
+  },
+  "2031": {
+    "name": "多冲程",
+    "group": "多冲程",
+    "status": "OK",
+    "params": [
+      "%率",
+      "%限制段位",
+      "%率",
+      "%限制段位",
+      null,
+      null,
+      "#额外伤害按初始伤害的%计算，三倍伤害按双倍伤害计算； %LimitDanD，双倍伤害； %LimitDanT，三倍伤害；"
+    ]
+  },
+  "2032": {
+    "name": "多冲程",
+    "group": "多冲程",
+    "status": "OK",
+    "params": [
+      "%率",
+      "%限制段位",
+      "%率",
+      "%限制段位",
+      null,
+      null,
+      "#额外伤害按初始伤害的%计算，三倍伤害按双倍伤害计算； %LimitDanD，双倍伤害； %LimitDanT，三倍伤害；"
+    ]
+  },
+  "2033": {
+    "name": "伤害+",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "%率F",
+      "%率D",
+      "%RateSpellF",
+      "%RateSpellM",
+      null,
+      null,
+      "#正值，增加伤害；负值，减少伤害"
+    ]
+  },
+  "2034": {
+    "name": "损伤记录",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "%率F",
+      "%率D",
+      "%RateSpellF",
+      "%RateSpellM",
+      null,
+      null,
+      "#正值，受到的伤害增加；负值，减少受到的伤害"
+    ]
+  },
+  "2035": {
+    "name": "伤害正常",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#正值，增加普通攻击力；负值，减少基本攻击伤害"
+    ]
+  },
+  "2036": {
+    "name": "DmgRbd正常",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#正值，受到的基本攻击伤害增加；负值，受到的基本攻击伤害减少"
+    ]
+  },
+  "2037": {
+    "name": "反射伤害",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "%率F",
+      "伤害百分比",
+      "%率M",
+      "%伤害M",
+      null,
+      null,
+      "#反映物理和魔法伤害"
+    ]
+  },
+  "2038": {
+    "name": "治愈",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      null,
+      "%HealRecb",
+      null,
+      "%治愈发送",
+      null,
+      null,
+      "#正值，增加接收和发送的治疗百分比；负值，减少接收和发送的治疗百分比"
+    ]
+  },
+  "2039": {
+    "name": "真实伤害",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "%率",
+      "%限制段位",
+      null,
+      null,
+      null,
+      null,
+      "#根据百分比命中率添加真实伤害"
+    ]
+  },
+  "2040": {
+    "name": "TrueDmgBasic",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "%率",
+      "%限制段位",
+      null,
+      null,
+      null,
+      null,
+      "#基本攻击有 % 几率增加真实伤害"
+    ]
+  },
+  "2041": {
+    "name": "攻击暴击率",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "率暴击DmgF",
+      "暴击伤害率",
+      null,
+      null,
+      null,
+      null,
+      "#暴击几率"
+    ]
+  },
+  "2042": {
+    "name": "降低暴击率",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "率暴击DmgF",
+      "暴击伤害率",
+      null,
+      null,
+      null,
+      null,
+      "#有机会获得暴击"
+    ]
+  },
+  "2043": {
+    "name": "伤害暴击+",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "率暴击DmgF",
+      "暴击伤害率",
+      null,
+      null,
+      null,
+      null,
+      "#暴击伤害"
+    ]
+  },
+  "2044": {
+    "name": "重击伤害暴击",
+    "group": "损坏",
+    "status": "OK",
+    "params": [
+      "率暴击DmgF",
+      "暴击伤害率",
+      null,
+      null,
+      null,
+      null,
+      "#收到严重伤害"
+    ]
+  },
+  "2050": {
+    "name": "限制移动速度",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "价值",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#MoveSpeed Limiter，正常移动时值为10"
+    ]
+  },
+  "2051": {
+    "name": "移动速度奖励",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "%值",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#移动速度奖励。 + 增加； - 减少"
+    ]
+  },
+  "2052": {
+    "name": "Atak速度奖励",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "%值",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#正值会降低攻击速度"
+    ]
+  },
+  "2053": {
+    "name": "施法速度奖励",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "%值",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#正值会降低激活速度"
+    ]
+  },
+  "2054": {
+    "name": "Atak速度奖励",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "%值",
+      "%值",
+      null,
+      null,
+      null,
+      null,
+      "#正值，降低远程攻击速度]"
+    ]
+  },
+  "2055": {
+    "name": "眩晕类型",
+    "group": "速度",
+    "status": "OK",
+    "params": [
+      "诺莫夫",
+      "无攻击力",
+      "无用技能F",
+      "无用技能M",
+      "不使用物品",
+      null,
+      "#0 禁用，1 启用；如果所有人都开启了EVA则为0"
+    ]
+  },
+  "2056": {
+    "name": "HPHarmShieldByMP",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "率",
+      "附魔ID",
+      "团队",
+      "附魔ID",
+      "团队",
+      "#有几率格挡HP伤害，但消耗MP；当法力耗尽时，方块会破裂；如果护盾破裂，则调用第3个参数中的附魔，如果阻挡尚未结束，则调用第5个参数中的附魔"
+    ]
+  },
+  "2057": {
+    "name": "治疗护盾结束治疗",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "率",
+      "目标",
+      "治愈率%",
+      "目标",
+      "治愈率%",
+      "#有机会阻止目标治疗，效果结束时进行自我治疗...如果护盾耗尽，调用参数3和4；如果该块在附魔结束时处于活动状态，则调用参数 5 和 6；默认目标0"
+    ]
+  },
+  "2059": {
+    "name": "治愈之盾",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "率",
+      "附魔ID",
+      "团队",
+      "附魔ID",
+      "团队",
+      "#有几率吸收目标的治疗量，如果护盾破裂，则调用第3个参数中的附魔，如果阻挡尚未结束，则调用第5个参数中的附魔"
+    ]
+  },
+  "2060": {
+    "name": "治愈时代之盾",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "率",
+      "目标",
+      "治愈率%",
+      "目标",
+      "治愈率%",
+      "#有N次吸收治疗的几率，如果护盾耗尽，调用参数3和4；如果该块在附魔结束时处于活动状态，则调用参数 5 和 6；默认目标0"
+    ]
+  },
+  "2061": {
+    "name": "施法失败率",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "身体素质",
+      "魔法",
+      "浅黄色",
+      "恢复",
+      "全部",
+      null,
+      "#技能失败的几率，以%为单位"
+    ]
+  },
+  "2062": {
+    "name": "禁止拼写",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "治疗法术",
+      "增益法术",
+      null,
+      null,
+      null,
+      null,
+      "#治疗或增益失败的几率，以%为单位"
+    ]
+  },
+  "2063": {
+    "name": "增益法术伤害",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "1法术",
+      "2法术",
+      "3法术",
+      "4法术",
+      "5法术",
+      "量子点",
+      "#增加更多法术点伤害；"
+    ]
+  },
+  "2064": {
+    "name": "增益法术伤害%",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "1法术",
+      "2法术",
+      "3法术",
+      "4法术",
+      "5法术",
+      "%Dmg",
+      "#增加法术伤害百分比；"
+    ]
+  },
+  "2065": {
+    "name": "增益法术时间",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "1法术",
+      "2法术",
+      "3法术",
+      "4法术",
+      "5法术",
+      "团队",
+      "#在法术中添加更多时间；时间单位，1相当于0.2s"
+    ]
+  },
+  "2066": {
+    "name": "增益法术Encnt",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "1法术",
+      "恩赫特1",
+      "2法术",
+      "恩赫特2",
+      "3法术",
+      "恩赫特3",
+      "#Spell Modifier，使用另一个附魔"
+    ]
+  },
+  "2067": {
+    "name": "施法率",
+    "group": "咒语的",
+    "status": "OK",
+    "params": [
+      "率%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#被打断的几率减少%"
+    ]
+  },
+  "2068": {
+    "name": "HP_护盾",
+    "group": "护盾_HP",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "%率",
+      "附魔ID",
+      "团队",
+      "附魔ID",
+      "团队",
+      "#阻挡一定量的HP伤害，如果护盾破裂，则调用第三个参数中的附魔，如果阻挡尚未完成，则调用第五个参数中的附魔"
+    ]
+  },
+  "2069": {
+    "name": "HP_Shield-xNumb",
+    "group": "护盾_HP",
+    "status": "OK",
+    "params": [
+      "XQnt",
+      "%率",
+      "附魔ID",
+      "团队",
+      "附魔ID",
+      "团队",
+      "#以%的方式多次格挡HP伤害，如果护盾破裂，则调用第3个参数中的附魔，如果格挡未完成，则调用第5个参数中的附魔"
+    ]
+  },
+  "2072": {
+    "name": "召唤宠物",
+    "group": "召唤",
+    "status": "OK",
+    "params": [
+      "左室差值",
+      "初始化",
+      "结束",
+      "效果ID",
+      "高度效应",
+      "图腾",
+      "#召唤宠物； LvDif，宠物相对于施法者的lv差值； init, 初始怪物 id;end, 最终怪物 id heightEffect 相对于将执行 EffectID 的宠物的高度;图腾召唤，0 关闭，1 开启"
+    ]
+  },
+  "2073": {
+    "name": "惠普暖盾",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      "#多次阻挡对HP的伤害，如果护盾在预计时间内破裂，则调用第三个参数中的附魔。参数5伤害类型（0全部，1物理，2魔法）"
+    ]
+  },
+  "2074": {
+    "name": "HP护盾计数",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "%Dmg",
+      "附魔 ID 已损坏",
+      "团队",
+      "药物类型",
+      null,
+      "#以%阻挡一定次数的HP伤害，如果护盾在预计时间内破裂，则调用第三个参数中的附魔。参数5伤害类型（0全部，1物理，2魔法）"
+    ]
+  },
+  "2075": {
+    "name": "死亡之盾",
+    "group": "盾牌",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "恢复生命值%",
+      "附魔 ID 已损坏",
+      "团队",
+      null,
+      null,
+      "#阻止死亡，如果成功，在param3中调用附魔"
+    ]
+  },
+  "2081": {
+    "name": "属性库",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "STR",
+      "维特",
+      "INT",
+      "冯",
+      "通用人工智能",
+      null,
+      "#Qnt 中的基本属性"
+    ]
+  },
+  "2082": {
+    "name": "属性定义",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "Atk-F",
+      "Atk-D",
+      "防御-F",
+      "命中-F",
+      "命中-D",
+      "前夕",
+      "#攻击、防御、命中属性；物理与距离、躲避"
+    ]
+  },
+  "2083": {
+    "name": "属性AtqDef%",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "%Atk-F",
+      "%Atk-D",
+      "%Def-F",
+      "%命中-F",
+      "%命中-D",
+      "%EVA",
+      "#攻击、防御、命中属性；物理和距离，躲避百分比"
+    ]
+  },
+  "2084": {
+    "name": "属性定义",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "攻击型M",
+      "防御-M",
+      null,
+      null,
+      null,
+      null,
+      "#魔法攻击和防御属性"
+    ]
+  },
+  "2085": {
+    "name": "属性AtqDefM%",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "%Atq-M",
+      "%Def-M",
+      null,
+      null,
+      null,
+      null,
+      "#魔法攻击和防御属性%"
+    ]
+  },
+  "2086": {
+    "name": "属性定义%",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "%防御率",
+      "%命中-F",
+      "%命中-D",
+      "%EVA",
+      "水平检查",
+      null,
+      "#防御属性，命中；给定 Lv 的物理和远程、闪避百分比"
+    ]
+  },
+  "2087": {
+    "name": "属性状态%",
+    "group": "状态",
+    "status": "OK",
+    "params": [
+      "%STR",
+      "%VIT",
+      "%INT",
+      "%VON",
+      "%AGI",
+      null,
+      "#基本属性（%total）"
+    ]
+  },
+  "2091": {
+    "name": "抵抗伤害1",
+    "group": "阻力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "圣奎特",
+      "%率",
+      "暗Qnt",
+      "%率",
+      "自然Qnt",
+      "#有机会造成来自光明、黑暗和自然的物理伤害"
+    ]
+  },
+  "2092": {
+    "name": "抵抗伤害2",
+    "group": "阻力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "半径Qnt",
+      "%率",
+      "火线",
+      "%率",
+      "冰Qnt",
+      "#有机会造成电、火、冰物理伤害"
+    ]
+  },
+  "2093": {
+    "name": "抵抗伤害魔法1",
+    "group": "阻力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "圣奎特",
+      "%率",
+      "暗Qnt",
+      "%率",
+      "自然Qnt",
+      "#造成光、暗和自然魔法伤害的机会"
+    ]
+  },
+  "2094": {
+    "name": "抵抗伤害魔法2",
+    "group": "阻力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "半径Qnt",
+      "%率",
+      "火线",
+      "%率",
+      "冰Qnt",
+      "#有机会造成电、火和冰魔法伤害"
+    ]
+  },
+  "2095": {
+    "name": "抵抗率%",
+    "group": "阻力",
+    "status": "OK",
+    "params": [
+      "圣",
+      "黑暗",
+      "自然",
+      "雷声",
+      "火",
+      "冰",
+      "#% 电阻"
+    ]
+  },
+  "2101": {
+    "name": "特殊伤害1",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "百事达",
+      "%率",
+      "植物数量",
+      "%率",
+      "人类Qnt",
+      "#对动物、植物和类人生物造成物理伤害的几率。"
+    ]
+  },
+  "2102": {
+    "name": "特殊伤害2",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "元素Qnt",
+      "%率",
+      "机甲",
+      null,
+      null,
+      "#对元素和机器造成物理伤害的几率。"
+    ]
+  },
+  "2103": {
+    "name": "特殊伤害3",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "ZumbiQnt %率",
+      "恶魔Qnt",
+      null,
+      null,
+      "#对不死族和恶魔造成物理伤害的几率。"
+    ]
+  },
+  "2104": {
+    "name": "特殊伤害魔法1",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "百事达",
+      "%率",
+      "植物数量",
+      "%率",
+      "人类Qnt",
+      "#对动物、植物和类人生物造成魔法伤害的几率。"
+    ]
+  },
+  "2105": {
+    "name": "特殊伤害魔法2",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "元素Qnt",
+      "%率",
+      "机甲",
+      null,
+      null,
+      "#对元素和机器造成魔法伤害的几率。"
+    ]
+  },
+  "2106": {
+    "name": "特殊伤害魔法3",
+    "group": "特殊类型",
+    "status": "OK",
+    "params": [
+      "%率",
+      "尊比Qnt",
+      "%率",
+      "恶魔Qnt",
+      null,
+      null,
+      "#对不死族和恶魔造成魔法伤害的几率。"
+    ]
+  },
+  "2108": {
+    "name": "%DmgWeapTypes",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "ArmSimples",
+      "双臂",
+      "佳能",
+      "武士刀",
+      "水晶",
+      "#当装备机甲武器 1 和 2 手、大炮、武士刀和水晶时，物理伤害百分比"
+    ]
+  },
+  "2109": {
+    "name": "暴击伤害武器类型",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "ArmSimples",
+      "双臂",
+      "佳能",
+      "武士刀",
+      "水晶",
+      "#当装备机甲武器1和2手、大炮、武士刀和水晶时，暴击率以%为单位"
+    ]
+  },
+  "2111": {
+    "name": "DmgWeap 类型",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "1剑",
+      "1锤子",
+      "1斧头",
+      "2剑",
+      "2轴",
+      "2锤子",
+      "#装备 1 手和 2 手剑、锤子和斧头时的物理伤害百分比"
+    ]
+  },
+  "2112": {
+    "name": "HitCritWeap类型",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "1剑",
+      "1锤子",
+      "1斧头",
+      "2剑",
+      "2轴",
+      "2锤子",
+      "#装备 1 手和 2 手剑、锤子和斧头时的暴击率（%）"
+    ]
+  },
+  "2113": {
+    "name": "暴击伤害武器类型",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "1剑",
+      "1锤子",
+      "1斧头",
+      "2剑",
+      "2轴",
+      "2锤子",
+      "#装备 1 手和 2 手剑、锤子和斧头时的物理暴击伤害（%）"
+    ]
+  },
+  "2115": {
+    "name": "DmgWeapD 类型",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "弓",
+      "枪",
+      null,
+      null,
+      null,
+      null,
+      "#装备弓和火器时的物理伤害百分比"
+    ]
+  },
+  "2116": {
+    "name": "命中暴击武器D",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "弓",
+      "枪",
+      null,
+      null,
+      null,
+      null,
+      "#装备弓和火器时的暴击率（%）"
+    ]
+  },
+  "2117": {
+    "name": "盾牌武器",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "块",
+      "减少伤害块",
+      "定义",
+      "定义M",
+      null,
+      null,
+      "#装备盾牌参数"
+    ]
+  },
+  "2118": {
+    "name": "双手武器",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "阿塔克速度",
+      "剂量",
+      "命中",
+      "可以使用2HW",
+      null,
+      null,
+      "#2个单手武器的参数，canUse2HW； 0 开，1 关。"
+    ]
+  },
+  "2119": {
+    "name": "武器法杖",
+    "group": "伤害武器",
+    "status": "OK",
+    "params": [
+      "DmgWithStaff",
+      "与员工一起减少伤害",
+      null,
+      null,
+      null,
+      null,
+      "#配备人员参数；受到的伤害和物理伤害"
+    ]
+  },
+  "2121": {
+    "name": "仇恨",
+    "group": "仇恨",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia 得分"
+    ]
+  },
+  "2122": {
+    "name": "聚合率",
+    "group": "仇恨",
+    "status": "OK",
+    "params": [
+      "数量%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia 得分百分比"
+    ]
+  },
+  "2131": {
+    "name": "变换+迷彩",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "怪物列表ID",
+      "伪装类型",
+      "%率",
+      "假模具",
+      null,
+      null,
+      "#对目标进行变形，可以添加伪装效果，根据小怪的类型，范围从1到8，小怪的攻击几率； fakedie 我不确定，但这会让目标看起来像是死了。"
+    ]
+  },
+  "2132": {
+    "name": "随机变换",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "识别码1",
+      "识别号2",
+      "ID3",
+      "ID4",
+      "ID5",
+      "ID6",
+      "#在MonsterList中选择的ID中随机变换目标"
+    ]
+  },
+  "2133": {
+    "name": "变形隐身",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "距离",
+      "LVDiff",
+      "概率",
+      "消失",
+      null,
+      null,
+      "#将目标转变为隐身状态，可以在远处被检测到，取决于目标lv和概率的差异，"
+    ]
+  },
+  "2134": {
+    "name": "变换安装",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "乘车码",
+      "隐藏武器",
+      "位置代码",
+      "战斗",
+      "客运",
+      null,
+      "#坐骑变换；战斗值，1 true； Passager 的值范围为 1 到 4"
+    ]
+  },
+  "2135": {
+    "name": "变形怪物",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "怪物列表ID",
+      "对齐",
+      "AI_ID",
+      "水平检查",
+      null,
+      null,
+      "#将怪物变成盟友；对齐，1 个正常，2 个野蛮，3 个 npc，4 个玩家红色，5 个玩家蓝色，6 个友善"
+    ]
+  },
+  "2136": {
+    "name": "变换播放器",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "怪物列表ID",
+      "表单类型",
+      null,
+      null,
+      null,
+      null,
+      "#FormType，值； 0 人类、1 秃鹫、2 狼、3 大猩猩、4 潜行者、5 不检查、6 机器。"
+    ]
+  },
+  "2137": {
+    "name": "转变恐惧",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "怪物列表ID",
+      "水平检查",
+      null,
+      null,
+      null,
+      null,
+      "#根据目标的lv min来变换目标，如果Param1中没有任何内容，则应用Fear"
+    ]
+  },
+  "2139": {
+    "name": "变形法术",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "法术1",
+      "法术2",
+      "法术3",
+      "法术4",
+      "法术5",
+      "显示控件",
+      "#变换拼写栏； ShowCrtl，0 替换栏，1 阻止栏，2 替换栏"
+    ]
+  },
+  "2142": {
+    "name": "变换法术",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "法术1",
+      "法术2",
+      "法术3",
+      "法术4",
+      "法术5",
+      "咒语6",
+      "#将一个特定咒语转换为另一个咒语，最多 3 个咒语"
+    ]
+  },
+  "2143": {
+    "name": "变换特隆",
+    "group": "变形/伪装/法术",
+    "status": "OK",
+    "params": [
+      "特隆代码",
+      "隐藏武器",
+      "位置代码",
+      "客运",
+      null,
+      null,
+      "#权力的转变； Passager 的值范围为 1 到 4"
+    ]
+  },
+  "2144": {
+    "name": "能力",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#F暴击后一定时间内有机会激活附魔"
+    ]
+  },
+  "2145": {
+    "name": "能力魔法",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#M暴击后一定时间内有机会激活附魔"
+    ]
+  },
+  "2146": {
+    "name": "能力EVA",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#在 EVA 后一定时间内有机会激活附魔"
+    ]
+  },
+  "2147": {
+    "name": "能力块",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#在格挡后一定时间内有机会激活附魔"
+    ]
+  },
+  "2148": {
+    "name": "能力DmgF",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#受到严重物理伤害后一定时间内有机会激活附魔"
+    ]
+  },
+  "2149": {
+    "name": "能力DmgM",
+    "group": "能力",
+    "status": "OK",
+    "params": [
+      "%率",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      null,
+      "#受到魔法暴击伤害后一定时间内有机会激活附魔"
+    ]
+  },
+  "2901": {
+    "name": "掉率",
+    "group": "经验/掉落",
+    "status": "OK",
+    "params": [
+      "率%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#增加掉落率"
+    ]
+  },
+  "2902": {
+    "name": "掉率",
+    "group": "经验/掉落",
+    "status": "OK",
+    "params": [
+      "率%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#增加掉落率"
+    ]
+  },
+  "2911": {
+    "name": "费用率",
+    "group": "经验/掉落",
+    "status": "OK",
+    "params": [
+      "率%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#增加EXP率"
+    ]
+  },
+  "2912": {
+    "name": "爆炸块",
+    "group": "经验/掉落",
+    "status": "OK",
+    "params": [
+      "经验值",
+      "AA指数",
+      "武器经验",
+      "挂载Epx",
+      null,
+      null,
+      "#EXP 拦截器"
+    ]
+  },
+  "2921": {
+    "name": "成功奖金",
+    "group": "精灵奖励",
+    "status": "OK",
+    "params": [
+      "碱度%",
+      "武器%",
+      "护甲%",
+      "精灵%",
+      null,
+      null,
+      "#增加角色物品合成、装备升级成功率和精灵成功率"
+    ]
+  },
+  "2922": {
+    "name": "工作时间奖金",
+    "group": "精灵奖励",
+    "status": "OK",
+    "params": [
+      "收藏",
+      "面料",
+      "火车",
+      null,
+      null,
+      null,
+      "#减少精灵收集、制造和训练时间"
+    ]
+  },
+  "2931": {
+    "name": "冥想经验奖励",
+    "group": "冥想",
+    "status": "OK",
+    "params": [
+      "EXP类型",
+      "率%",
+      "类型",
+      null,
+      null,
+      null,
+      "#冥想，EXP类型； 1点经验，2点AA经验，3点武器经验，4点重生；类型、石材类型的变化"
+    ]
+  },
+  "2932": {
+    "name": "冥想法玛奖金",
+    "group": "冥想",
+    "status": "OK",
+    "params": [
+      "IDF妈妈",
+      "点",
+      "率%",
+      "麦克斯·法玛",
+      null,
+      null,
+      "#名誉冥想，评分；每 3 秒有机会获得分数"
+    ]
+  },
+  "2933": {
+    "name": "VIP系统",
+    "group": "贵宾",
+    "status": "NO",
+    "params": [
+      "类型VIP",
+      null,
+      null,
+      null,
+      null,
+      "#vip系统"
+    ]
+  },
+  "2934": {
+    "name": "精灵石油公司",
+    "group": "聚乙烯吡咯烷酮",
+    "status": "OK",
+    "params": [
+      "类型",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#油以避免PK时装备损失；类型> 0 仅单个团队，1 所有团队，2 所有 Kuso 团队，3 所有团队包括 Kuso，4 效果相同，但随着时间的推移"
+    ]
+  },
+  "2943": {
+    "name": "增益扩展点",
+    "group": "极值点",
+    "status": "OK",
+    "params": [
+      "ID魅惑",
+      "最大限制",
+      "极限Lv",
+      "起始等级",
+      null,
+      null,
+      "#提供极值点，有上限、每级限制、初始Lv"
+    ]
+  },
+  "2944": {
+    "name": "钓鱼竿",
+    "group": "钓鱼",
+    "status": "NO",
+    "params": [
+      "丢弃ID",
+      "自动删除ID",
+      null,
+      null,
+      null,
+      "鱼地指数",
+      "#海岛钓鱼"
+    ]
+  },
+  "2945": {
+    "name": "经验奖励武器",
+    "group": "EXP / DROP / RESET 武器",
+    "status": "OK",
+    "params": [
+      "率%",
+      "价值",
+      null,
+      null,
+      null,
+      null,
+      "#增加装备上获得 XP 的机会"
+    ]
+  },
+  "2947": {
+    "name": "重置武器",
+    "group": "EXP / DROP / RESET 武器",
+    "status": "OK",
+    "params": [
+      "率",
+      "级别",
+      "类型",
+      "等级武器",
+      null,
+      null,
+      "#重置所选装备的成长等级、成长值和成长方向。"
+    ]
+  },
+  "2948": {
+    "name": "经验奖金坐骑",
+    "group": "EXP / DROP / RESET 武器",
+    "status": "OK",
+    "params": [
+      "率%",
+      "价值",
+      null,
+      null,
+      null,
+      null,
+      "#增加在坐骑上获得 XP 的机会"
+    ]
+  },
+  "2950": {
+    "name": "重置安装",
+    "group": "EXP / DROP / RESET 武器",
+    "status": "OK",
+    "params": [
+      "率",
+      "级别",
+      null,
+      null,
+      null,
+      null,
+      "#重新定义所选坐骑的成长等级、成长值和成长方向。"
+    ]
+  },
+  "2951": {
+    "name": "盒子精灵",
+    "group": "EXP / DROP / RESET 武器",
+    "status": "OK",
+    "params": [
+      "Lv型",
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      "#增加精灵技能lv，0基础，1中级，2高级"
+    ]
+  },
+  "2952": {
+    "name": "VIP系统",
+    "group": "贵宾",
+    "status": "OK",
+    "params": [
+      "类型VIP",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#VIP系统"
+    ]
+  },
+  "2954": {
+    "name": "获得奖金",
+    "group": "奖金金/名誉",
+    "status": "OK",
+    "params": [
+      "类型币",
+      "对齐ID",
+      "价值",
+      "附魔ID",
+      "团队",
+      null,
+      "#TypeCoin； 0金币，1名誉；对于黄金，AlignID 将为 1；如果参数6打开（等于1），它会在参数4和5中调用附魔时间"
+    ]
+  },
+  "3001": {
+    "name": "蜱虫HP",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      "#正值，再生；负值、毒药"
+    ]
+  },
+  "3002": {
+    "name": "速率TickHP",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "HP检查%",
+      "%率",
+      "最小",
+      "最大",
+      null,
+      null,
+      "#检查%HP，每个动作都有%几率重置最小/最大生命值"
+    ]
+  },
+  "3011": {
+    "name": "TickDmgMP",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "最小",
+      "最大",
+      "%最小值",
+      "%最大",
+      null,
+      null,
+      "#正值，再生；负值、毒药"
+    ]
+  },
+  "3012": {
+    "name": "速率TickMP",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "MP检查%",
+      "%率",
+      "最小",
+      "最大",
+      null,
+      null,
+      "#检查%MP，每个动作都有%几率重置最小/最大生命值"
+    ]
+  },
+  "3021": {
+    "name": "HPStealhTic",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "惠普价值",
+      "%率",
+      null,
+      null,
+      null,
+      null,
+      "#根据百分比从目标每 Tick 窃取 HP"
+    ]
+  },
+  "3022": {
+    "name": "MPStealhTic",
+    "group": "HP/MP 刻度",
+    "status": "OK",
+    "params": [
+      "MP值",
+      "%率",
+      null,
+      null,
+      null,
+      null,
+      "#根据百分比从目标中窃取 MP"
+    ]
+  },
+  "3101": {
+    "name": "检查",
+    "group": "状况/检查",
+    "status": "OK",
+    "params": [
+      "附魔检查类型",
+      "惠普检查",
+      null,
+      null,
+      null,
+      null,
+      "#附魔和HP的条件；检查类型为 Hiword"
+    ]
+  },
+  "3102": {
+    "name": "检查",
+    "group": "状况/检查",
+    "status": "OK",
+    "params": [
+      "附魔检查类型",
+      "惠普检查",
+      null,
+      null,
+      null,
+      null,
+      "#附魔和HP的条件；检查类型为 Hiword"
+    ]
+  },
+  "3901": {
+    "name": "BFexp",
+    "group": "BFexp",
+    "status": "OK",
+    "params": [
+      "经验值",
+      "AAEXP",
+      null,
+      null,
+      null,
+      null,
+      "#在竞技场中获得经验值"
+    ]
+  },
+  "4001": {
+    "name": "能量心情%",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "亲密度最小值",
+      "I_最大",
+      "E_最小值",
+      "最大E值",
+      "M_最小值",
+      "最大M值",
+      "#接受正值和负值，以百分比增加或减少精灵的亲密度(I)、能量(E)和幽默感(M)"
+    ]
+  },
+  "4011": {
+    "name": "家庭技能_N",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "入侵检测技能",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#可能的ID，1个矿井，2个收获，3个狩猎，4个回收"
+    ]
+  },
+  "4012": {
+    "name": "家庭技能_W",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "入侵检测技能",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID 可能, 5 剑, 6 斧头, 7 锤子, 8 弓, 9 枪, 10 法杖, 11 盾牌, 12 遗物, 18 MechaP, 17 Cannom, 20 武士刀, 21 CristalKey"
+    ]
+  },
+  "4013": {
+    "name": "家庭技能_A",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "入侵检测技能",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID可能，13战士，14弓箭手，15法师，16贤者，19机甲，22游牧者"
+    ]
+  },
+  "4014": {
+    "name": "家庭技能_T",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "入侵检测技能",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#可能的ID，75旅行"
+    ]
+  },
+  "4021": {
+    "name": "致电",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "集成开发环境",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#根据ID调用精灵"
+    ]
+  },
+  "4031": {
+    "name": "行动",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "ID动作精灵",
+      "效果ID",
+      "身高",
+      null,
+      null,
+      null,
+      "雪碧中的#Action"
+    ]
+  },
+  "4041": {
+    "name": "情侣心情",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "Qnt_Partner1",
+      "Qnt_Partner2",
+      null,
+      null,
+      null,
+      null,
+      "#情侣最好的心情"
+    ]
+  },
+  "5001": {
+    "name": "收集时间",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "团队",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#减少精灵收集时间"
+    ]
+  },
+  "5002": {
+    "name": "收集奖金",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率%",
+      "最小Qnt",
+      "植物工厂",
+      "搜寻",
+      "QntRec",
+      null,
+      "#分别增加采矿、觅食、狩猎和回收中收集的物品数量"
+    ]
+  },
+  "5003": {
+    "name": "收取率",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#提高收集率"
+    ]
+  },
+  "5004": {
+    "name": "技能_LvBonusN",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "采矿业",
+      "饲料",
+      "亨特",
+      "回收",
+      null,
+      null,
+      "#提高精灵的技能等级"
+    ]
+  },
+  "5005": {
+    "name": "收取率",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率%",
+      "Qnt_Gas",
+      "Qnt_颜料",
+      null,
+      null,
+      null,
+      "#增加收集物品、颜料和气体的数量"
+    ]
+  },
+  "5006": {
+    "name": "技能_Lv奖励",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "煤气",
+      "颜料",
+      null,
+      null,
+      null,
+      null,
+      "#增加精灵的技能、颜料和气体的水平"
+    ]
+  },
+  "5011": {
+    "name": "生产时间",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "团队",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#减少精灵制作时间"
+    ]
+  },
+  "5012": {
+    "name": "产品利率奖金",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率产品",
+      "最大左室容积",
+      null,
+      null,
+      null,
+      null,
+      "#SBK"
+    ]
+  },
+  "5013": {
+    "name": "技能_LvBonus_W",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "剑",
+      "轴",
+      "锤子",
+      "弓",
+      "枪",
+      "员工",
+      "#提高精灵的武器制造技能等级"
+    ]
+  },
+  "5014": {
+    "name": "技能_LvBonus_A",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "盾牌",
+      "遗物",
+      "战士",
+      "弓箭手",
+      "法师",
+      "鼠尾草",
+      "#提高精灵的护甲制造技能等级"
+    ]
+  },
+  "5015": {
+    "name": "技能_Lv奖励",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "机甲武器",
+      "佳能",
+      "机甲",
+      "凯特",
+      "基督",
+      "游牧者",
+      "#提高机械师和旅行者职业的武器和盔甲制造技能水平"
+    ]
+  },
+  "5016": {
+    "name": "技能_LvBonus_T",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "灵魂",
+      "地图",
+      null,
+      null,
+      null,
+      null,
+      "#提高灵魂和地图技能等级"
+    ]
+  },
+  "5017": {
+    "name": "生产率奖金",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率产品",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "SoulCristal 的#SBKs"
+    ]
+  },
+  "5021": {
+    "name": "奖金EXP火车",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率%",
+      "Qnt_EXP",
+      null,
+      null,
+      null,
+      null,
+      "#chance 训练时获得额外 EXP 的百分比"
+    ]
+  },
+  "5022": {
+    "name": "保存素材",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "率%",
+      "Qnt_材质",
+      null,
+      null,
+      null,
+      null,
+      "训练时节省材料的 #chance %"
+    ]
+  },
+  "5023": {
+    "name": "减少训练时间",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "团队",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#减少精灵训练时间"
+    ]
+  },
+  "5025": {
+    "name": "冥想",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "技能ID",
+      "ExpTick",
+      "率%",
+      null,
+      null,
+      null,
+      "#精灵冥想"
+    ]
+  },
+  "5028": {
+    "name": "糖果探险家",
+    "group": "雪碧",
+    "status": "OK",
+    "params": [
+      "技能ID",
+      "Qnt_Exp",
+      null,
+      null,
+      null,
+      null,
+      "#exp技能精灵消耗品"
+    ]
+  },
+  "6001": {
+    "name": "ReCombo设备",
+    "group": "重置武器",
+    "status": "OK",
+    "params": [
+      "装备类型",
+      "左室最大Z",
+      null,
+      null,
+      null,
+      "#reset 装备附魔"
+    ]
+  },
+  "6002": {
+    "name": "获取拼写",
+    "group": "重置武器",
+    "status": "OK",
+    "params": [
+      "拼写_ID",
+      null,
+      null,
+      null,
+      null,
+      "#recebe 咒语"
+    ]
+  },
+  "6003": {
+    "name": "奥义书",
+    "group": "重置武器",
+    "status": "OK",
+    "params": [
+      "拼写_ID",
+      null,
+      null,
+      null,
+      null,
+      "#receive Spell Upanishads（极限职业）"
+    ]
+  },
+  "6021": {
+    "name": "条件检查",
+    "group": "条件/检查",
+    "status": "OK",
+    "params": [
+      "怪物",
+      "吕敏",
+      "最大左室容积",
+      "附魔",
+      "怪物类型",
+      "生命值%",
+      "#各种愿望"
+    ]
+  },
+  "6022": {
+    "name": "附魔检查",
+    "group": "条件/检查",
+    "status": "OK",
+    "params": [
+      "附魔*ID",
+      "附魔*ID",
+      null,
+      null,
+      null,
+      null,
+      "#在应用另一个附魔之前检查一个附魔"
+    ]
+  },
+  "6024": {
+    "name": "附魔堆栈检查",
+    "group": "条件/检查",
+    "status": "OK",
+    "params": [
+      "附魔*ID",
+      "静态最小",
+      "最大Stck",
+      "附魔*ID",
+      "团队",
+      null,
+      "#检查一个附魔的堆栈然后应用另一个"
+    ]
+  },
+  "6025": {
+    "name": "目标类检查",
+    "group": "条件/检查",
+    "status": "OK",
+    "params": [
+      "Id_ClassMons",
+      "目标",
+      null,
+      null,
+      null,
+      null,
+      "#检查类Mob"
+    ]
+  },
+  "7001": {
+    "name": "2目标",
+    "group": "效果",
+    "status": "OK",
+    "params": [
+      "目标类型",
+      "目标ID",
+      "距离",
+      "EnchntID",
+      "团队",
+      "堆栈（？）",
+      "#目标类型； 1 个自身、2 个敌人、3 个团队、4 个周围/目标 ID； 0 全部，1 个玩家组，2 个玩家，3 个怪物；"
+    ]
+  },
+  "7002": {
+    "name": "裁剪",
+    "group": "效果",
+    "status": "OK",
+    "params": [
+      "目标类型",
+      "游侠",
+      "附魔ID",
+      "团队",
+      null,
+      null,
+      "#对种植园的影响，需要进一步调查"
+    ]
+  },
+  "7003": {
+    "name": "裁剪",
+    "group": "效果",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#对种植园的影响"
+    ]
+  },
+  "7004": {
+    "name": "怪兽之语",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "对话ID1",
+      "对话ID2",
+      "冷却时间",
+      "开、关？",
+      null,
+      null,
+      "#Monster 在对话 ID 中随机说话，"
+    ]
+  },
+  "7006": {
+    "name": "获取项目",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "ID_项目",
+      "堆栈",
+      null,
+      null,
+      null,
+      null,
+      "#接收物品"
+    ]
+  },
+  "7007": {
+    "name": "法术冷却",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "开关",
+      "团队/10",
+      "1iD",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#减少技能cdr"
+    ]
+  },
+  "7008": {
+    "name": "法术组冷却",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "开关",
+      "团队/10",
+      "1iD",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#减少队伍技能CDR"
+    ]
+  },
+  "7009": {
+    "name": "添加成就",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "成就ID",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#添加成就"
+    ]
+  },
+  "7010": {
+    "name": "效果下一个RandID",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "1iD",
+      "2iD",
+      "3iD",
+      "4iD",
+      "5iD",
+      "团队",
+      "#在时间内应用随机附魔"
+    ]
+  },
+  "7011": {
+    "name": "产区名称",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "开关",
+      "名称ID",
+      null,
+      null,
+      null,
+      null,
+      "#应用标题； 0 删除，1 添加"
+    ]
+  },
+  "7101": {
+    "name": "%FOR->VIT",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将FOR转入VIT"
+    ]
+  },
+  "7102": {
+    "name": "%AGI->VON",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将AGI转入VON"
+    ]
+  },
+  "7103": {
+    "name": "CRIT->AtkVelocity",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#以攻击速度转移暴击"
+    ]
+  },
+  "7104": {
+    "name": "%INT->STR/AGI",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "费率",
+      "速率AGI",
+      null,
+      null,
+      null,
+      null,
+      "#转移"
+    ]
+  },
+  "7105": {
+    "name": "%VON->VIT",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将VON转入VIT"
+    ]
+  },
+  "7106": {
+    "name": "基础HP转移",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "阿塔克",
+      "攻击-D",
+      "攻击-M",
+      "为",
+      "INT",
+      "通用人工智能",
+      "#将基础 HP 的百分比转移到每个参数中的属性"
+    ]
+  },
+  "7107": {
+    "name": "基础MP传输",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "阿塔克",
+      "攻击-D",
+      "攻击-M",
+      "为",
+      "INT",
+      "通用人工智能",
+      "#将基础MP的%转移到每个参数中的属性"
+    ]
+  },
+  "7111": {
+    "name": "转移到宠物",
+    "group": "属性传输",
+    "status": "OK",
+    "params": [
+      "最大马力",
+      "最大MP",
+      "攻击-F",
+      "攻击-M",
+      "防御-F",
+      "防御-M",
+      "#将%的状态从Pj转移到Pet"
+    ]
+  },
+  "8001": {
+    "name": "合成幸运",
+    "group": "幸运物品",
+    "status": "OK",
+    "params": [
+      "率",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#炼金术四叶草"
+    ]
+  },
+  "8002": {
+    "name": "三叶草堡",
+    "group": "幸运物品",
+    "status": "OK",
+    "params": [
+      "率",
+      "巫毒教",
+      "糟糕！",
+      "吕敏",
+      "最大左室容积",
+      "类型",
+      "#强化三叶草； Voodoo被激活，+9后物品不会消失；类型，1 觉醒，2 堡垒普通，3 缺口"
+    ]
+  },
+  "8003": {
+    "name": "uknow附魔",
+    "group": "幸运物品",
+    "status": "NO",
+    "params": [
+      "#没有信息"
+    ]
+  },
+  "8005": {
+    "name": "转乘",
+    "group": "幸运物品",
+    "status": "NO",
+    "params": [
+      "#fort转移和共鸣石，测试领域"
+    ]
+  },
+  "8006": {
+    "name": "粘土片",
+    "group": "幸运物品",
+    "status": "OK",
+    "params": [
+      "量子点",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#将炼金术碎片添加到物品中"
+    ]
+  },
+  "9003": {
+    "name": "克拉普苏尔精灵",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#使精灵失去技能"
+    ]
+  },
+  "9005": {
+    "name": "克拉普苏尔精灵",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#删除精灵徽章"
+    ]
+  },
+  "9007": {
+    "name": "锁定项目",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "开关",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#块项目； 1个锁，2个解锁"
+    ]
+  },
+  "9008": {
+    "name": "扩音器",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Chama扩音器"
+    ]
+  },
+  "9009": {
+    "name": "解锁人",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "量子点",
+      "#解锁角色数量"
+    ]
+  },
+  "9010": {
+    "name": "套件MakeElf",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#雪碧化妆套装"
+    ]
+  },
+  "9011": {
+    "name": "工具包MakePlayer",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#化妆套装"
+    ]
+  },
+  "9012": {
+    "name": "去除石头",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#共振除石器"
+    ]
+  },
+  "9013": {
+    "name": "改变神圣",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#我不知道这是什么......"
+    ]
+  },
+  "9014": {
+    "name": "复位RD",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#重置每日登录"
+    ]
+  },
+  "9022": {
+    "name": "开店",
+    "group": "杂项",
+    "status": "OK",
+    "params": [
+      "类型",
+      "商店_ID",
+      "最低级别",
+      "最大等级",
+      null,
+      null,
+      "#开店"
+    ]
+  },
+  "9023": {
+    "name": "红套装",
+    "group": "杂项",
+    "status": "NO",
+    "params": [
+      "类型",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#符石附魔师"
+    ]
+  },
+  "9024": {
+    "name": "彩虹路",
+    "group": "杂项",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Arco-Iris Sanctuary 物品"
+    ]
+  },
+  "9025": {
+    "name": "灵魂水晶",
+    "group": "杂项",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#水晶阿尼玛"
+    ]
+  },
+  "9026": {
+    "name": "纪念品之星",
+    "group": "杂项",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Encata纪念品"
+    ]
+  },
+  "9030": {
+    "name": "计数+彩虹路",
+    "group": "杂项",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Santuario Arco-Iris 的次数"
+    ]
+  },
+  "9200": {
+    "name": "种植协会",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "水%",
+      "增长%",
+      "#也适用于钓鱼"
+    ]
+  },
+  "9201": {
+    "name": "肥料",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "增长%",
+      "#肥料"
+    ]
+  },
+  "9202": {
+    "name": "肥料²",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "不客气！",
+      "#来自肥料的肥料"
+    ]
+  },
+  "9204": {
+    "name": "挖矿精灵",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "#在精灵岛矿井中使用的物品"
+    ]
+  },
+  "9206": {
+    "name": "精灵钻",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "#drill 为我的精灵"
+    ]
+  },
+  "9207": {
+    "name": "钓鱼",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "#鱼类和牲畜饲料"
+    ]
+  },
+  "9300": {
+    "name": "绘画",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "#精灵颜料"
+    ]
+  },
+  "9301": {
+    "name": "修理岛",
+    "group": "农业",
+    "status": "OK",
+    "params": [
+      "#岛屿修复大锤"
+    ]
+  }
+}

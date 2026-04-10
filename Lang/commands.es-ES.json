@@ -1,0 +1,3398 @@
+{
+  "1001": {
+    "name": "caballos de fuerza",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      "#ValoresPositivos, sanación; Valores negativos, daño instantáneo a HP"
+    ]
+  },
+  "1002": {
+    "name": "Área HP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "rand",
+      "#Curación basada en la cantidad de cargas del lanzador y el % del valor de curación"
+    ]
+  },
+  "1003": {
+    "name": "HPEX",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      "Mob_Id1",
+      "Relación1",
+      "Mob_Id2",
+      "Relación2",
+      "#ValoresPositivos, sanación; Valores negativos, daño instantáneo a mobs específicos."
+    ]
+  },
+  "1004": {
+    "name": "HpMpHeal",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "HPmín.",
+      "HPmáx.",
+      "MPmín",
+      "MPmáx.",
+      null,
+      null,
+      "#ValoresPositivos, sanación; Valores negativos, daño instantáneo en % de HP y MP"
+    ]
+  },
+  "1011": {
+    "name": "diputado",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      "#ValoresPositivos, sanación; Valores negativos, daño instantáneo a MP"
+    ]
+  },
+  "1012": {
+    "name": "MPCombo",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "rand",
+      "#Cura MP según la cantidad de cargas del lanzador y el % del valor de curación"
+    ]
+  },
+  "1021": {
+    "name": "Dmg2HP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      null,
+      null,
+      "#Transforma el porcentaje de daño infligido en HP"
+    ]
+  },
+  "1022": {
+    "name": "Dmg2MP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      null,
+      null,
+      "#Transforma el porcentaje de daño infligido en MP"
+    ]
+  },
+  "1023": {
+    "name": "PetDdct",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "HPRec",
+      "Tarifa mínima",
+      "Tarifa máxima",
+      null,
+      null,
+      "#Absorber el porcentaje de HP de invocación para restaurar una cantidad fija de HP"
+    ]
+  },
+  "1031": {
+    "name": "multicarrera",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "%Calificado",
+      "%LimitDanD",
+      "%TasaT",
+      "%LimitDanT",
+      null,
+      null,
+      "#Daño adicional basado en un % del daño inicial, el daño triple se calcula en base al daño doble; %LimitDanD, doble daño; %LimitDanT, triple daño;"
+    ]
+  },
+  "1041": {
+    "name": "Punto AA",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      "#Dar puntos Master en una determinada cantidad"
+    ]
+  },
+  "1071": {
+    "name": "DeSummon",
+    "group": "Invocar",
+    "status": "NO",
+    "params": [
+      "% tasa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#No probado"
+    ]
+  },
+  "1072": {
+    "name": "PetInstrc",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Ordena a la mascota que ataque"
+    ]
+  },
+  "1073": {
+    "name": "mascotasuicidio",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "%CV mín.",
+      "%CV máx.",
+      null,
+      null,
+      null,
+      null,
+      "#Causa daño al HP de la mascota"
+    ]
+  },
+  "1074": {
+    "name": "SumaÁreaNormal",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "IDmob",
+      "cantidad",
+      "RestringirNodo",
+      "Nodo de zona",
+      "efectoID",
+      "altura",
+      "#Invoca una cantidad de mobs en un mapa determinado, en una zona determinada, con efecto y altura."
+    ]
+  },
+  "1075": {
+    "name": "SumaAreaQuest",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "IDmob",
+      "cantidad",
+      "RestringirNodo",
+      "Nodo de zona",
+      "efectoID",
+      "altura",
+      "#Invoca una cantidad de mobs en un mapa determinado, en una zona determinada, con efecto y altura (elementos de misión)"
+    ]
+  },
+  "1076": {
+    "name": "Evento de artículo",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "nodo de identificación",
+      "Nodo de zona",
+      null,
+      null,
+      null,
+      null,
+      "# Limitador de elementos en un mapa y zona determinados"
+    ]
+  },
+  "1077": {
+    "name": "Convocar PNJ",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "ID de PNJ",
+      "cantidad",
+      "equipo",
+      "agregar hora",
+      null,
+      null,
+      "#Invoca a un NPC por un tiempo determinado"
+    ]
+  },
+  "1078": {
+    "name": "enlazarEncantar",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "IDenc1",
+      "IDenc2",
+      "IDenc3",
+      "IDenc4",
+      "IDenc5",
+      "IDenc6",
+      "#Eliminar hasta 6 encantamientos después de un tiempo determinado"
+    ]
+  },
+  "1079": {
+    "name": "llamarEncantar",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "ID de encantamiento",
+      "equipo",
+      "Tipo de hora",
+      null,
+      null,
+      "#Llama un encantamiento según un % de probabilidad, por un tiempo"
+    ]
+  },
+  "1800": {
+    "name": "Tp2Pet",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "Cambiar",
+      "guardabosques",
+      "TipoTp",
+      "objetivo de beneficio",
+      "ID de encantamiento",
+      "equipo",
+      "#Teletransporta al tipo de mascota (tipo1, mascota; tipo2, tokenpet) en un guardabosques específico, con una animación específica y aplica un encantamiento por un tiempo, si está activo"
+    ]
+  },
+  "1801": {
+    "name": "FuncTeletrnp",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "Caso 1 ~ 11",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Teletransportación a algún tipo de Caso, que van del 1 al 11; valores notables, 1 alma, 2 escape, 9 gotoLove, 10 MarkedPointSave, 11 MarkedPointLoad"
+    ]
+  },
+  "1802": {
+    "name": "objetivo tp2",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distancia",
+      "TipoTp",
+      null,
+      null,
+      null,
+      null,
+      "#Teletransportarse al objetivo, escriba TP; 1 teletransportarse, 2 corriendo"
+    ]
+  },
+  "1803": {
+    "name": "TpFarway",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distancia",
+      "TipoTp",
+      null,
+      null,
+      null,
+      null,
+      "#Teletransportar a Pj al revés"
+    ]
+  },
+  "1804": {
+    "name": "Distancia al destino",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distancia",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Teletransporta al objetivo desde adentro hacia afuera"
+    ]
+  },
+  "1805": {
+    "name": "Tp2Nodo+Zona",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "ID_escena",
+      "Zona",
+      null,
+      null,
+      null,
+      null,
+      "#Teletransporta a un nodo en una zona"
+    ]
+  },
+  "1806": {
+    "name": "DistanciaaGoEx",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distancia",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Teletransporta a Alva desde el exterior hacia el interior"
+    ]
+  },
+  "1807": {
+    "name": "Llegar aquí",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Teletransporta al objetivo cerca del lanzador"
+    ]
+  },
+  "1808": {
+    "name": "Llegar aquíMascota",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "guardabosques",
+      "TipoTp",
+      "Cambiar",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      "#Teletransporta al objetivo cerca del maestro"
+    ]
+  },
+  "1811": {
+    "name": "revivir",
+    "group": "revivir",
+    "status": "OK",
+    "params": [
+      "% caballos",
+      "%MP",
+      "%ReducirExp",
+      "%ReducirEquipar",
+      "Ubicación",
+      null,
+      "#Revive el objetivo; Ubicación 1, Alma Cristal; Ubicación 2, en el suelo"
+    ]
+  },
+  "1821": {
+    "name": "MatarAleatorio",
+    "group": "EncantarAcción",
+    "status": "OK",
+    "params": [
+      "%Problema1",
+      "Qnt1",
+      "%Problema2",
+      "Qnt2",
+      null,
+      null,
+      "# Elimina el encantamiento negativo al azar, si usas 1, no uses 2."
+    ]
+  },
+  "1822": {
+    "name": "Cancelar",
+    "group": "EncantarAcción",
+    "status": "NO",
+    "params": [
+      null
+    ]
+  },
+  "1823": {
+    "name": "matar",
+    "group": "EncantarAcción",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      "ID_2",
+      "ID_3",
+      "ID_4",
+      "ID_5",
+      "ID_6",
+      "#Eliminar hasta 6 encantamientos"
+    ]
+  },
+  "1824": {
+    "name": "matar_uno",
+    "group": "EncantarAcción",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "# Elimina solo 1 encantamiento"
+    ]
+  },
+  "1901": {
+    "name": "CincelRanura",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "%Durabilidad",
+      "LvMáx.",
+      "fantasía",
+      null,
+      null,
+      "#Abrir espacio en equipo y vestuario, Param4 debe ser igual a 1 para disfraces"
+    ]
+  },
+  "1911": {
+    "name": "TipoMarretaRep",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "%Durabilidad",
+      "1(¿contando?)",
+      null,
+      null,
+      null,
+      null,
+      "#% de fracaso"
+    ]
+  },
+  "1912": {
+    "name": "%MarretaDurMax",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "%Durabilidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#% de recuperación"
+    ]
+  },
+  "1913": {
+    "name": "Efecto de reproducción",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "ID de efecto",
+      "altura",
+      "ID_Anim",
+      null,
+      null,
+      null,
+      "#Reproducir un efecto"
+    ]
+  },
+  "1914": {
+    "name": "Desvincular elemento",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "SucRte",
+      "BrkRte",
+      "Duración",
+      "DurPer",
+      "Lv",
+      "Tipo de destino",
+      "#desbloquear elementos; Tipo de objetivo, 0 Equipar, 1 Kuso, 2 monturas"
+    ]
+  },
+  "1915": {
+    "name": "RetornoAAPunto",
+    "group": "Encantar artículos",
+    "status": "OK",
+    "params": [
+      "Tipo AA",
+      "Tipo AAEsp",
+      "constante",
+      "%AApointReturn",
+      null,
+      null,
+      "#Devolución de Puntos Maestros"
+    ]
+  },
+  "1921": {
+    "name": "EfectoSiguienteID",
+    "group": "Encantar hechizo",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "ID de encantamiento",
+      "Duración",
+      "EfectoSiguienteID2Otro",
+      null,
+      null,
+      "#Probabilidad de llamar a otro encantamiento; EfectoNextID2Otro; 0 desactivado, 1 activado, invoca un segundo efecto"
+    ]
+  },
+  "1999": {
+    "name": "Ataque de hechizo",
+    "group": "Encantar hechizo",
+    "status": "OK",
+    "params": [
+      "Spell_ID",
+      "CostoMp",
+      null,
+      null,
+      null,
+      null,
+      "#Ataques con encantamiento por un coste de MP"
+    ]
+  },
+  "2000": {
+    "name": "EncantarMiscelánea",
+    "group": "Encantar hechizo",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Esto es básicamente trivia, misiones, hechizos, etc."
+    ]
+  },
+  "2001": {
+    "name": "HP máx.",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#HP adicional en puntos"
+    ]
+  },
+  "2002": {
+    "name": "Tasa de HP máx.",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#HP adicional en %Máximo"
+    ]
+  },
+  "2003": {
+    "name": "RgenHPTick",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Regeneración de HP por tick"
+    ]
+  },
+  "2011": {
+    "name": "MP máximo",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#MP adicional en puntos"
+    ]
+  },
+  "2012": {
+    "name": "CostoCast",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "PuntoMP",
+      "%tasaMP",
+      "PuntoHP",
+      "%tasaHP",
+      null,
+      null,
+      "#Valores positivos, aumenta el coste del hechizo; Valores Negativos, reducen el coste del hechizo; El % de mp y hp es del 10 al 1%."
+    ]
+  },
+  "2013": {
+    "name": "MaxMPRate",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#MP adicional en %Máximo"
+    ]
+  },
+  "2014": {
+    "name": "RgenMPTick",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Regeneración de MP por tick"
+    ]
+  },
+  "2019": {
+    "name": "Dmg2HPCaster",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "% mínimo",
+      "% máx.",
+      "Mín%D",
+      "Máx%D",
+      null,
+      null,
+      "#Absorbe % de tu daño físico y mágico para curar HP"
+    ]
+  },
+  "2020": {
+    "name": "Dmg2MPCaster",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "% mínimo",
+      "% máx.",
+      "Mín%D",
+      "Máx%D",
+      null,
+      null,
+      "#Absorbe % de tu daño físico y mágico para curar MP"
+    ]
+  },
+  "2021": {
+    "name": "Dmg2HPCasterB",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "Mín%M",
+      "Máx%M",
+      null,
+      null,
+      null,
+      null,
+      "#Absorbe % de tu daño durante un ataque básico para curar HP"
+    ]
+  },
+  "2022": {
+    "name": "Dmg2MPCasterB",
+    "group": "HP MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      null,
+      null,
+      null,
+      null,
+      "#Roba una cantidad de maná del objetivo durante un ataque básico para curar MP"
+    ]
+  },
+  "2023": {
+    "name": "Bono de bolígrafo",
+    "group": "bolígrafo",
+    "status": "OK",
+    "params": [
+      "Pluma-F",
+      "Pluma-M",
+      "ReducPen-F",
+      "ReducPen-M",
+      null,
+      null,
+      "#Bono de penetración física y mágica, además de reducción de pluma"
+    ]
+  },
+  "2024": {
+    "name": "Reflexionar",
+    "group": "bolígrafo",
+    "status": "OK",
+    "params": [
+      "%TasaF",
+      "%daño",
+      "%TasaM",
+      "%dañoM",
+      null,
+      null,
+      "#Reflexiona sobre el daño de penetración física y mágica."
+    ]
+  },
+  "2030": {
+    "name": "DmgInmune",
+    "group": "bolígrafo",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Inmunidad a cualquier tipo de daño"
+    ]
+  },
+  "2031": {
+    "name": "multicarrera",
+    "group": "multicarrera",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "%LimitDan",
+      "%Tasa",
+      "%LimitDan",
+      null,
+      null,
+      "#Daño adicional basado en un % del daño inicial, el daño triple se calcula en base al daño doble; %LimitDanD, doble daño; %LimitDanT, triple daño;"
+    ]
+  },
+  "2032": {
+    "name": "multicarrera",
+    "group": "multicarrera",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "%LimitDan",
+      "%Tasa",
+      "%LimitDan",
+      null,
+      null,
+      "#Daño adicional basado en un % del daño inicial, el daño triple se calcula en base al daño doble; %LimitDanD, doble daño; %LimitDanT, triple daño;"
+    ]
+  },
+  "2033": {
+    "name": "Daño+",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "%TasaF",
+      "%Calificado",
+      "%RateSpellF",
+      "%RateSpellM",
+      null,
+      null,
+      "#Valores positivos, mayor daño enviado; Valores negativos, daño reducido enviado"
+    ]
+  },
+  "2034": {
+    "name": "DañoRecbdo",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "%TasaF",
+      "%Calificado",
+      "%RateSpellF",
+      "%RateSpellM",
+      null,
+      null,
+      "#Valores Positivos, Mayor daño recibido; Valores negativos, daño reducido recibido"
+    ]
+  },
+  "2035": {
+    "name": "DañoNormal",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#Valores positivos, mayor daño de ataque básico enviado; Valores negativos, daño de ataque básico reducido enviado"
+    ]
+  },
+  "2036": {
+    "name": "DmgRcbdNormal",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#Valores positivos, mayor daño de ataque básico recibido; Valores negativos, daño de ataque básico reducido recibido"
+    ]
+  },
+  "2037": {
+    "name": "Reflexionar",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "%TasaF",
+      "%daño",
+      "%TasaM",
+      "%dañoM",
+      null,
+      null,
+      "#Reflexiona sobre daños físicos y mágicos"
+    ]
+  },
+  "2038": {
+    "name": "sanar",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      null,
+      "%HealRecb",
+      null,
+      "%curarenviar",
+      null,
+      null,
+      "#ValoresPositivos, Aumenta el % de curación recibida y enviada; Valores Negativos, reduce el % de curación recibida y enviada"
+    ]
+  },
+  "2039": {
+    "name": "daño verdadero",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "%LimitDan",
+      null,
+      null,
+      null,
+      null,
+      "#Agrega daño verdadero basado en un % de probabilidad de golpe"
+    ]
+  },
+  "2040": {
+    "name": "TrueDmgBásico",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "%LimitDan",
+      null,
+      null,
+      null,
+      null,
+      "#Los ataques básicos tienen un % de probabilidad de agregar daño verdadero"
+    ]
+  },
+  "2041": {
+    "name": "TasaAtkCrit",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "TasaCritDmgF",
+      "TasaCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Probabilidad de crítico"
+    ]
+  },
+  "2042": {
+    "name": "ReducirRateCrit",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "TasaCritDmgF",
+      "TasaCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Posibilidad de recibir crítico"
+    ]
+  },
+  "2043": {
+    "name": "DañoCrítico+",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "TasaCritDmgF",
+      "TasaCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Daño crítico"
+    ]
+  },
+  "2044": {
+    "name": "RecbdDmgCrit",
+    "group": "Daño",
+    "status": "OK",
+    "params": [
+      "TasaCritDmgF",
+      "TasaCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Daños críticos recibidos"
+    ]
+  },
+  "2050": {
+    "name": "LímiteMovSpeed",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "Valor",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Limitador de velocidad de movimiento, el valor es 10 para movimiento normal"
+    ]
+  },
+  "2051": {
+    "name": "Bonificación de velocidad de movimiento",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "%Valor",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Bono de velocidad de movimiento. + Aumentos; - Disminución"
+    ]
+  },
+  "2052": {
+    "name": "Bonificación de velocidad de ataque",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "%Valor",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Los valores positivos reducen la velocidad de ataque."
+    ]
+  },
+  "2053": {
+    "name": "Bonificación de velocidad del reparto",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "%Valor",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Los valores positivos reducen la velocidad de activación"
+    ]
+  },
+  "2054": {
+    "name": "Bonificación de velocidad de ataque",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "%Valor",
+      "%Valor",
+      null,
+      null,
+      null,
+      null,
+      "#Valores positivos, reduce la velocidad de ataque a distancia]"
+    ]
+  },
+  "2055": {
+    "name": "Tipo de aturdimiento",
+    "group": "Velocidad",
+    "status": "OK",
+    "params": [
+      "Sin movimiento",
+      "NoAtk",
+      "NoUseSkillF",
+      "NoUseSkillM",
+      "Artículo sin uso",
+      null,
+      "#0 deshabilitado, 1 habilitado; Si todos han activado EVA es 0"
+    ]
+  },
+  "2056": {
+    "name": "HPHarmShieldPorMP",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "Tarifa",
+      "ID de encantamiento",
+      "equipo",
+      "ID de encantamiento",
+      "equipo",
+      "#Posibilidad de bloquear el daño a HP, pero en su lugar consume MP; el bloque se rompe cuando se acaba el maná; Si el escudo se rompe, invoca el encantamiento en el 3er parámetro, si el bloqueo no ha terminado, invoca un encantamiento en el 5to parámetro"
+    ]
+  },
+  "2057": {
+    "name": "CurarEscudoFinCurar",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "Tarifa",
+      "Objetivo",
+      "% de tasa de curación",
+      "Objetivo",
+      "% de tasa de curación",
+      "#Posibilidad de bloquear la curación del objetivo, de autocurarse al final del Efecto... si el escudo se agota, llama a los parámetros 3 y 4; si el bloque está activo al final del encantamiento, llame a los parámetros 5 y 6; objetivo 0 por defecto"
+    ]
+  },
+  "2059": {
+    "name": "HealSheild",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "Tarifa",
+      "ID de encantamiento",
+      "equipo",
+      "ID de encantamiento",
+      "equipo",
+      "#Posibilidad de absorber la curación del objetivo, si el escudo se rompe, invoca el encantamiento en el 3er parámetro, si el bloqueo no ha terminado, invoca un encantamiento en el 5to parámetro"
+    ]
+  },
+  "2060": {
+    "name": "HealTimesEscudo",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "Tarifa",
+      "Objetivo",
+      "% de tasa de curación",
+      "Objetivo",
+      "% de tasa de curación",
+      "# Posibilidad de absorber curación en N veces, si el escudo se agota, llame a los parámetros 3 y 4; si el bloque está activo al final del encantamiento, llame a los parámetros 5 y 6; objetivo 0 por defecto"
+    ]
+  },
+  "2061": {
+    "name": "CastFailRate",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "fisico",
+      "Magia",
+      "aficionado",
+      "Restaurar",
+      "Todos",
+      null,
+      "#Probabilidad de reprobar una habilidad, en %"
+    ]
+  },
+  "2062": {
+    "name": "Prohibir hechizo",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "CuraciónDiscurso",
+      "BuffSpell",
+      null,
+      null,
+      null,
+      null,
+      "#Probabilidad de fallar en una cura o mejora, en %"
+    ]
+  },
+  "2063": {
+    "name": "BuffSpellDmg",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "1Hechizo",
+      "2Hechizo",
+      "3Hechizo",
+      "4Hechizo",
+      "5Hechizo",
+      "cantidad",
+      "#Agrega más daño en puntos de hechizo;"
+    ]
+  },
+  "2064": {
+    "name": "BuffSpellDmg%",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "1Hechizo",
+      "2Hechizo",
+      "3Hechizo",
+      "4Hechizo",
+      "5Hechizo",
+      "%Daño",
+      "#Agrega más % de daño al hechizo;"
+    ]
+  },
+  "2065": {
+    "name": "BuffSpellTime",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "1Hechizo",
+      "2Hechizo",
+      "3Hechizo",
+      "4Hechizo",
+      "5Hechizo",
+      "equipo",
+      "#Agregar más tiempo en Spell; Unidad de tiempo, 1 equivale a 0,2s"
+    ]
+  },
+  "2066": {
+    "name": "BuffSpellEncnt",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "1Hechizo",
+      "Encht1",
+      "2Hechizo",
+      "Encht2",
+      "3Hechizo",
+      "Encht3",
+      "#Modificador de hechizo, usando otro encantamiento"
+    ]
+  },
+  "2067": {
+    "name": "Tasa de transmisión",
+    "group": "Hechizos",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Reduce la posibilidad de ser interrumpido en %"
+    ]
+  },
+  "2068": {
+    "name": "Escudo_HP",
+    "group": "Escudo_HP",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "%Tasa",
+      "ID de encantamiento",
+      "equipo",
+      "ID de encantamiento",
+      "equipo",
+      "#bloquea una cantidad de daño a HP, si el escudo se rompe, invoca el encantamiento en el 3er parámetro, si el bloqueo no ha terminado, invoca un encantamiento en el 5to parámetro"
+    ]
+  },
+  "2069": {
+    "name": "HP_Shield-xNumb",
+    "group": "Escudo_HP",
+    "status": "OK",
+    "params": [
+      "XQnt",
+      "%Tasa",
+      "ID de encantamiento",
+      "equipo",
+      "ID de encantamiento",
+      "equipo",
+      "#bloquea el daño a HP en un número de veces con %, si el escudo se rompe, invoca el encantamiento en el 3er parámetro, si el bloqueo no ha terminado, invoca un encantamiento en el 5to parámetro"
+    ]
+  },
+  "2072": {
+    "name": "Invocar mascota",
+    "group": "Invocar",
+    "status": "OK",
+    "params": [
+      "LvDif",
+      "inicio",
+      "Fin",
+      "ID de efecto",
+      "EfectoAltura",
+      "Tótem",
+      "#Invocar una mascota; LvDif, diferencia entre el lv de la mascota en relación al lanzador; init, id del monstruo inicial; fin, altura del id del monstruo finalAltura del efecto en relación con la mascota en la que se ejecutará el ID del efecto; TotemSummon, 0 desactivado, 1 activado"
+    ]
+  },
+  "2073": {
+    "name": "HPWarmShield",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "%Tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      "#bloquea el daño a HP en un número de veces, si el escudo se rompe dentro del tiempo estimado, llama al encantamiento en el 3er parámetro. parámetro 5 tipo de daño (0 todo, 1 físico, 2 mágico)"
+    ]
+  },
+  "2074": {
+    "name": "HPShieldCount",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "%Daño",
+      "EnchantID-roto",
+      "equipo",
+      "Tipo de daño",
+      null,
+      "#bloquea el daño a HP varias veces con %, si el escudo se rompe dentro del tiempo estimado, invoca el encantamiento en el 3er parámetro. parámetro 5 tipo de daño (0 todo, 1 físico, 2 mágico)"
+    ]
+  },
+  "2075": {
+    "name": "escudodelamuerte",
+    "group": "Escudo",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "regeneraciónHP%",
+      "EnchantID-roto",
+      "equipo",
+      null,
+      null,
+      "#bloquea la muerte, si tiene éxito, llama a encantar en param3"
+    ]
+  },
+  "2081": {
+    "name": "AttBase",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "FUE",
+      "VIT",
+      "ENT",
+      "VON",
+      "AGI",
+      null,
+      "#Atributos base en Qnt"
+    ]
+  },
+  "2082": {
+    "name": "AttrbAtqDef",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "Atk-F",
+      "Atk-D",
+      "Def-F",
+      "Pulsar-F",
+      "Golpear-D",
+      "Eva",
+      "#Atributos de Ataque, Defensa, Golpe; Física y Distancia, Evasión"
+    ]
+  },
+  "2083": {
+    "name": "AttrbAtqDef%",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "%Atk-F",
+      "%Atk-D",
+      "%Def-F",
+      "% Golpe-F",
+      "% Golpe-D",
+      "%EVA",
+      "#Atributos de Ataque, Defensa, Golpe; Física y Distancia, Evasión en %"
+    ]
+  },
+  "2084": {
+    "name": "AttrbAtqDefM",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "Atk-M",
+      "Def-M",
+      null,
+      null,
+      null,
+      null,
+      "#Atributos mágicos de ataque y defensa"
+    ]
+  },
+  "2085": {
+    "name": "AttrbAtqDefM%",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "%Atq-M",
+      "%Def-M",
+      null,
+      null,
+      null,
+      null,
+      "#Atributos mágicos de ataque y defensa en %"
+    ]
+  },
+  "2086": {
+    "name": "AtributoDef%",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "%definición",
+      "% Golpe-F",
+      "% Golpe-D",
+      "%EVA",
+      "Comprobar nivel",
+      null,
+      "#Atributos de defensa, golpe; Evasión física y a distancia en % para un nivel determinado"
+    ]
+  },
+  "2087": {
+    "name": "AttrbStatus%",
+    "group": "Estado",
+    "status": "OK",
+    "params": [
+      "%STR",
+      "%VIT",
+      "%INT",
+      "% VON",
+      "%AGI",
+      null,
+      "#Atributos base en %total"
+    ]
+  },
+  "2091": {
+    "name": "ResistirDmg1",
+    "group": "Resistencia",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "SantoQnt",
+      "%Tasa",
+      "DarkQnt",
+      "%Tasa",
+      "NaturalezaQnt",
+      "#Posibilidad de infligir daño físico de Luz, Oscuridad y Natural"
+    ]
+  },
+  "2092": {
+    "name": "resistirdmg2",
+    "group": "Resistencia",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "RadioQnt",
+      "%Tasa",
+      "FuegoQnt",
+      "%Tasa",
+      "hieloqnt",
+      "#Oportunidad de infligir daño físico eléctrico, de fuego y de hielo."
+    ]
+  },
+  "2093": {
+    "name": "ResistirDmgMagic1",
+    "group": "Resistencia",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "SantoQnt",
+      "%Tasa",
+      "DarkQnt",
+      "%Tasa",
+      "NaturalezaQnt",
+      "#Oportunidad de infligir daño mágico claro, oscuro y natural"
+    ]
+  },
+  "2094": {
+    "name": "ResistirDmgMagic2",
+    "group": "Resistencia",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "RadioQnt",
+      "%Tasa",
+      "FuegoQnt",
+      "%Tasa",
+      "hieloqnt",
+      "#Oportunidad de infligir daño mágico eléctrico, de fuego y de hielo"
+    ]
+  },
+  "2095": {
+    "name": "Tasa de resistencia%",
+    "group": "Resistencia",
+    "status": "OK",
+    "params": [
+      "santo",
+      "oscuro",
+      "naturaleza",
+      "trueno",
+      "fuego",
+      "Hielo",
+      "#% Resistencia"
+    ]
+  },
+  "2101": {
+    "name": "Dmg1 especial",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "BestaQnt",
+      "%Tasa",
+      "PlantaQnt",
+      "%Tasa",
+      "HumanQnt",
+      "#Posibilidad de daño físico contra animales, plantas y humanoides."
+    ]
+  },
+  "2102": {
+    "name": "EspecialDmg2",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "ElementoQnt",
+      "%Tasa",
+      "MechaQnt",
+      null,
+      null,
+      "#Posibilidad de daño físico contra Elementales y Máquinas."
+    ]
+  },
+  "2103": {
+    "name": "EspecialDmg3",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "Tasa % de ZumbiQnt",
+      "demonio",
+      null,
+      null,
+      "#Posibilidad de daño físico contra muertos vivientes y demonios."
+    ]
+  },
+  "2104": {
+    "name": "EspecialDmgMagic1",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "BestaQnt",
+      "%Tasa",
+      "PlantaQnt",
+      "%Tasa",
+      "HumanQnt",
+      "#Posibilidad de daño mágico contra animales, plantas y humanoides."
+    ]
+  },
+  "2105": {
+    "name": "EspecialDmgMagic2",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "ElementoQnt",
+      "%Tasa",
+      "MechaQnt",
+      null,
+      null,
+      "#Posibilidad de daño mágico contra Elementales y Máquinas."
+    ]
+  },
+  "2106": {
+    "name": "EspecialDmgMagic3",
+    "group": "Tipos especiales",
+    "status": "OK",
+    "params": [
+      "%Tasa",
+      "ZumbiQnt",
+      "%Tasa",
+      "demonio",
+      null,
+      null,
+      "#Posibilidad de daño mágico contra muertos vivientes y demonios."
+    ]
+  },
+  "2108": {
+    "name": "%DmgWeapTypes",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "BrazoSimples",
+      "BrazoDoble",
+      "Canon",
+      "Katana",
+      "cristal",
+      "#Daño físico en %, cuando está equipado con Mecha Arma 1 y 2 manos, Cañón, Katana y Cristal"
+    ]
+  },
+  "2109": {
+    "name": "Tipos de armas CritDmg",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "BrazoSimples",
+      "BrazoDoble",
+      "Canon",
+      "Katana",
+      "cristal",
+      "#Probabilidad de crítico en %, cuando está equipado con Mecha Arma 1 y 2 manos, Cañón, Katana y Cristal"
+    ]
+  },
+  "2111": {
+    "name": "Tipos de armas Dmg",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "1Espada",
+      "1martillo",
+      "1hacha",
+      "2Espada",
+      "2hacha",
+      "2martillo",
+      "#Daño físico en %, cuando está equipado con espada, martillo y hacha de 1 y 2 manos"
+    ]
+  },
+  "2112": {
+    "name": "Tipos de armas HitCrit",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "1Espada",
+      "1martillo",
+      "1hacha",
+      "2Espada",
+      "2hacha",
+      "2martillo",
+      "#Probabilidad de crítico en %, cuando está equipado con espada, martillo y hacha de 1 y 2 manos"
+    ]
+  },
+  "2113": {
+    "name": "Tipos de armas CritDmg",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "1Espada",
+      "1martillo",
+      "1hacha",
+      "2Espada",
+      "2hacha",
+      "2martillo",
+      "#Daño crítico físico en %, cuando está equipado con espada, martillo y hacha de 1 y 2 manos"
+    ]
+  },
+  "2115": {
+    "name": "Tipos de DmgWeapD",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "Arco",
+      "pistola",
+      null,
+      null,
+      null,
+      null,
+      "#Daño físico en %, cuando está equipado con arco y arma de fuego"
+    ]
+  },
+  "2116": {
+    "name": "HitCritWeapD",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "Arco",
+      "pistola",
+      null,
+      null,
+      null,
+      null,
+      "#Probabilidad de crítico en %, cuando está equipado con arco y arma de fuego"
+    ]
+  },
+  "2117": {
+    "name": "EscudoArma",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "bloquear",
+      "ReducirBloqueDmg",
+      "definición",
+      "DefM",
+      null,
+      null,
+      "#Parámetros para equipado con escudo"
+    ]
+  },
+  "2118": {
+    "name": "Dos ManosArma",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "AtakVelocidad",
+      "Daño",
+      "Golpear",
+      "puedeUse2HW",
+      null,
+      null,
+      "#Parámetros para 2 armas de 1 mano, canUse2HW; 0 activado, 1 desactivado."
+    ]
+  },
+  "2119": {
+    "name": "ArmaPersonal",
+    "group": "DañoArma",
+    "status": "OK",
+    "params": [
+      "DmgConPersonal",
+      "ReducirDmgConPersonal",
+      null,
+      null,
+      null,
+      null,
+      "#Parámetros para personal equipado; Daños y Daños Físicos recibidos"
+    ]
+  },
+  "2121": {
+    "name": "Agro",
+    "group": "Agro",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia en número de puntos"
+    ]
+  },
+  "2122": {
+    "name": "Tasa de agresión",
+    "group": "Agro",
+    "status": "OK",
+    "params": [
+      "Cantidad%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia en porcentaje de puntos"
+    ]
+  },
+  "2131": {
+    "name": "Transformar+Camufl",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "ID de lista de monstruos",
+      "Tipo de disfraz",
+      "%Tasa",
+      "muerte falsa",
+      null,
+      null,
+      "#Transforma el objetivo y puede agregar efecto de camuflaje, dependiendo del tipo de mob, que van de 1 a 8, la probabilidad de que el mob ataque; fakedie No estoy seguro, pero hace que parezca que el objetivo está muerto."
+    ]
+  },
+  "2132": {
+    "name": "TransformarAleatorio",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "ID1",
+      "ID2",
+      "ID3",
+      "ID4",
+      "ID5",
+      "ID6",
+      "#Transforma el objetivo aleatoriamente entre los ID elegidos en MonsterList"
+    ]
+  },
+  "2133": {
+    "name": "Transformar sigilo",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "Distancia",
+      "LvDif",
+      "probabilidad",
+      "desaparecer",
+      null,
+      null,
+      "#Transforma el objetivo en sigilo, se puede detectar a distancia, dependiendo de la diferencia en el nivel del objetivo y la probabilidad."
+    ]
+  },
+  "2134": {
+    "name": "TransformarMontaje",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "Código de viaje",
+      "Ocultar arma",
+      "Código de asiento",
+      "combate",
+      "Pasajero",
+      null,
+      "#MonteTransformación; valores para combate, 1 verdadero; Los valores para Passager varían de 1 a 4."
+    ]
+  },
+  "2135": {
+    "name": "transformarmonstruo",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "ID de lista de monstruos",
+      "Alinear",
+      "AI_ID",
+      "Comprobar nivel",
+      null,
+      null,
+      "#Convierte al monstruo en aliado; Alinear, 1 normal, 2 salvaje, 3 npc, 4 jugador rojo, 5 jugador azul, 6 amistoso"
+    ]
+  },
+  "2136": {
+    "name": "Transformar jugador",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "ID de lista de monstruos",
+      "Tipo de formulario",
+      null,
+      null,
+      null,
+      null,
+      "#Tipo de formulario, valores; 0 humano, 1 buitre, 2 lobo, 3 gorila, 4 Furtivo, 5 NoCheck, 6 Máquina."
+    ]
+  },
+  "2137": {
+    "name": "TransformarMiedo",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "ID de lista de monstruos",
+      "Comprobar nivel",
+      null,
+      null,
+      null,
+      null,
+      "#Transformar el objetivo según su lv min, si no tengo nada en Param1, Aplicar Miedo"
+    ]
+  },
+  "2139": {
+    "name": "Transformar hechizos",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "Hechizo1",
+      "Hechizo2",
+      "Hechizo3",
+      "Hechizo4",
+      "Hechizo5",
+      "MostrarCrtl",
+      "#Transformar barra de hechizos; ShowCrtl, 0 reemplaza la barra, 1 bloquea la barra, 2 reemplaza la barra"
+    ]
+  },
+  "2142": {
+    "name": "Transformar hechizo",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "Hechizo1",
+      "Hechizo2",
+      "Hechizo3",
+      "Hechizo4",
+      "Hechizo5",
+      "Hechizo6",
+      "#transforma un hechizo específico en otro, hasta 3 hechizos"
+    ]
+  },
+  "2143": {
+    "name": "TransformTrone",
+    "group": "Transformar/Caouflages/Hechizos",
+    "status": "OK",
+    "params": [
+      "Código trono",
+      "Ocultar arma",
+      "Código de asiento",
+      "Pasajero",
+      null,
+      null,
+      "#Transformación de Tronos; Los valores para Passager varían de 1 a 4."
+    ]
+  },
+  "2144": {
+    "name": "Habilidad",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de un crítico F"
+    ]
+  },
+  "2145": {
+    "name": "HabilidadMagia",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de un M-crit"
+    ]
+  },
+  "2146": {
+    "name": "HabilidadEVA",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de un EVA"
+    ]
+  },
+  "2147": {
+    "name": "Bloque de habilidad",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de un bloqueo"
+    ]
+  },
+  "2148": {
+    "name": "HabilidadDmgF",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de recibir un daño físico crítico"
+    ]
+  },
+  "2149": {
+    "name": "HabilidadDmgM",
+    "group": "habilidad",
+    "status": "OK",
+    "params": [
+      "% tasa",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      null,
+      "#posibilidad de activar un encantamiento durante un tiempo determinado después de recibir daño crítico mágico"
+    ]
+  },
+  "2901": {
+    "name": "Tasa de caída",
+    "group": "EXP/GOTA",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Aumentar la tasa de caída"
+    ]
+  },
+  "2902": {
+    "name": "Tasa de caída",
+    "group": "EXP/GOTA",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Aumentar la tasa de caída"
+    ]
+  },
+  "2911": {
+    "name": "tasa de expansión",
+    "group": "EXP/GOTA",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Aumenta la tasa de EXP"
+    ]
+  },
+  "2912": {
+    "name": "Bloque Exp.",
+    "group": "EXP/GOTA",
+    "status": "OK",
+    "params": [
+      "Exp.",
+      "AAexp",
+      "ArmaExp",
+      "MonteEpx",
+      null,
+      null,
+      "Bloqueador #EXP"
+    ]
+  },
+  "2921": {
+    "name": "Bonificación de éxito",
+    "group": "Bonificación de elfo",
+    "status": "OK",
+    "params": [
+      "%Alq",
+      "Arma%",
+      "Armadura%",
+      "Sprite%",
+      null,
+      null,
+      "#Aumentar la síntesis de elementos de personajes, la tasa de éxito de actualización de equipos y la tasa de éxito de sprites"
+    ]
+  },
+  "2922": {
+    "name": "Bonificación de tiempo de trabajo",
+    "group": "Bonificación de elfo",
+    "status": "OK",
+    "params": [
+      "Colección",
+      "Tela",
+      "tren",
+      null,
+      null,
+      null,
+      "#Reducción del tiempo de recolección, fabricación y entrenamiento de sprites."
+    ]
+  },
+  "2931": {
+    "name": "MeditarExpBonus",
+    "group": "meditar",
+    "status": "OK",
+    "params": [
+      "Tipo EXP",
+      "Tasa%",
+      "Tipo",
+      null,
+      null,
+      null,
+      "#Meditación, tipo EXP; 1 exp, 2 AAexp, 3 WeaponExp, 4 renacer; Tipo, variación del tipo de piedra."
+    ]
+  },
+  "2932": {
+    "name": "MeditarFamaBonus",
+    "group": "meditar",
+    "status": "OK",
+    "params": [
+      "IDFama",
+      "punto",
+      "Tasa%",
+      "maxfama",
+      null,
+      null,
+      "#Meditación de la Fama, Tasa; oportunidad de ganar puntos cada 3 segundos"
+    ]
+  },
+  "2933": {
+    "name": "Sistema VIP",
+    "group": "vip",
+    "status": "NO",
+    "params": [
+      "TipoVIP",
+      null,
+      null,
+      null,
+      null,
+      "#sistemavip"
+    ]
+  },
+  "2934": {
+    "name": "ElfOil",
+    "group": "JcJ",
+    "status": "OK",
+    "params": [
+      "Tipo",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Petróleo para evitar pérdida de equipos en PK; Tipo> 0 solo un solo equipo, 1 todos los equipos, 2 todos los equipos de Kuso, 3 todos los equipos incluido kuso, 4 el mismo efecto, pero con tiempo"
+    ]
+  },
+  "2943": {
+    "name": "GanarPuntoExt",
+    "group": "Puntos extremos",
+    "status": "OK",
+    "params": [
+      "IDenchant",
+      "Límite máximo",
+      "LvLímite",
+      "InicioLv",
+      null,
+      null,
+      "#Ofrece puntos extremos, con límite máximo, límite por nivel, Lv inicial"
+    ]
+  },
+  "2944": {
+    "name": "caña de pescar",
+    "group": "pesca",
+    "status": "NO",
+    "params": [
+      "ID de caída",
+      "ID de caída automática",
+      null,
+      null,
+      null,
+      "PescadoTierraÍndice",
+      "#pesca en la isla"
+    ]
+  },
+  "2945": {
+    "name": "ExpBonusArma",
+    "group": "EXP / DROP / RESETarma",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "Valor",
+      null,
+      null,
+      null,
+      null,
+      "# Mayor probabilidad de ganar XP al equipar"
+    ]
+  },
+  "2947": {
+    "name": "Restablecer arma",
+    "group": "EXP / DROP / RESETarma",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      "Nivel",
+      "Tipo",
+      "nivelarma",
+      null,
+      null,
+      "#Restablecer el nivel de crecimiento, los valores de crecimiento y la dirección de crecimiento del equipo seleccionado."
+    ]
+  },
+  "2948": {
+    "name": "ExpBonusMount",
+    "group": "EXP / DROP / RESETarma",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "Valor",
+      null,
+      null,
+      null,
+      null,
+      "#Mayor probabilidad de ganar XP en la montaña"
+    ]
+  },
+  "2950": {
+    "name": "Restablecer montaje",
+    "group": "EXP / DROP / RESETarma",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      "Nivel",
+      null,
+      null,
+      null,
+      null,
+      "#Redefinir el nivel de crecimiento, los valores de crecimiento y la dirección de crecimiento de la montura seleccionada."
+    ]
+  },
+  "2951": {
+    "name": "CajaSprit",
+    "group": "EXP / DROP / RESETarma",
+    "status": "OK",
+    "params": [
+      "TipoLv",
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      "#Aumentar el nivel de la habilidad del sprite, 0 básico, 1 intermedio, 2 avanzado"
+    ]
+  },
+  "2952": {
+    "name": "Sistema VIP",
+    "group": "vip",
+    "status": "OK",
+    "params": [
+      "TipoVIP",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#sistema vip"
+    ]
+  },
+  "2954": {
+    "name": "Bonificación de ganancia",
+    "group": "BonificaciónOro/Fama",
+    "status": "OK",
+    "params": [
+      "Tipomoneda",
+      "Alinear ID",
+      "Valor",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      "#TipoMoneda; 0 oro, 1 fama; Para el oro, AlignID será 1; si el parámetro 6 está activado (igual a 1), llama a encantar con tiempo en los parámetros 4 y 5"
+    ]
+  },
+  "3001": {
+    "name": "TickDmgHP",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      "#Valores positivos, regeneración; valores negativos, veneno"
+    ]
+  },
+  "3002": {
+    "name": "TasaTickHP",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "HPCheck%",
+      "% tasa",
+      "mín.",
+      "máx.",
+      null,
+      null,
+      "#Comprueba %HP y hay un % de probabilidad de que cada acción restablezca la salud mínima/máxima."
+    ]
+  },
+  "3011": {
+    "name": "TickDmgMP",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "mín.",
+      "máx.",
+      "% mín.",
+      "% máx.",
+      null,
+      null,
+      "#Valores positivos, regeneración; valores negativos, veneno"
+    ]
+  },
+  "3012": {
+    "name": "TarifaTickMP",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "MPCheck%",
+      "% tasa",
+      "mín.",
+      "máx.",
+      null,
+      null,
+      "#Compruebe %MP y existe un % de posibilidades de que cada acción restablezca la salud mínima/máxima."
+    ]
+  },
+  "3021": {
+    "name": "HPStealhTIC",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "Valor HP",
+      "% tasa",
+      null,
+      null,
+      null,
+      null,
+      "#Roba HP del objetivo por tick según un porcentaje"
+    ]
+  },
+  "3022": {
+    "name": "MPStealhTic",
+    "group": "Marca de HP/MP",
+    "status": "OK",
+    "params": [
+      "Valor MP",
+      "% tasa",
+      null,
+      null,
+      null,
+      null,
+      "#Roba MP del objetivo por tick según un porcentaje"
+    ]
+  },
+  "3101": {
+    "name": "comprobar",
+    "group": "Condición/Comprobación",
+    "status": "OK",
+    "params": [
+      "EnchantCheckType",
+      "HPCheck",
+      null,
+      null,
+      null,
+      null,
+      "#Condicional de Encantamientos y HP; CheckType es Hiword"
+    ]
+  },
+  "3102": {
+    "name": "comprobar",
+    "group": "Condición/Comprobación",
+    "status": "OK",
+    "params": [
+      "EnchantCheckType",
+      "HPCheck",
+      null,
+      null,
+      null,
+      null,
+      "#Condicional de Encantamientos y HP; CheckType es Hiword"
+    ]
+  },
+  "3901": {
+    "name": "BFexp",
+    "group": "BFexp",
+    "status": "OK",
+    "params": [
+      "EXP",
+      "AAEXP",
+      null,
+      null,
+      null,
+      null,
+      "#Gana EXP en la arena"
+    ]
+  },
+  "4001": {
+    "name": "EnergíaEstado de ánimo%",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IntimidadMin",
+      "yo_max",
+      "E_Mín",
+      "E_Max",
+      "M_Mín",
+      "M_Máx",
+      "#Acepta valores positivos y negativos, para ganar o reducir la intimidad (I), Energía (E) y Humor (M) del Sprite en %"
+    ]
+  },
+  "4011": {
+    "name": "Habilidad familiar_N",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDSkill",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Posibles identificaciones, 1 mina, 2 cosecha, 3 caza, 4 reciclaje"
+    ]
+  },
+  "4012": {
+    "name": "Habilidad familiar_W",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDSkill",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID posible, 5 espada, 6 Hacha, 7 Martillo, 8 Arco, 9 Pistola, 10 Bastón, 11 Escudo, 12 Reliquia, 18 MechaP, 17 Cañón, 20 Katana, 21 CristalKey"
+    ]
+  },
+  "4013": {
+    "name": "Habilidad familiar_A",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDSkill",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID posible, 13 Guerrero, 14 Arquero, 15 Mago, 16 Sabio, 19 Mecha, 22 Nómada"
+    ]
+  },
+  "4014": {
+    "name": "Habilidad familiar_T",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDSkill",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Posible identificación, 75 viajes"
+    ]
+  },
+  "4021": {
+    "name": "llamar",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDElf",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Invocar el sprite por ID"
+    ]
+  },
+  "4031": {
+    "name": "acción",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "IDacciónElf",
+      "ID de efecto",
+      "altura",
+      null,
+      null,
+      null,
+      "#Acción en Sprite"
+    ]
+  },
+  "4041": {
+    "name": "ParejaEstado De Ánimo",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Qnt_Partner1",
+      "Qnt_Partner2",
+      null,
+      null,
+      null,
+      null,
+      "#Mejor Humor de la pareja"
+    ]
+  },
+  "5001": {
+    "name": "Recoger tiempo",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Equipo(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Reduce el tiempo de recolección de Sprites"
+    ]
+  },
+  "5002": {
+    "name": "Recoger Bonificación",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "QntMin",
+      "QntPlanta",
+      "QntHunt",
+      "QntRec",
+      null,
+      "#Aumenta la cantidad de artículos recolectados en Minería, Búsqueda de alimento, Caza y Reciclaje, respectivamente."
+    ]
+  },
+  "5003": {
+    "name": "Tarifa de recaudación",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#aumentar la tasa de recaudación"
+    ]
+  },
+  "5004": {
+    "name": "Skill_LvBonusN",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Minería",
+      "forraje",
+      "cazar",
+      "reciclar",
+      null,
+      null,
+      "#Aumenta el nivel de habilidad del sprite"
+    ]
+  },
+  "5005": {
+    "name": "Tarifa de recaudación",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "Qnt_Gas",
+      "Qnt_pigmentos",
+      null,
+      null,
+      null,
+      "#Aumenta la cantidad de elementos recolectados, pigmentos y gas."
+    ]
+  },
+  "5006": {
+    "name": "Bonificación de nivel_habilidad",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "gasolina",
+      "pigmentos",
+      null,
+      null,
+      null,
+      null,
+      "#Aumenta el nivel de habilidad, pigmentos y Gas del sprite."
+    ]
+  },
+  "5011": {
+    "name": "Tiempo de producción",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Equipo(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Reduce el tiempo de producción de Sprites"
+    ]
+  },
+  "5012": {
+    "name": "Bonificación de tasa de producción",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "TarifaProduc",
+      "LvMáx.",
+      null,
+      null,
+      null,
+      null,
+      "#SBK"
+    ]
+  },
+  "5013": {
+    "name": "Skill_LvBonus_W",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "espada",
+      "ejes",
+      "Martillo",
+      "Arco",
+      "pistola",
+      "Personal",
+      "#Aumenta el nivel de habilidad de fabricación de armas del sprite."
+    ]
+  },
+  "5014": {
+    "name": "Skill_LvBonus_A",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Escudo",
+      "reliquia",
+      "guerrero",
+      "arquero",
+      "mago",
+      "sabio",
+      "#Aumenta el nivel de habilidad de fabricación de armaduras del sprite."
+    ]
+  },
+  "5015": {
+    "name": "Bonificación de nivel_habilidad",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "MecWeapon",
+      "Canon",
+      "MecArmor",
+      "kate",
+      "cristo",
+      "nómada",
+      "#Aumenta el nivel de habilidad de fabricación de armas y armaduras de las clases Maquinista y Viajero"
+    ]
+  },
+  "5016": {
+    "name": "Skill_LvBonus_T",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "alma",
+      "Mapas",
+      null,
+      null,
+      null,
+      null,
+      "#Aumentar el nivel de habilidad del alma y el mapa"
+    ]
+  },
+  "5017": {
+    "name": "Bonificación de tasa de producción",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "TarifaProduc",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#SBK de SoulCristal"
+    ]
+  },
+  "5021": {
+    "name": "BonificaciónEXPtren",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "Qnt_EXP",
+      null,
+      null,
+      null,
+      null,
+      "#% de probabilidad de obtener EXP adicional al entrenar"
+    ]
+  },
+  "5022": {
+    "name": "GuardarMaterial",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Tasa%",
+      "Cantidad_Material",
+      null,
+      null,
+      null,
+      null,
+      "#posibilidad % de ahorrar Materiales al entrenar"
+    ]
+  },
+  "5023": {
+    "name": "TrenTiempoReducir",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "Equipo(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Reduce el tiempo de entrenamiento de sprites"
+    ]
+  },
+  "5025": {
+    "name": "meditar",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "ID_habilidad",
+      "exptick",
+      "Tasa%",
+      null,
+      null,
+      null,
+      "#Meditación de sprites"
+    ]
+  },
+  "5028": {
+    "name": "CandyExp",
+    "group": "duende",
+    "status": "OK",
+    "params": [
+      "ID_habilidad",
+      "Qnt_Exp",
+      null,
+      null,
+      null,
+      null,
+      "#exp habilidad consumible sprite"
+    ]
+  },
+  "6001": {
+    "name": "ReComboEquipo",
+    "group": "Restablecer arma",
+    "status": "OK",
+    "params": [
+      "Tipo de equipo",
+      "LvMaxZ",
+      null,
+      null,
+      null,
+      "#reset Encantamiento de equipo"
+    ]
+  },
+  "6002": {
+    "name": "Obtener hechizo",
+    "group": "Restablecer arma",
+    "status": "OK",
+    "params": [
+      "Spell_ID",
+      null,
+      null,
+      null,
+      null,
+      "#recebe Hechizo"
+    ]
+  },
+  "6003": {
+    "name": "Upanishads",
+    "group": "Restablecer arma",
+    "status": "OK",
+    "params": [
+      "Spell_ID",
+      null,
+      null,
+      null,
+      null,
+      "#recibir hechizos Upanishads (vocacional extremo)"
+    ]
+  },
+  "6021": {
+    "name": "Verificación condicional",
+    "group": "Condicional/Cheques",
+    "status": "OK",
+    "params": [
+      "monstruo",
+      "LvMín",
+      "LvMáx.",
+      "encantar",
+      "tipo monstruo",
+      "% de vida",
+      "#VodiccionesVarias"
+    ]
+  },
+  "6022": {
+    "name": "EnchantCheck",
+    "group": "Condicional/Cheques",
+    "status": "OK",
+    "params": [
+      "Encantar*ID",
+      "Encantar*ID",
+      null,
+      null,
+      null,
+      null,
+      "#Comprueba un encantamiento antes de aplicar otro."
+    ]
+  },
+  "6024": {
+    "name": "EnchantStckCheck",
+    "group": "Condicional/Cheques",
+    "status": "OK",
+    "params": [
+      "Encantar*ID",
+      "StckMin",
+      "StckMax",
+      "Encantar*ID",
+      "equipo",
+      null,
+      "#Comprueba la pila de un encantamiento y luego aplica otro."
+    ]
+  },
+  "6025": {
+    "name": "Comprobación de clase objetivo",
+    "group": "Condicional/Cheques",
+    "status": "OK",
+    "params": [
+      "Id_ClassMons",
+      "Objetivo",
+      null,
+      null,
+      null,
+      null,
+      "#Verificar claseMob"
+    ]
+  },
+  "7001": {
+    "name": "2objetivo",
+    "group": "efecto",
+    "status": "OK",
+    "params": [
+      "Tipo de destino",
+      "ID de destino",
+      "Distancia",
+      "EnchntID",
+      "equipo",
+      "Pila (?)",
+      "#Tipo de destino; 1 yo, 2 enemigo, 3 grupo de equipo, 4 alrededor/identificación del objetivo; 0 todos, 1 grupo de jugadores, 2 jugadores, 3 monstruos;"
+    ]
+  },
+  "7002": {
+    "name": "Para recortar",
+    "group": "efecto",
+    "status": "OK",
+    "params": [
+      "Tipo de destino",
+      "guardabosques",
+      "ID de encantamiento",
+      "equipo",
+      null,
+      null,
+      "#Efecto en las plantaciones, debe investigarse más a fondo"
+    ]
+  },
+  "7003": {
+    "name": "Para recortar",
+    "group": "efecto",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Efecto sobre las plantaciones"
+    ]
+  },
+  "7004": {
+    "name": "charla monstruosa",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "DiálogoID1",
+      "DiálogoID2",
+      "Enfriamiento",
+      "¿EncendidoApagado?",
+      null,
+      null,
+      "#Monster habla aleatoriamente, entre los ID de diálogo,"
+    ]
+  },
+  "7006": {
+    "name": "Obtener artículo",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "ID_Artículo",
+      "pila",
+      null,
+      null,
+      null,
+      null,
+      "#Recibir artículo"
+    ]
+  },
+  "7007": {
+    "name": "Hechizo de enfriamiento",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "Cambiar",
+      "Equipo(s)/10",
+      "1id",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#Reduce Habilidad cdr"
+    ]
+  },
+  "7008": {
+    "name": "SpellGrpEnfriamiento",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "Cambiar",
+      "Equipo(s)/10",
+      "1id",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#Reduce el cdr de habilidad del grupo"
+    ]
+  },
+  "7009": {
+    "name": "AñadirLogro",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "ID de logro",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Agregar un logro"
+    ]
+  },
+  "7010": {
+    "name": "EfectoSiguienteRandID",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "1id",
+      "2iD",
+      "3iD",
+      "4iD",
+      "5id",
+      "equipo",
+      "#Aplica un encantamiento aleatorio, dentro del tiempo."
+    ]
+  },
+  "7011": {
+    "name": "Denominación",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "Cambiar",
+      "ID de denominación",
+      null,
+      null,
+      null,
+      null,
+      "#Aplicar un título; 0 elimina, 1 agrega"
+    ]
+  },
+  "7101": {
+    "name": "%PARA->VIT",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transferir FOR a VIT"
+    ]
+  },
+  "7102": {
+    "name": "%AGI->VON",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transferir AGI a VON"
+    ]
+  },
+  "7103": {
+    "name": "CRIT->AtkVelocidad",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transfiere CRIT a velocidad de ataque"
+    ]
+  },
+  "7104": {
+    "name": "%INT->STR/AGI",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "TarifaPARA",
+      "Tasa AGI",
+      null,
+      null,
+      null,
+      null,
+      "#Transferir"
+    ]
+  },
+  "7105": {
+    "name": "%VON->VIT",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transferir VON a VIT"
+    ]
+  },
+  "7106": {
+    "name": "baseHPtransferencia",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "ATak",
+      "Ataque-D",
+      "Ataque-M",
+      "PARA",
+      "ENT",
+      "AGI",
+      "#Transfiere % de HP base a atributos en cada parámetro"
+    ]
+  },
+  "7107": {
+    "name": "transferencia de MPbase",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "ATak",
+      "Ataque-D",
+      "Ataque-M",
+      "PARA",
+      "ENT",
+      "AGI",
+      "#Transfiere % de MP base a atributos en cada parámetro"
+    ]
+  },
+  "7111": {
+    "name": "Transferir a mascota",
+    "group": "Transferencia de atributos",
+    "status": "OK",
+    "params": [
+      "HPmáx.",
+      "MPmáx.",
+      "Ataque-F",
+      "Ataque-M",
+      "Def-F",
+      "Def-M",
+      "#Transfiere % del estado de Pj a Pet"
+    ]
+  },
+  "8001": {
+    "name": "SíntesisSuerte",
+    "group": "Artículo afortunado",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Alquimia Tréboles"
+    ]
+  },
+  "8002": {
+    "name": "fuertetrébol",
+    "group": "Artículo afortunado",
+    "status": "OK",
+    "params": [
+      "Tarifa",
+      "vudú",
+      "¡desagradable!",
+      "LvMín",
+      "LvMáx.",
+      "Tipo",
+      "#Tréboles de fortificación; El vudú está activado, el elemento no desaparece después de +9; Tipo, 1 Despertar, 2 FortNormal, 3Notch"
+    ]
+  },
+  "8003": {
+    "name": "uknowEncantar",
+    "group": "Artículo afortunado",
+    "status": "NO",
+    "params": [
+      "#Sin información"
+    ]
+  },
+  "8005": {
+    "name": "Transferir",
+    "group": "Artículo afortunado",
+    "status": "NO",
+    "params": [
+      "#fuerte transferencia y piedra resonante, PRUEBA LOS CAMPOS"
+    ]
+  },
+  "8006": {
+    "name": "Piezas de arcilla",
+    "group": "Artículo afortunado",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#agrega piezas de alquimia a un objeto"
+    ]
+  },
+  "9003": {
+    "name": "aplausoelfo",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#hace que el sprite pierda habilidad"
+    ]
+  },
+  "9005": {
+    "name": "aplausoelfo",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#eliminar emblema de sprite"
+    ]
+  },
+  "9007": {
+    "name": "Bloquear artículo",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "Cambiar",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#bloquear elemento; 1 bloqueo, 2 desbloqueo"
+    ]
+  },
+  "9008": {
+    "name": "Megáfono",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Chama Megáfono"
+    ]
+  },
+  "9009": {
+    "name": "DesbloquearPersona",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "cantidad",
+      "#Desbloquear número de personajes"
+    ]
+  },
+  "9010": {
+    "name": "KitMakeElf",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Kit de maquillaje Sprite"
+    ]
+  },
+  "9011": {
+    "name": "KitMakePlayer",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Kit de maquillaje"
+    ]
+  },
+  "9012": {
+    "name": "QuitarPiedra",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Removedor de piedras resonantes"
+    ]
+  },
+  "9013": {
+    "name": "cambioSanto",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#No tengo idea de qué es esto...."
+    ]
+  },
+  "9014": {
+    "name": "restablecer RD",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#restablecer inicio de sesión diario"
+    ]
+  },
+  "9022": {
+    "name": "Tienda abierta",
+    "group": "Varios",
+    "status": "OK",
+    "params": [
+      "Tipo",
+      "ID_tienda",
+      "Nivel mínimo",
+      "Nivel máximo",
+      null,
+      null,
+      "#tiendaabierta"
+    ]
+  },
+  "9023": {
+    "name": "traje rojo",
+    "group": "Varios",
+    "status": "NO",
+    "params": [
+      "Tipo",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Encantador de piedras rúnicas"
+    ]
+  },
+  "9024": {
+    "name": "arcoiriscamino",
+    "group": "Varios",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Artículos para el Santuario Arco-Iris"
+    ]
+  },
+  "9025": {
+    "name": "almacristal",
+    "group": "Varios",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#CristalÁnima"
+    ]
+  },
+  "9026": {
+    "name": "Recuerdoestrella",
+    "group": "Varios",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#RecuerdoEncata"
+    ]
+  },
+  "9030": {
+    "name": "Conde+ArcoirisCarretera",
+    "group": "Varios",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Número de veces en Santuario Arco-Iris"
+    ]
+  },
+  "9200": {
+    "name": "Gremio de plantación",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "% de agua",
+      "% creciente",
+      "#También sirve para pescar"
+    ]
+  },
+  "9201": {
+    "name": "fertilizante",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "% creciente",
+      "#fertilizante"
+    ]
+  },
+  "9202": {
+    "name": "Fertilizante²",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "¡No!",
+      "#fertilizante de Fertilizante"
+    ]
+  },
+  "9204": {
+    "name": "MineríaSprite",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "#artículo para usar en la mina de la isla sprite"
+    ]
+  },
+  "9206": {
+    "name": "SpriteDrill",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "#taladro para el sprite mío"
+    ]
+  },
+  "9207": {
+    "name": "pesca",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "#alimentos para peces y ganado"
+    ]
+  },
+  "9300": {
+    "name": "pintura",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "#pinturas de sprites"
+    ]
+  },
+  "9301": {
+    "name": "Isla de reparación",
+    "group": "agricultura",
+    "status": "OK",
+    "params": [
+      "#Mazos de reparación de islas"
+    ]
+  }
+}

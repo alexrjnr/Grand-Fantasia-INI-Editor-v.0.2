@@ -1235,7 +1235,7 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
                 foreach (var (_, cb) in _opflagsPlusChecks)
                     cb.ToolTip = opPlusTooltip;
 
-                LoadIcon(GetValue(_currentRow, IDX_ICON));
+                LoadIcon(entry.Id);
 
                 _lastSelectedItemId = entry.Id;
                 _originalRowSnapshot = _currentRow.Select(s => s ?? string.Empty).ToList();
@@ -1549,29 +1549,45 @@ namespace GrandFantasiaINIEditor.Modules.ItemMall
             _lastSelectedItemId = null;
         }
 
-        private void LoadIcon(string iconName)
+        private void LoadIcon(string itemId)
         {
-            if (string.IsNullOrWhiteSpace(iconName))
+            if (string.IsNullOrWhiteSpace(itemId))
             {
                 if (ItemIcon != null) ItemIcon.Source = null;
                 return;
             }
 
-            if (iconCache.TryGetValue(iconName, out var cached))
+            // Get icon name from db (S_ItemMall.ini row)
+            if (db != null && db.Rows.TryGetValue(itemId, out var row) && row.Count > IDX_ICON)
             {
-                if (ItemIcon != null) ItemIcon.Source = cached;
-                return;
+                string iconName = row[IDX_ICON]?.Trim() ?? string.Empty;
+                if (!string.IsNullOrEmpty(iconName))
+                {
+                    string[] folders = {
+                        Path.Combine(clientPath, "data", "icon"),
+                        Path.Combine(clientPath, "Data", "icon"),
+                        Path.Combine(clientPath, "UI", "itemicon"),
+                        Path.Combine(clientPath, "ui", "itemicon"),
+                        Path.Combine(clientPath, "data", "item"),
+                        Path.Combine(clientPath, "Data", "item")
+                    };
+
+                    foreach (var folder in folders)
+                    {
+                        if (Directory.Exists(folder))
+                        {
+                            string path = Path.Combine(folder, iconName + ".dds");
+                            if (File.Exists(path))
+                            {
+                                if (ItemIcon != null) ItemIcon.Source = DdsLoader.Load(path);
+                                return;
+                            }
+                        }
+                    }
+                }
             }
 
-            string iconPath = Path.Combine(clientPath, "UI", "itemicon", iconName + ".dds");
-
-            var bitmap = DdsLoader.Load(iconPath);
-
-            if (bitmap != null)
-                iconCache[iconName] = bitmap;
-
-            if (ItemIcon != null)
-                ItemIcon.Source = bitmap;
+            if (ItemIcon != null) ItemIcon.Source = null;
         }
 
         private static void SetText(TextBox box, string value)

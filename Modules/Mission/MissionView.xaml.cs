@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Collections;
+using GrandFantasiaINIEditor.Core;
 
 namespace GrandFantasiaINIEditor.Modules.Mission
 {
@@ -156,7 +157,11 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             if (!int.TryParse(silver, out var p)) p = 0;
             if (!int.TryParse(bronze, out var b)) b = 0;
 
-            return $"G:{g} P:{p:D2} B:{b:D2}";
+            string format = LocalizationManager.Instance.GetLocalizedString("Mission.GoldFormat");
+            if (string.IsNullOrWhiteSpace(format))
+                format = "G:{0} P:{1:D2} B:{2:D2}";
+
+            return string.Format(format, g, p, b);
         }
 
         private List<MissionConditionView> ParseRewards(string raw)
@@ -202,7 +207,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardExp {exp}",
-                    Description = $"Receba {exp} de experiência"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Exp"), exp)
                 };
             }
 
@@ -210,7 +215,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Recompensa de experiência"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Exp_default")
             };
         }
 
@@ -226,7 +231,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardGold {rawGold}",
-                    Description = $"Receba {formatted}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Gold"), formatted)
                 };
             }
 
@@ -234,7 +239,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Recompensa de gold"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Gold_default")
             };
         }
 
@@ -244,15 +249,16 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             if (match.Success && int.TryParse(match.Groups[1].Value, out var repId))
             {
                 string amount = match.Groups[2].Value;
-                string repName = REPUTATION_DICT.TryGetValue(repId, out var label)
+                var reps = LocalizationManager.Instance.GetDictionary("Mission.Reputations");
+                string repName = reps.TryGetValue(repId.ToString(), out var label)
                     ? label
-                    : $"Fama {repId}";
+                    : (LocalizationManager.Instance.GetLocalizedString("Item.Reputation") + " " + repId);
 
                 return new MissionConditionView
                 {
                     Raw = reward,
                     EditableText = $"RewardReputation {repId} + {amount}",
-                    Description = $"Receba {amount} de reputação {repName} ({repId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Reputation"), amount, repName, repId)
                 };
             }
 
@@ -260,7 +266,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Recompensa de reputação"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Reputation_default")
             };
         }
 
@@ -277,7 +283,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardItem {itemId} {amount}",
-                    Description = $"Receba o item {itemName} ({itemId}) x{amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Item"), itemName, itemId, amount)
                 };
             }
 
@@ -285,7 +291,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Recompensa de item"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Item_default")
             };
         }
 
@@ -302,7 +308,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardChooseItem {itemId} {amount}",
-                    Description = $"Escolha receber o item {itemName} ({itemId}) x{amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ChooseItem"), itemName, itemId, amount)
                 };
             }
 
@@ -310,7 +316,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Escolha de item"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ChooseItem_default")
             };
         }
 
@@ -326,7 +332,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"MC add_appellation {titleId}",
-                    Description = $"Receba o título {titleName} ({titleId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Title"), titleName, titleId)
                 };
             }
 
@@ -334,7 +340,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Receber título"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Title_default")
             };
         }
 
@@ -351,7 +357,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardBuff {buffId} {amount}",
-                    Description = $"Receba o efeito {buffName} ({buffId}) x{amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Buff"), buffName, buffId, amount)
                 };
             }
 
@@ -359,7 +365,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Receber efeito"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Buff_default")
             };
         }
 
@@ -372,7 +378,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = reward,
-                    Description = "Desbloquear slot de talento"
+                    Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.TalentSlot")
                 };
             }
 
@@ -380,7 +386,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Alteração de slot de talento"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.TalentSlot_default")
             };
         }
 
@@ -389,15 +395,16 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             var match = Regex.Match(reward, @"^MC\s+change_class\s+(\d+)$", RegexOptions.IgnoreCase);
             if (match.Success && int.TryParse(match.Groups[1].Value, out var classId))
             {
-                string className = MISSION_CLASS.TryGetValue(classId, out var label)
+                var classes = LocalizationManager.Instance.GetDictionary("Mission.Classes");
+                string className = classes.TryGetValue(classId.ToString(), out var label)
                     ? label
-                    : $"Classe {classId}";
+                    : (LocalizationManager.Instance.GetLocalizedString("Item.Class") + " " + classId);
 
                 return new MissionConditionView
                 {
                     Raw = reward,
                     EditableText = $"MC change_class {classId}",
-                    Description = $"Mude de classe para {className} ({classId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ChangeClass"), className, classId)
                 };
             }
 
@@ -405,7 +412,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Mudança de classe"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ChangeClass_default")
             };
         }
 
@@ -420,7 +427,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"MC set_elf_level {level}",
-                    Description = $"Evolua o sprite para {level}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ElfLevel"), level)
                 };
             }
 
@@ -428,7 +435,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Evolução de sprite"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.ElfLevel_default")
             };
         }
 
@@ -444,7 +451,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"MC get_spell {spellId}",
-                    Description = $"Aprenda a habilidade {spellName} ({spellId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.GetSpell"), spellName, spellId)
                 };
             }
 
@@ -452,7 +459,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Aprender habilidade"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.GetSpell_default")
             };
         }
 
@@ -524,13 +531,15 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             if (match.Success)
             {
                 string value = match.Groups[1].Value;
-                string state = value == "1" ? "ligar" : "desligar";
+                string state = value == "1" 
+                    ? LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bot_On") 
+                    : LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bot_Off");
 
                 return new MissionConditionView
                 {
                     Raw = reward,
                     EditableText = $"MC set_bot {value}",
-                    Description = $"Assistente sprite (bot): {state}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bot"), state)
                 };
             }
 
@@ -538,7 +547,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Assistente sprite"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bot_default")
             };
         }
 
@@ -554,7 +563,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardBonus {match.Groups[1].Value} {match.Groups[2].Value} {match.Groups[3].Value}",
-                    Description = $"Receba bônus {formatted}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bonus"), formatted)
                 };
             }
 
@@ -562,7 +571,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Recompensa bônus"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.Bonus_default")
             };
         }
 
@@ -577,7 +586,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = reward,
                     EditableText = $"RewardFamilyExp {amount}",
-                    Description = $"Ganhe experiência para a guild {amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.FamilyExp"), amount)
                 };
             }
 
@@ -585,7 +594,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Experiência de guild"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.FamilyExp_default")
             };
         }
 
@@ -637,7 +646,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = reward,
                 EditableText = reward,
-                Description = "Reward não mapeado"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Rewards.NotMapped")
             };
         }
 
@@ -659,6 +668,18 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             return _itemNames.TryGetValue(id.Trim(), out var name) && !string.IsNullOrWhiteSpace(name)
                 ? name
                 : $"Item {id}";
+        }
+
+        private List<FlagDef> GetFlagDefs(string key)
+        {
+            var dict = LocalizationManager.Instance.GetDictionary(key);
+            if (dict == null) return new List<FlagDef>();
+
+            return dict.Select(kv => new FlagDef
+            {
+                Label = kv.Value,
+                Value = ulong.TryParse(kv.Key, out var v) ? v : 0
+            }).ToList();
         }
 
         private string GetMonsterName(string id)
@@ -890,7 +911,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de conclusão não mapeada"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NotMapped")
             };
         }
 
@@ -906,7 +927,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"NPCItem {itemId}",
-                    Description = $"Entregue ao NPC de conclusão o item {itemName} ({itemId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NpcItem"), itemName, itemId)
                 };
             }
 
@@ -914,7 +935,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Entregar item ao NPC de conclusão"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NpcItem_default")
             };
         }
 
@@ -935,7 +956,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"ItemGiven {npcId} {dialogId} {itemId} {amount}",
-                    Description = $"Entregue o item {itemName} ({itemId}) x{amount} ao NPC {npcName} ({npcId}) no diálogo ({dialogId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemGiven"), itemName, itemId, amount, npcName, npcId, dialogId)
                 };
             }
 
@@ -943,7 +964,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Entregar item ao NPC"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemGiven_default")
             };
         }
         private MissionConditionView ParseFinishNpcTalkCondition(string condition)
@@ -955,7 +976,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = "NPCTalk",
-                    Description = "Fale com o NPC de conclusão"
+                    Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NpcTalk_empty")
                 };
             }
 
@@ -970,7 +991,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"NPCTalk {npcId} {dialogId}",
-                    Description = $"Fale com o NPC {npcName} ({npcId}) e conclua o diálogo ({dialogId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NpcTalk"), npcName, npcId, dialogId)
                 };
             }
 
@@ -978,7 +999,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Falar com NPC"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.NpcTalk_default")
             };
         }
 
@@ -995,7 +1016,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"ItemCollect {itemId} {amount}",
-                    Description = $"Colete o item {itemName} ({itemId}) x{amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemCollect"), itemName, itemId, amount)
                 };
             }
 
@@ -1003,7 +1024,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Coleta de item"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemCollect_default")
             };
         }
 
@@ -1020,7 +1041,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"MonsterKilled {monsterId} {amount}",
-                    Description = $"Mate o monstro {monsterName} ({monsterId}) x{amount}"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.MonsterKilled"), monsterName, monsterId, amount)
                 };
             }
 
@@ -1028,7 +1049,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Abater monstro"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.MonsterKilled_default")
             };
         }
 
@@ -1049,7 +1070,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"ItemGot {npcId} {dialogId} {itemId} {amount}",
-                    Description = $"Obtenha o item {itemName} ({itemId}) x{amount} com o NPC {npcName} ({npcId}) no diálogo ({dialogId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemGot"), itemName, itemId, amount, npcName, npcId, dialogId)
                 };
             }
 
@@ -1057,7 +1078,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Receber item de NPC"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.ItemGot_default")
             };
         }
 
@@ -1078,7 +1099,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"MonsterTreasureGot {monsterId} {dropChance} {itemId} {amount}",
-                    Description = $"Colete o item {itemName} ({itemId}) x{amount} do monstro {monsterName} ({monsterId}) com chance {dropChance}%"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.MonsterTreasureGot"), itemName, itemId, amount, monsterName, monsterId, dropChance)
                 };
             }
 
@@ -1086,7 +1107,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Drop de item de monstro"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.MonsterTreasureGot_default")
             };
         }
 
@@ -1101,13 +1122,13 @@ namespace GrandFantasiaINIEditor.Modules.Mission
 
                 string description = mode switch
                 {
-                    1 when value == "1" => $"Necessário possuir o buff {buffId}",
-                    1 => $"Necessário buff {buffId} maior ou igual a {value}",
-                    2 => $"Necessário buff {buffId} menor ou igual a {value}",
-                    3 when value == "0" => $"Bloqueado enquanto buff {buffId} estiver ativo",
-                    3 => $"Bloqueado enquanto buff {buffId} for maior ou igual a {value}",
-                    4 => $"Bloqueado enquanto buff {buffId} for menor ou igual a {value}",
-                    _ => $"Condição de buff {buffId} (modo {mode}, valor {value})"
+                    1 when value == "1" => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffPossess"), buffId),
+                    1 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffGE"), buffId, value),
+                    2 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffLE"), buffId, value),
+                    3 when value == "0" => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffActiveBlocked"), buffId),
+                    3 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffGEBlocked"), buffId, value),
+                    4 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffLEBlocked"), buffId, value),
+                    _ => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffOther"), buffId, mode, value)
                 };
 
                 return new MissionConditionView
@@ -1122,7 +1143,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de buff"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackBuff")
             };
         }
 
@@ -1139,7 +1160,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"AreaTravel {nodeId} {areaId}",
-                    Description = $"Passe pela área {areaId} no nó {nodeName} ({nodeId})"
+                    Description = string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.AreaTravel"), areaId, nodeName, nodeId)
                 };
             }
 
@@ -1147,7 +1168,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Passar por área"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.FinishConditions.AreaTravel_default")
             };
         }
 
@@ -1240,148 +1261,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             }
         }
 
-        private readonly Dictionary<int, string> MISSION_TYPE = new()
-        {
-            { 1, "Personal" },
-            { 2, "Emergent" },
-            { 3, "Class" },
-            { 4, "Team" },
-            { 5, "Guild" },
-            { 6, "Pvp" },
-        };
 
-        private readonly List<FlagDef> MISSION_FLAGS = new()
-        {
-            new FlagDef { Label = "NoAbandon", Value = 1 },
-            new FlagDef { Label = "NoShare", Value = 2 },
-            new FlagDef { Label = "Reaccept", Value = 4 },
-            new FlagDef { Label = "AutoAccept", Value = 8 },
-            new FlagDef { Label = "NoRebirthReset", Value = 16 },
-            new FlagDef { Label = "DailyReset", Value = 32 },
-            new FlagDef { Label = "WeeklyReset", Value = 64 },
-            new FlagDef { Label = "MonthlyReset", Value = 128 },
-        };
-
-        private readonly Dictionary<int, string> REPUTATION_DICT = new()
-        {
-            { 1, "KASLOW" },
-            { 2, "JALE" },
-            { 3, "ILYA" },
-            { 4, "ELSALAND" },
-            { 200, "SANTA KASLOW" },
-            { 201, "VINGANÇA DE ILYA" },
-            { 202, "MERCENÁRIOS DE JALE" },
-            { 203, "ASSOCIAÇÃO DE GAS KASLOW" },
-            { 204, "ASSOCIAÇÃO DE ARTE JALE" },
-            { 5, "QUATRO MARES" },
-            { 6, "COCO VERMELHO" },
-            { 7, "ANGONIELA" },
-            { 11, "LIVROS DE QUILL" },
-            { 20, "GUARDIÃO DE SHAPAEL" },
-            { 12, "MINERAÇÃO JALE" },
-            { 13, "COLETA ILYA" },
-            { 14, "CAÇA KASLOW" },
-            { 15, "CAÇADORES DE DEMÔNIOS" },
-            { 17, "SPRITE SOMBRIO" },
-            { 21, "MENSAGEIRO SPRITE" },
-            { 16, "PVP" },
-            { 18, "GVG" },
-            { 19, "CLUBE PK (CHANNEL PVP)" },
-            { 100, "CLASSE" },
-            { 22, "BODOR" },
-            { 23, "ALICE" },
-            { 24, "RONTO" },
-            { 25, "SMULCA" },
-            { 26, "EWAN" },
-            { 27, "BAHADO" },
-            { 28, "QUILL" },
-            { 29, "MOSUNK" },
-            { 30, "JUNDO" },
-            { 31, "SIROPAS" },
-            { 32, "CONGELADO = ILYANA" },
-            { 33, "GINNY" },
-        };
-
-        private readonly Dictionary<int, string> MISSION_CLASS = new()
-        {
-            { 1, "LUTADOR" },
-            { 2, "GUERREIRO" },
-            { 3, "BERSEKER" },
-            { 4, "PALADINO" },
-
-            { 5, "CAÇADOR" },
-            { 6, "ARQUEIRO" },
-            { 7, "RANGER" },
-            { 8, "ASSASSINO" },
-
-            { 9, "ACÓLITO" },
-            { 10, "SACERDOTE" },
-            { 11, "CLÉRIGO" },
-            { 12, "SÁBIO" },
-
-            { 13, "BRUXO" },
-            { 14, "MÁGO" },
-            { 15, "FEITICEIRO" },
-            { 16, "NECROMANTE" },
-
-            { 17, "TITÃ" },
-            { 18, "TEMPLÁRIO" },
-            { 19, "FRANC ATIRADOR" },
-            { 20, "SIRICÁRIO SOMBRIO" },
-            { 21, "PROFETA" },
-            { 22, "MÍSTICO" },
-            { 23, "ARQUIMAGO" },
-            { 24, "DEMÓLOGO" },
-
-            { 25, "MAQUINISTA APRENDIZ" },
-            { 26, "MAQUINISTA" },
-            { 27, "AGRESSOR" },
-            { 28, "DEMOLIDOR" },
-            { 29, "PRIME" },
-            { 30, "OPTIMUS" },
-
-            { 32, "CAVALEIRO DA MORTE" },
-            { 33, "CAVALEIRO REAL" },
-            { 34, "MERCENÁRIO" },
-            { 35, "NINJA" },
-            { 36, "MENSAGEIRO DIVINO" },
-            { 37, "XAMÃ" },
-            { 38, "ARCANO" },
-            { 39, "EMISSÁRIO DOS MORTOS" },
-            { 40, "DESTRUIDOR" },
-            { 41, "CAVALEIRO SAGRADO" },
-            { 42, "PREDADOR" },
-            { 43, "SHINOBI" },
-            { 44, "ARCANJO" },
-            { 45, "DRUIDA" },
-            { 46, "BRUXO AVANÇADO" },
-            { 47, "SHINIGAMI" },
-
-            { 48, "MEGATRON" },
-            { 49, "GALVATRON" },
-            { 50, "ÔMEGA" },
-            { 51, "TITÃ CELESTE" },
-
-            { 52, "VIAJANTE" },
-            { 53, "NÔMADE" },
-            { 54, "ESPADACHIM" },
-            { 55, "ILUSIONISTA" },
-            { 56, "SAMURAI" },
-            { 57, "AUGURE" },
-            { 58, "RONIN" },
-            { 59, "ORÁCULO" },
-            { 60, "MESTRE DIMENSIONAL" },
-            { 61, "CRONOS" },
-        };
-
-        private readonly Dictionary<string, string> CONDITION_OPERATORS = new()
-        {
-            { ">=", "maior ou igual a" },
-            { "<=", "menor ou igual a" },
-            { "==", "igual a" },
-            { ">", "maior que" },
-            { "<", "menor que" },
-        };
 
         private static string GetBoxText(TextBox box)
         {
@@ -1400,8 +1280,9 @@ namespace GrandFantasiaINIEditor.Modules.Mission
         {
             if (MissionTypeCombo != null)
             {
-                MissionTypeCombo.ItemsSource = MISSION_TYPE
-                    .Select(kv => new ComboOption { Value = kv.Key, Label = kv.Value })
+                var types = LocalizationManager.Instance.GetDictionary("Mission.Types");
+                MissionTypeCombo.ItemsSource = types
+                    .Select(kv => new ComboOption { Value = int.Parse(kv.Key), Label = kv.Value })
                     .OrderBy(x => x.Value)
                     .ToList();
             }
@@ -1415,7 +1296,8 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 missionflags_grid.Children.Clear();
 
-                foreach (var def in MISSION_FLAGS)
+                var flags = GetFlagDefs("Mission.Flags");
+                foreach (var def in flags)
                 {
                     var cb = new CheckBox
                     {
@@ -1457,7 +1339,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                     total |= value;
             }
 
-            total = PreserveUnknownBits(IDX_FLAG, total, MISSION_FLAGS);
+            total = PreserveUnknownBits(IDX_FLAG, total, GetFlagDefs("Mission.Flags"));
 
             SetRowValue(IDX_FLAG, FormatBitmaskLikeOriginal(IDX_FLAG, total));
             RefreshFlagDisplays(total);
@@ -1643,7 +1525,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 if (cb.IsChecked == true)
                     flagValue |= value;
             }
-            flagValue = PreserveUnknownBits(IDX_FLAG, flagValue, MISSION_FLAGS);
+            flagValue = PreserveUnknownBits(IDX_FLAG, flagValue, GetFlagDefs("Mission.Flags"));
             SetListValue(row, IDX_FLAG, FormatBitmaskLikeOriginal(IDX_FLAG, flagValue));
 
             return row;
@@ -2101,7 +1983,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição não mapeada"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.NotMapped")
             };
         }
 
@@ -2117,7 +1999,10 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"If_CharLevel {op} {val}",
-                    Description = $"Nível do personagem {GetOperatorLabel(op)} {val}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.CharLevel"),
+                        GetOperatorLabel(op),
+                        val)
                 };
             }
 
@@ -2125,7 +2010,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de nível"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackLevel") ?? "Condição de nível"
             };
         }
 
@@ -2134,9 +2019,10 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             var match = Regex.Match(condition, @"If_Reputation\s+(\d+)\s*(>=|<=|==|>|<)\s*(\d+)", RegexOptions.IgnoreCase);
             if (match.Success && int.TryParse(match.Groups[1].Value, out var repId))
             {
-                string repName = REPUTATION_DICT.TryGetValue(repId, out var label)
+                var reps = LocalizationManager.Instance.GetDictionary("Mission.Reputations");
+                string repName = reps.TryGetValue(repId.ToString(), out var label)
                     ? label
-                    : $"Fama {repId}";
+                    : (LocalizationManager.Instance.GetLocalizedString("Item.Reputation") + " " + repId);
 
                 string op = match.Groups[2].Value;
                 string val = match.Groups[3].Value;
@@ -2145,7 +2031,11 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"If_Reputation {repId} {op} {val}",
-                    Description = $"{repName} {GetOperatorLabel(op)} {val}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.Reputation"),
+                        repName,
+                        GetOperatorLabel(op),
+                        val)
                 };
             }
 
@@ -2153,7 +2043,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de fama"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackReputation") ?? "Condição de fama"
             };
         }
 
@@ -2168,7 +2058,9 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"If_FMS {fmsId} done",
-                    Description = $"Necessário ter completado a quest {fmsId}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FmsDone"),
+                        fmsId)
                 };
             }
 
@@ -2183,7 +2075,11 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"If_FMS {fmsId} {op} {val}",
-                    Description = $"FMS {fmsId} {GetOperatorLabel(op)} {val}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FmsCompare"),
+                        fmsId,
+                        GetOperatorLabel(op),
+                        val)
                 };
             }
 
@@ -2191,7 +2087,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de FMS"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackFms") ?? "Condição de FMS"
             };
         }
 
@@ -2202,15 +2098,18 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             var match = Regex.Match(condition, @"If_Class\s+(\d+)", RegexOptions.IgnoreCase);
             if (match.Success && int.TryParse(match.Groups[1].Value, out var classId))
             {
-                string className = MISSION_CLASS.TryGetValue(classId, out var label)
+                var classes = LocalizationManager.Instance.GetDictionary("Mission.Classes");
+                string className = classes.TryGetValue(classId.ToString(), out var label)
                     ? label
-                    : $"Classe {classId}";
+                    : (LocalizationManager.Instance.GetLocalizedString("Item.Class") + " " + classId);
 
                 return new MissionConditionView
                 {
                     Raw = condition,
                     EditableText = $"If_Class {classId}",
-                    Description = $"Classe necessária: {className}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.ClassReq"),
+                        className)
                 };
             }
 
@@ -2218,7 +2117,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de classe"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackClass") ?? "Condição de classe"
             };
         }
 
@@ -2234,7 +2133,10 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 {
                     Raw = condition,
                     EditableText = $"If_CheckRebirthCount {op} {val}",
-                    Description = $"Reencarnações necessárias {GetOperatorLabel(op)} {val}"
+                    Description = string.Format(
+                        LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.RebirthReq"),
+                        GetOperatorLabel(op),
+                        val)
                 };
             }
 
@@ -2242,7 +2144,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de reencarnação"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackRebirth") ?? "Condição de reencarnação"
             };
         }
 
@@ -2257,13 +2159,13 @@ namespace GrandFantasiaINIEditor.Modules.Mission
 
                 string description = mode switch
                 {
-                    1 when value == "1" => $"Necessário possuir o buff {buffId}",
-                    1 => $"Necessário buff {buffId} maior ou igual a {value}",
-                    2 => $"Necessário buff {buffId} menor ou igual a {value}",
-                    3 when value == "0" => $"Bloqueado enquanto buff {buffId} estiver ativo",
-                    3 => $"Bloqueado enquanto buff {buffId} for maior ou igual a {value}",
-                    4 => $"Bloqueado enquanto buff {buffId} for menor ou igual a {value}",
-                    _ => $"Condição de buff {buffId} (modo {mode}, valor {value})"
+                    1 when value == "1" => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffPossess"), buffId),
+                    1 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffGE"), buffId, value),
+                    2 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffLE"), buffId, value),
+                    3 when value == "0" => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffActiveBlocked"), buffId),
+                    3 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffGEBlocked"), buffId, value),
+                    4 => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffLEBlocked"), buffId, value),
+                    _ => string.Format(LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.BuffOther"), buffId, mode, value)
                 };
 
                 return new MissionConditionView
@@ -2278,21 +2180,17 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             {
                 Raw = condition,
                 EditableText = condition,
-                Description = "Condição de buff"
+                Description = LocalizationManager.Instance.GetLocalizedString("Mission.Conditions.FallbackBuff") ?? "Condição de buff"
             };
         }
 
         private string GetOperatorLabel(string op)
         {
-            return op switch
-            {
-                ">=" => "maior ou igual a",
-                "<=" => "menor ou igual a",
-                "==" => "igual a",
-                ">" => "maior que",
-                "<" => "menor que",
-                _ => op
-            };
+            var operators = LocalizationManager.Instance.GetDictionary("Mission.Operators");
+            if (operators != null && operators.TryGetValue(op, out var label))
+                return label;
+
+            return op;
         }
 
         private string GetValue(List<string> row, int index)

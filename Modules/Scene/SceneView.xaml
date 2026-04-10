@@ -1,0 +1,326 @@
+<UserControl x:Class="GrandFantasiaINIEditor.Modules.Scene.SceneView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:GrandFantasiaINIEditor.Core">
+
+    <Grid Background="#0F0F12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LISTA DE CENAS -->
+        <Border Background="#1A1C22" Padding="12" Margin="0,0,10,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="42"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{loc:Loc Scene.Title}"
+                           FontSize="22"
+                           Margin="0,0,0,10"
+                           FontWeight="SemiBold">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#4FD1FF" Offset="0.0" />
+                            <GradientStop Color="#3A8DFF" Offset="0.6" />
+                            <GradientStop Color="#2B58CC" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <TextBox x:Name="SearchBox"
+                         Grid.Row="1"
+                         Height="32"
+                         Margin="0,0,0,10"
+                         Background="#23262E"
+                         Foreground="White"
+                         BorderBrush="#333"
+                         Padding="8,6"
+                         TextChanged="SearchBox_TextChanged"
+                         Tag="{loc:Loc Scene.SearchPlaceholder}"/>
+
+                <ListBox x:Name="SceneList"
+                         Grid.Row="2"
+                         Background="#14161B"
+                         Foreground="White"
+                         BorderBrush="#2B2E36"
+                         SelectionChanged="SceneList_SelectionChanged"/>
+
+                <Grid Grid.Row="3" Margin="0,10,0,-10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Content="{loc:Loc Common.Save}"
+                            Height="30"
+                            Background="#2E8B57"
+                            Foreground="White"
+                            BorderBrush="#2E8B57"
+                            Click="Save_Click"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- EDITOR DE CENA -->
+        <Grid Grid.Column="1">
+            <TabControl Background="#121318" BorderBrush="#2B2E36" Foreground="White">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border Name="Border" BorderBrush="#2B2E36" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0" Margin="2,0">
+                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,4"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#1A1C22"/>
+                                            <Setter Property="Foreground" Value="#4FD1FF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Border" Property="Background" Value="#23262E"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- ABA NPCs -->
+                <TabItem Header="{loc:Loc Scene.Tabs.Npc}">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0" Background="#1A1C22" Padding="5" Margin="0,0,10,0">
+                            <ListBox x:Name="NpcSubList" 
+                                     Background="#14161B" 
+                                     Foreground="White" 
+                                     BorderThickness="0"
+                                     SelectionChanged="NpcSubList_SelectionChanged"/>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="NpcEditorArea" Margin="10">
+                                <!-- Campos do NPC -->
+                                <TextBlock Text="{loc:Loc Scene.Labels.NpcList}" Foreground="AliceBlue" FontWeight="Bold" Margin="0,0,0,10"/>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="NPCTID" Grid.Row="0" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcTidBox" Grid.Row="0" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.X}" Grid.Row="1" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcXBox" Grid.Row="1" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Y}" Grid.Row="2" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcYBox" Grid.Row="2" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Face}" Grid.Row="3" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcFaceBox" Grid.Row="3" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Model}" Grid.Row="4" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcModelBox" Grid.Row="4" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Desc}" Grid.Row="5" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="NpcDescBox" Grid.Row="5" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="NpcField_Changed"/>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- ABA MONSTROS -->
+                <TabItem Header="{loc:Loc Scene.Tabs.Monster}">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0" Background="#1A1C22" Padding="5" Margin="0,0,10,0">
+                            <ListBox x:Name="MonsterSubList" 
+                                     Background="#14161B" 
+                                     Foreground="White" 
+                                     BorderThickness="0"
+                                     SelectionChanged="MonsterSubList_SelectionChanged"/>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="MonsterEditorArea" Margin="10">
+                                <TextBlock Text="{loc:Loc Scene.Labels.MonsterList}" Foreground="AliceBlue" FontWeight="Bold" Margin="0,0,0,10"/>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Monster ID" Grid.Row="0" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterTidBox" Grid.Row="0" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.PatrolId}" Grid.Row="1" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterPatrolBox" Grid.Row="1" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.MaxAmount}" Grid.Row="2" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterAmountBox" Grid.Row="2" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.RebornSeconds}" Grid.Row="3" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterRebornBox" Grid.Row="3" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.X}" Grid.Row="4" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterXBox" Grid.Row="4" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Y}" Grid.Row="5" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterYBox" Grid.Row="5" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Face}" Grid.Row="6" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="MonsterFaceBox" Grid.Row="6" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="MonsterField_Changed"/>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- ABA ÁREAS -->
+                <TabItem Header="{loc:Loc Scene.Tabs.Areas}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <TextBlock Text="{loc:Loc Scene.Labels.AreaList}" Foreground="AliceBlue" FontWeight="Bold" Margin="0,0,0,10"/>
+                            
+                            <GroupBox Header="[born_area]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="BornAreaBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="60"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[revive_area]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="ReviveAreaBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="60"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[gateway_area]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="GatewayAreaBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="80"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[normal_area]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="NormalAreaBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="80"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[event_area]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="EventAreaBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="100"/>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- ABA SONS -->
+                <TabItem Header="{loc:Loc Scene.Tabs.Sounds}">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0" Background="#1A1C22" Padding="5" Margin="0,0,10,0">
+                            <ListBox x:Name="SoundSubList" 
+                                     Background="#14161B" 
+                                     Foreground="White" 
+                                     BorderThickness="0"
+                                     SelectionChanged="SoundSubList_SelectionChanged"/>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="SoundEditorArea" Margin="10">
+                                <TextBlock Text="{loc:Loc Scene.Labels.SoundList}" Foreground="AliceBlue" FontWeight="Bold" Margin="0,0,0,10"/>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Time}" Grid.Row="0" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="SoundTimeBox" Grid.Row="0" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="SoundField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.X}" Grid.Row="1" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="SoundXBox" Grid.Row="1" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="SoundField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.Y}" Grid.Row="2" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="SoundYBox" Grid.Row="2" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="SoundField_Changed"/>
+
+                                    <TextBlock Text="{loc:Loc Scene.Labels.SoundName}" Grid.Row="3" VerticalAlignment="Center" Foreground="#C8C8C8"/>
+                                    <TextBox x:Name="SoundNameBox" Grid.Row="3" Grid.Column="1" Margin="0,5" Background="#23262E" Foreground="White" BorderBrush="#333" Padding="5" TextChanged="SoundField_Changed"/>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- ABA OUTROS -->
+                <TabItem Header="{loc:Loc Scene.Tabs.Other}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <GroupBox Header="[globe_data]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="GlobeDataBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="40"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[position]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="PositionBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="100"/>
+                            </GroupBox>
+
+                            <GroupBox Header="[mob_patrol_mode]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="PatrolModeBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="100"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[event]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="EventBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="100"/>
+                            </GroupBox>
+                            
+                            <GroupBox Header="[dynamic_block]" Foreground="White" Margin="0,0,0,10">
+                                <TextBox x:Name="DynamicBlockBox" AcceptsReturn="True" Background="#23262E" Foreground="White" BorderBrush="#333" MinHeight="60"/>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+
+    </Grid>
+</UserControl>

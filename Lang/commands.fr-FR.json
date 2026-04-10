@@ -1,0 +1,3398 @@
+{
+  "1001": {
+    "name": "HP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      "%Min",
+      "%Max",
+      null,
+      null,
+      "#Valeurs positives, guérison ; Valeurs négatives, dégâts instantanés aux HP"
+    ]
+  },
+  "1002": {
+    "name": "Zone HP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "Rand",
+      "#Guérison basée sur le montant des charges du lanceur et le % de valeur de guérison"
+    ]
+  },
+  "1003": {
+    "name": "HPEX",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      "Mob_Id1",
+      "Rapport1",
+      "Mob_Id2",
+      "Rapport2",
+      "#Valeurs positives, guérison ; Valeurs négatives, dégâts instantanés sur des monstres spécifiques"
+    ]
+  },
+  "1004": {
+    "name": "HpMpGuérir",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "HPmin",
+      "HPmax",
+      "MPmin",
+      "MPmax",
+      null,
+      null,
+      "#Valeurs positives, guérison ; Valeurs négatives, dégâts instantanés en % de HP et MP"
+    ]
+  },
+  "1011": {
+    "name": "Député",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      "%Min",
+      "%Max",
+      null,
+      null,
+      "#Valeurs positives, guérison ; Valeurs négatives, dégâts instantanés aux MP"
+    ]
+  },
+  "1012": {
+    "name": "MPCombo",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "Qnt_1",
+      "Qnt_2",
+      "Qnt_3",
+      "Qnt_4",
+      "Qnt_5",
+      "Rand",
+      "#Guérit les MP en fonction du nombre de charges du lanceur et du % de valeur de guérison"
+    ]
+  },
+  "1021": {
+    "name": "Dmg2HP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "%min",
+      "%Max",
+      null,
+      null,
+      null,
+      null,
+      "#Transforme le pourcentage de dégâts infligés en HP"
+    ]
+  },
+  "1022": {
+    "name": "Dmg2MP",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "%min",
+      "%Max",
+      null,
+      null,
+      null,
+      null,
+      "#Transforme le pourcentage de dégâts infligés en MP"
+    ]
+  },
+  "1023": {
+    "name": "PetDdct",
+    "group": "ID-HEAL/HP_MP",
+    "status": "OK",
+    "params": [
+      "HPRec",
+      "TauxMin",
+      "TauxMax",
+      null,
+      null,
+      "#Absorber le pourcentage de HP d'invocation pour restaurer une quantité fixe de HP"
+    ]
+  },
+  "1031": {
+    "name": "Multitemps",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "% TauxD",
+      "%LimiteDanD",
+      "%TauxT",
+      "%LimiteDanT",
+      null,
+      null,
+      "#Dégâts supplémentaires basés sur un % des dégâts initiaux, les dégâts triples sont calculés sur la base de dégâts doubles ; %LimitDanD, double dégâts ; %LimitDanT, triple dégâts ;"
+    ]
+  },
+  "1041": {
+    "name": "AAPoint",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      "#Donner des points Master d'un certain montant"
+    ]
+  },
+  "1071": {
+    "name": "Désinvocation",
+    "group": "Invoquer",
+    "status": "NO",
+    "params": [
+      "%taux",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Non testé"
+    ]
+  },
+  "1072": {
+    "name": "PetInstrc",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Commandez à l'animal d'attaquer"
+    ]
+  },
+  "1073": {
+    "name": "Suicide pour animaux de compagnie",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "%HPMin",
+      "%HPMax",
+      null,
+      null,
+      null,
+      null,
+      "#Cause des dégâts aux HP de l'animal"
+    ]
+  },
+  "1074": {
+    "name": "SumAreaNormal",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "IDmob",
+      "Qnt",
+      "Restreindre le nœud",
+      "Nœud de zone",
+      "ID d'effet",
+      "Hauteur",
+      "#Invoque un certain nombre de mobs sur une carte donnée, dans une zone donnée, avec effet et hauteur"
+    ]
+  },
+  "1075": {
+    "name": "SumAreaQuest",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "IDmob",
+      "Qnt",
+      "Restreindre le nœud",
+      "Nœud de zone",
+      "ID d'effet",
+      "Hauteur",
+      "#Invoque un certain nombre de mobs sur une carte donnée, dans une zone donnée, avec effet et hauteur (objets de mission)"
+    ]
+  },
+  "1076": {
+    "name": "ArticleÉvénement",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "Nœud d'identification",
+      "Nœud de zone",
+      null,
+      null,
+      null,
+      null,
+      "# Limiteur d'objets sur une carte et une zone données"
+    ]
+  },
+  "1077": {
+    "name": "Invocation de PNJ",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "ID du PNJ",
+      "Qnt",
+      "Équipe",
+      "ajouterHeure",
+      null,
+      null,
+      "#Invoque un PNJ pendant un certain temps"
+    ]
+  },
+  "1078": {
+    "name": "lierEnchant",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "IDenc1",
+      "IDenc2",
+      "IDenc3",
+      "IDenc4",
+      "IDenc5",
+      "IDenc6",
+      "#Supprimez jusqu'à 6 enchantements après un certain temps"
+    ]
+  },
+  "1079": {
+    "name": "appelerEnchanter",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "EnchantID",
+      "Équipe",
+      "Type d'heure",
+      null,
+      null,
+      "#Appelle un enchantement selon un % de chance, pendant un moment"
+    ]
+  },
+  "1800": {
+    "name": "Tp2Animal",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "Changer",
+      "Ranger",
+      "TypeTp",
+      "buffCible",
+      "EnchantID",
+      "Équipe",
+      "#Se téléporte au type d'animal de compagnie (type1, animal de compagnie ; type2, tokenpet) sur un ranger spécifique, avec une animation spécifique et applique un enchantement pendant un certain temps, s'il est actif"
+    ]
+  },
+  "1801": {
+    "name": "FonctionTélétrnp",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "Cas 1 à 11",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Téléportation vers un certain type de Case, allant de 1 à 11 ; valeurs notables, 1 âme, 2 évasion, 9 gotoLove, 10 MarkedPointSave, 11 MarkedPointLoad"
+    ]
+  },
+  "1802": {
+    "name": "Tp2cible",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distance",
+      "TypeTp",
+      null,
+      null,
+      null,
+      null,
+      "#Téléportation vers la cible, tapezTP ; 1 téléportation, 2 en cours d'exécution"
+    ]
+  },
+  "1803": {
+    "name": "TpFarway",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distance",
+      "TypeTp",
+      null,
+      null,
+      null,
+      null,
+      "#Téléporter Pj à l'envers"
+    ]
+  },
+  "1804": {
+    "name": "Distance à parcourir",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distance",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Téléporte la cible de l'intérieur vers l'extérieur"
+    ]
+  },
+  "1805": {
+    "name": "Tp2Noeud+Zone",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "ID_scène",
+      "Zone",
+      null,
+      null,
+      null,
+      null,
+      "#Téléporte vers un nœud dans une zone"
+    ]
+  },
+  "1806": {
+    "name": "Distance à parcourirEx",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "distance",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Téléporte Alva de l'extérieur vers l'intérieur"
+    ]
+  },
+  "1807": {
+    "name": "GetOverHere",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Téléporte la cible à proximité du lanceur"
+    ]
+  },
+  "1808": {
+    "name": "GetOverHerePET",
+    "group": "TP",
+    "status": "OK",
+    "params": [
+      "Ranger",
+      "TypeTp",
+      "Changer",
+      "EnchantID",
+      "Équipe",
+      null,
+      "#Téléporte la cible près du maître"
+    ]
+  },
+  "1811": {
+    "name": "Faire revivre",
+    "group": "Faire revivre",
+    "status": "OK",
+    "params": [
+      "%Cv",
+      "%MP",
+      "%RéduireExp",
+      "%RéduireÉquipement",
+      "Emplacement",
+      null,
+      "#Réanimer la cible ; Emplacement 1, Cristal d'Alma ; Emplacement 2, Au sol"
+    ]
+  },
+  "1821": {
+    "name": "TuerAléatoire",
+    "group": "EnchantAction",
+    "status": "OK",
+    "params": [
+      "%Prob1",
+      "Qnt1",
+      "%Prob2",
+      "Qnt2",
+      null,
+      null,
+      "#Supprime les enchantements négatifs de manière aléatoire, si vous en utilisez 1, n'en utilisez pas 2."
+    ]
+  },
+  "1822": {
+    "name": "Annuler",
+    "group": "EnchantAction",
+    "status": "NO",
+    "params": [
+      null
+    ]
+  },
+  "1823": {
+    "name": "Tuer",
+    "group": "EnchantAction",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      "ID_2",
+      "ID_3",
+      "ID_4",
+      "ID_5",
+      "ID_6",
+      "#Supprimez jusqu'à 6 enchantements"
+    ]
+  },
+  "1824": {
+    "name": "Tuer_One",
+    "group": "EnchantAction",
+    "status": "OK",
+    "params": [
+      "ID_1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Supprime seulement 1 enchantement"
+    ]
+  },
+  "1901": {
+    "name": "CiseauFente",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "%Durabilité",
+      "NivMax",
+      "Fantaisie",
+      null,
+      null,
+      "#Open Slot dans Équipement et Costume, Param4 doit être égal à 1 pour les costumes"
+    ]
+  },
+  "1911": {
+    "name": "TypeMarretaRep",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "%Durabilité",
+      "1 (compter ?)",
+      null,
+      null,
+      null,
+      null,
+      "# % d'échec"
+    ]
+  },
+  "1912": {
+    "name": "%MarretaDurMax",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "%Durabilité",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "# % de récupération"
+    ]
+  },
+  "1913": {
+    "name": "JouerEffet",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "ID d'effet",
+      "Hauteur",
+      "ID_Anim",
+      null,
+      null,
+      null,
+      "#Jouer un effet"
+    ]
+  },
+  "1914": {
+    "name": "Annuler la liaison",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "SucRte",
+      "BrkRte",
+      "DuréeDurée",
+      "DurPer",
+      "Niv",
+      "Type de cible",
+      "#déverrouillage d'objets ; TargetType, 0 équipement, 1 Kuso, 2 montures"
+    ]
+  },
+  "1915": {
+    "name": "RetourAAPoint",
+    "group": "Enchanter des objets",
+    "status": "OK",
+    "params": [
+      "Type AA",
+      "TypeAAEsp",
+      "Const",
+      "%AApointRetour",
+      null,
+      null,
+      "#Retour des points Master"
+    ]
+  },
+  "1921": {
+    "name": "EffetNextID",
+    "group": "Enchantement de sort",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "EnchantID",
+      "Durée",
+      "EffetNextID2Autre",
+      null,
+      null,
+      "#Probabilité d'appeler un autre enchantement ; EffetNextID2Autre ; 0 off, 1 on, invoque un deuxième effet"
+    ]
+  },
+  "1999": {
+    "name": "SortAttaque",
+    "group": "Enchantement de sort",
+    "status": "OK",
+    "params": [
+      "ID_Sort",
+      "CoûtMp",
+      null,
+      null,
+      null,
+      null,
+      "#Attaques avec un enchantement pour un coût en PM"
+    ]
+  },
+  "2000": {
+    "name": "EnchantMisc",
+    "group": "Enchantement de sort",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Il s'agit essentiellement de quiz, de quêtes, de sorts, etc."
+    ]
+  },
+  "2001": {
+    "name": "HP Max",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#HP supplémentaires en points"
+    ]
+  },
+  "2002": {
+    "name": "TauxHPMax",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#HP supplémentaires en %Maximum"
+    ]
+  },
+  "2003": {
+    "name": "RgenHPTick",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#HP Régénération par tick"
+    ]
+  },
+  "2011": {
+    "name": "MaxMP",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Députés supplémentaires en points"
+    ]
+  },
+  "2012": {
+    "name": "CoûtCast",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "PointMP",
+      "%rateMP",
+      "PointHP",
+      "%rateHP",
+      null,
+      null,
+      "#Valeurs positives, augmente le coût des sorts ; Valeurs négatives, réduisent le coût du sort ; Le % de mp et hp est de 10 à 1 %"
+    ]
+  },
+  "2013": {
+    "name": "TauxMPMax",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#MP supplémentaires en %Maximum"
+    ]
+  },
+  "2014": {
+    "name": "RgenMPTick",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Régénération de #MP par tick"
+    ]
+  },
+  "2019": {
+    "name": "Dmg2HPCaster",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Min %",
+      "% maximum",
+      "Min%D",
+      "Max%D",
+      null,
+      null,
+      "#Absorber % de vos dégâts physiques et magiques pour soigner vos PV"
+    ]
+  },
+  "2020": {
+    "name": "Dmg2MPCaster",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Min %",
+      "% maximum",
+      "Min%D",
+      "Max%D",
+      null,
+      null,
+      "#Absorber % de vos dégâts physiques et magiques pour soigner vos MP"
+    ]
+  },
+  "2021": {
+    "name": "Dmg2HPCasteurB",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Min%M",
+      "Max%M",
+      null,
+      null,
+      null,
+      null,
+      "#Absorber % de vos dégâts lors d'une attaque de base pour soigner des HP"
+    ]
+  },
+  "2022": {
+    "name": "Dmg2MPCasterB",
+    "group": "HP-MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      null,
+      null,
+      null,
+      null,
+      "#Vole une quantité de mana à la cible lors d'une attaque de base pour soigner des PM"
+    ]
+  },
+  "2023": {
+    "name": "StyloBonus",
+    "group": "Stylo",
+    "status": "OK",
+    "params": [
+      "Stylo-F",
+      "Stylo-M",
+      "ReducPen-F",
+      "ReducPen-M",
+      null,
+      null,
+      "#Bonus de pénétration physique et magique, en plus de la réduction de stylo"
+    ]
+  },
+  "2024": {
+    "name": "Réfléchir",
+    "group": "Stylo",
+    "status": "OK",
+    "params": [
+      "%TauxF",
+      "%dégâts",
+      "%TauxM",
+      "%dégâtM",
+      null,
+      null,
+      "#Réfléchissez aux dégâts de pénétration physiques et magiques"
+    ]
+  },
+  "2030": {
+    "name": "DmgImmunitaire",
+    "group": "Stylo",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Immunité contre tout type de dommage"
+    ]
+  },
+  "2031": {
+    "name": "Multitemps",
+    "group": "Multitemps",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "%LimiteDan",
+      "%Taux",
+      "%LimiteDan",
+      null,
+      null,
+      "#Dégâts supplémentaires basés sur un % des dégâts initiaux, les dégâts triples sont calculés sur la base de dégâts doubles ; %LimitDanD, double dégâts ; %LimitDanT, triple dégâts ;"
+    ]
+  },
+  "2032": {
+    "name": "Multitemps",
+    "group": "Multitemps",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "%LimiteDan",
+      "%Taux",
+      "%LimiteDan",
+      null,
+      null,
+      "#Dégâts supplémentaires basés sur un % des dégâts initiaux, les dégâts triples sont calculés sur la base de dégâts doubles ; %LimitDanD, double dégâts ; %LimitDanT, triple dégâts ;"
+    ]
+  },
+  "2033": {
+    "name": "Dommages+",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "%TauxF",
+      "% TauxD",
+      "% TauxSpellF",
+      "% TauxSpellM",
+      null,
+      null,
+      "#Valeurs positives, augmentation des dégâts envoyés ; Valeurs négatives, réduction des dégâts envoyés"
+    ]
+  },
+  "2034": {
+    "name": "DommagesRecbdo",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "%TauxF",
+      "% TauxD",
+      "% TauxSpellF",
+      "% TauxSpellM",
+      null,
+      null,
+      "#Valeurs positives, augmentation des dégâts reçus ; Valeurs négatives, réduction des dégâts reçus"
+    ]
+  },
+  "2035": {
+    "name": "DommagesNormal",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#Valeurs positives, augmentation des dégâts d'attaque de base envoyés ; Valeurs négatives, réduction des dégâts d'attaque de base envoyés"
+    ]
+  },
+  "2036": {
+    "name": "DmgRcbdNormal",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "QntF",
+      "QntD",
+      "QntSpellF",
+      "QntSpellM",
+      null,
+      null,
+      "#Valeurs positives, augmentation des dégâts d'attaque de base reçus ; Valeurs négatives, réduction des dégâts d'attaque de base reçus"
+    ]
+  },
+  "2037": {
+    "name": "RéfléchirDmg",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "%TauxF",
+      "%dégâts",
+      "%TauxM",
+      "%dégâtM",
+      null,
+      null,
+      "#Réfléchissez aux dommages physiques et magiques"
+    ]
+  },
+  "2038": {
+    "name": "Guérir",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      null,
+      "%GuérirRecb",
+      null,
+      "%GuérisonEnvoyer",
+      null,
+      null,
+      "#Valeurs positives, augmente le % de soins reçus et envoyés ; Valeurs négatives, réduit le % de soins reçus et envoyés"
+    ]
+  },
+  "2039": {
+    "name": "VraiDamage",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "%LimiteDan",
+      null,
+      null,
+      null,
+      null,
+      "#Ajoute de vrais dégâts en fonction d'un % de chances de toucher"
+    ]
+  },
+  "2040": {
+    "name": "TrueDmgBasique",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "%LimiteDan",
+      null,
+      null,
+      null,
+      null,
+      "#Les attaques de base ont % de chances d'ajouter de vrais dégâts"
+    ]
+  },
+  "2041": {
+    "name": "TauxAtkCrit",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "TauxCritDmgF",
+      "TauxCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Chance de critique"
+    ]
+  },
+  "2042": {
+    "name": "RéduireTauxCrit",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "TauxCritDmgF",
+      "TauxCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Chance de recevoir des critiques"
+    ]
+  },
+  "2043": {
+    "name": "DégâtsCrit+",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "TauxCritDmgF",
+      "TauxCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Dommages critiques"
+    ]
+  },
+  "2044": {
+    "name": "RecbdDmgCrit",
+    "group": "Dommages",
+    "status": "OK",
+    "params": [
+      "TauxCritDmgF",
+      "TauxCritDmgM",
+      null,
+      null,
+      null,
+      null,
+      "#Dégâts critiques reçus"
+    ]
+  },
+  "2050": {
+    "name": "LimiteMouvementVitesse",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "Valeur",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#MoveSpeed Limiter, la valeur est de 10 pour un mouvement normal"
+    ]
+  },
+  "2051": {
+    "name": "MoveSpeedBonus",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "%Valeur",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Bonus de vitesse de déplacement. + Augmentations ; - Diminuer"
+    ]
+  },
+  "2052": {
+    "name": "AtakSpeedBonus",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "%Valeur",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Les valeurs positives réduisent la vitesse d'attaque"
+    ]
+  },
+  "2053": {
+    "name": "BonusCastSpeed",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "%Valeur",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Les valeurs positives réduisent la vitesse d'activation"
+    ]
+  },
+  "2054": {
+    "name": "AtakSpeedBonus",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "%Valeur",
+      "%Valeur",
+      null,
+      null,
+      null,
+      null,
+      "#Valeurs positives, réduisent la vitesse d'attaque à distance]"
+    ]
+  },
+  "2055": {
+    "name": "Type d'étourdissement",
+    "group": "Vitesse",
+    "status": "OK",
+    "params": [
+      "NoMov",
+      "Aucune Atk",
+      "NoUseSkillF",
+      "NoUseSkillM",
+      "NoUseItem",
+      null,
+      "#0 désactivé, 1 activé ; Si tout le monde a activé EVA, c'est 0"
+    ]
+  },
+  "2056": {
+    "name": "HPHarmShieldByMP",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "Tarif",
+      "EnchantID",
+      "Équipe",
+      "EnchantID",
+      "Équipe",
+      "#Chance de bloquer les dégâts infligés aux HP, mais consomme des MP à la place ; le bloc se brise lorsque le mana est épuisé ; Si le bouclier se brise, appelez l'enchantement au 3ème paramètre, si le blocage n'est pas terminé, appelez un enchantement au 5ème paramètre"
+    ]
+  },
+  "2057": {
+    "name": "GuérirBouclierFinGuérir",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "Tarif",
+      "Cible",
+      "Taux de guérison %",
+      "Cible",
+      "Taux de guérison %",
+      "#Chance de bloquer la guérison de la cible, de s'auto-guérir à la fin de l'Effet... si le bouclier s'épuise, appelez les paramètres 3 et 4 ; si le blocage est actif à la fin de l'enchantement, appeler les paramètres 5 et 6 ; cible 0 par défaut"
+    ]
+  },
+  "2059": {
+    "name": "Guérison",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "Tarif",
+      "EnchantID",
+      "Équipe",
+      "EnchantID",
+      "Équipe",
+      "#Chance d'absorber les soins de la cible, si le bouclier se brise, appeler l'enchantement dans le 3ème paramètre, si le blocage n'est pas terminé, appeler un enchantement dans le 5ème paramètre"
+    ]
+  },
+  "2060": {
+    "name": "GuérirTimesSheild",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "Tarif",
+      "Cible",
+      "Taux de guérison %",
+      "Cible",
+      "Taux de guérison %",
+      "#Chance d'absorber les soins en N fois, si le bouclier s'épuise, appelez les paramètres 3 et 4 ; si le blocage est actif à la fin de l'enchantement, appeler les paramètres 5 et 6 ; cible 0 par défaut"
+    ]
+  },
+  "2061": {
+    "name": "Taux d'échec de diffusion",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "Physique",
+      "Magie",
+      "Chamois",
+      "Restaurer",
+      "Tout",
+      null,
+      "#Chance d'échouer à une compétence, en %"
+    ]
+  },
+  "2062": {
+    "name": "BanSort",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "GuérisonSpeel",
+      "BuffSort",
+      null,
+      null,
+      null,
+      null,
+      "#Chance d'échec d'un remède ou d'un buff, en %"
+    ]
+  },
+  "2063": {
+    "name": "BuffSpellDmg",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "1Sort",
+      "2Sort",
+      "3Sort",
+      "4Sort",
+      "5Sort",
+      "Qnt",
+      "#Ajoute plus de dégâts en points de sort ;"
+    ]
+  },
+  "2064": {
+    "name": "BuffSpellDmg%",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "1Sort",
+      "2Sort",
+      "3Sort",
+      "4Sort",
+      "5Sort",
+      "% Dégât",
+      "#Ajoute plus de % de dégâts au sort ;"
+    ]
+  },
+  "2065": {
+    "name": "BuffSpellTime",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "1Sort",
+      "2Sort",
+      "3Sort",
+      "4Sort",
+      "5Sort",
+      "Équipe",
+      "#Ajouter plus de temps dans Spell ; Unité de temps, 1 équivalent à 0,2 s"
+    ]
+  },
+  "2066": {
+    "name": "BuffSpellEncnt",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "1Sort",
+      "Encht1",
+      "2Sort",
+      "Encht2",
+      "3Sort",
+      "Encht3",
+      "#Modificateur de sort, utilisant un autre enchantement"
+    ]
+  },
+  "2067": {
+    "name": "Taux de diffusion",
+    "group": "Les sorts",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Réduit les chances d'être interrompu de %"
+    ]
+  },
+  "2068": {
+    "name": "HP_Bouclier",
+    "group": "Bouclier_HP",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "%Taux",
+      "EnchantID",
+      "Équipe",
+      "EnchantID",
+      "Équipe",
+      "#bloque une quantité de dégâts aux HP, si le bouclier se brise, appelle l'enchantement dans le 3ème paramètre, si le blocage n'est pas terminé, appelle un enchantement dans le 5ème paramètre"
+    ]
+  },
+  "2069": {
+    "name": "HP_Shield-xNumb",
+    "group": "Bouclier_HP",
+    "status": "OK",
+    "params": [
+      "XQnt",
+      "%Taux",
+      "EnchantID",
+      "Équipe",
+      "EnchantID",
+      "Équipe",
+      "#bloque les dégâts aux HP en plusieurs fois avec %, si le bouclier se brise, appelle l'enchantement dans le 3ème paramètre, si le blocage n'est pas terminé, appelle un enchantement dans le 5ème paramètre"
+    ]
+  },
+  "2072": {
+    "name": "InvocationAnimal",
+    "group": "Invoquer",
+    "status": "OK",
+    "params": [
+      "LvDif",
+      "Initialisation",
+      "Fin",
+      "ID d'effet",
+      "Effet de hauteur",
+      "Totem",
+      "#Invoquer un animal de compagnie ; LvDif, différence entre le lv du familier par rapport au lanceur ; init, identifiant initial du monstre; end, identifiant final du monstre hauteurHauteur de l'effet par rapport à l'animal sur lequel l'EffetID sera exécuté ; TotemSummon, 0 désactivé, 1 activé"
+    ]
+  },
+  "2073": {
+    "name": "HPWarmShield",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "%Taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      "#bloque les dégâts aux HP plusieurs fois, si le bouclier se brise dans le temps estimé, appelle l'enchantement dans le 3ème paramètre. paramètre 5 type de dégâts (0 tous, 1 physique, 2 magiques)"
+    ]
+  },
+  "2074": {
+    "name": "HPShieldCount",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "% Dégât",
+      "EnchantID-cassé",
+      "Équipe",
+      "TypeDmg",
+      null,
+      "#bloque les dégâts aux HP en un certain nombre de fois avec %, si le bouclier se brise dans le temps estimé, appelle l'enchantement dans le 3ème paramètre. paramètre 5 type de dégâts (0 tous, 1 physique, 2 magiques)"
+    ]
+  },
+  "2075": {
+    "name": "BouclierDeLaMort",
+    "group": "Bouclier",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "régénérationHP%",
+      "EnchantID-cassé",
+      "Équipe",
+      null,
+      null,
+      "#bloque la mort, en cas de succès, appelez enchant dans param3"
+    ]
+  },
+  "2081": {
+    "name": "AttBase",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "STR",
+      "VIT",
+      "INT",
+      "VON",
+      "AGI",
+      null,
+      "#Attributs de base dans Qnt"
+    ]
+  },
+  "2082": {
+    "name": "AttrbAtqDef",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "Atk-F",
+      "Atk-D",
+      "Déf-F",
+      "Hit-F",
+      "Hit-D",
+      "EVEILLE",
+      "#Attributs d'attaque, de défense, de frappe ; Physique et Distance, Evasion"
+    ]
+  },
+  "2083": {
+    "name": "AttrbAtqDef%",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "%Atk-F",
+      "%Atk-D",
+      "%Déf-F",
+      "%Hit-F",
+      "%Hit-D",
+      "%EVA",
+      "#Attributs d'attaque, de défense, de frappe ; Physique et distance, évasion en %"
+    ]
+  },
+  "2084": {
+    "name": "AttrbAtqDefM",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "Atk-M",
+      "Déf-M",
+      null,
+      null,
+      null,
+      null,
+      "#Attributs d'attaque et de défense magiques"
+    ]
+  },
+  "2085": {
+    "name": "AttrbAtqDefM%",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "%Atq-M",
+      "%Déf-M",
+      null,
+      null,
+      null,
+      null,
+      "#Attributs d'attaque et de défense magiques en %"
+    ]
+  },
+  "2086": {
+    "name": "AttrbDef%",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "%Déf",
+      "%Hit-F",
+      "%Hit-D",
+      "%EVA",
+      "Contrôle de niveau",
+      null,
+      "#Attributs de défense, coup ; Physique et à distance, Évasion en % pour un Lv donné"
+    ]
+  },
+  "2087": {
+    "name": "AttrbStatus%",
+    "group": "Statut",
+    "status": "OK",
+    "params": [
+      "%STR",
+      "%VIT",
+      "%INT",
+      "%VON",
+      "%AGI",
+      null,
+      "#Attributs de base en %total"
+    ]
+  },
+  "2091": {
+    "name": "Résister à Dmg1",
+    "group": "Résistance",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "SaintQnt",
+      "%Taux",
+      "SombreQnt",
+      "%Taux",
+      "NatureQnt",
+      "#Chance d'infliger des dégâts physiques de Lumière, Ténèbres et Naturel"
+    ]
+  },
+  "2092": {
+    "name": "Résister à Dmg2",
+    "group": "Résistance",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "RayonQnt",
+      "%Taux",
+      "FeuQnt",
+      "%Taux",
+      "IceQnt",
+      "#Chance d'infliger des dégâts physiques électriques, de feu et de glace"
+    ]
+  },
+  "2093": {
+    "name": "Résister à DmgMagic1",
+    "group": "Résistance",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "SaintQnt",
+      "%Taux",
+      "SombreQnt",
+      "%Taux",
+      "NatureQnt",
+      "#Chance d'infliger des dégâts magiques légers, sombres et naturels"
+    ]
+  },
+  "2094": {
+    "name": "Résister à DmgMagic2",
+    "group": "Résistance",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "RayonQnt",
+      "%Taux",
+      "FeuQnt",
+      "%Taux",
+      "IceQnt",
+      "#Chance d'infliger des dégâts magiques d'électricité, de feu et de glace"
+    ]
+  },
+  "2095": {
+    "name": "Taux de résistance %",
+    "group": "Résistance",
+    "status": "OK",
+    "params": [
+      "Saint",
+      "Sombre",
+      "Nature",
+      "tonnerre",
+      "Feu",
+      "Glace",
+      "#% de résistance"
+    ]
+  },
+  "2101": {
+    "name": "SpécialDmg1",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "BestaQnt",
+      "%Taux",
+      "PlanteQnt",
+      "%Taux",
+      "HumainQnt",
+      "#Chance de dégâts physiques contre les animaux, les plantes et les humanoïdes."
+    ]
+  },
+  "2102": {
+    "name": "SpécialDmg2",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "ElemntQnt",
+      "%Taux",
+      "MechaQnt",
+      null,
+      null,
+      "#Chance de dégâts physiques contre les élémentaires et les machines."
+    ]
+  },
+  "2103": {
+    "name": "SpécialDmg3",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "Taux % ZumbiQnt",
+      "DémonQnt",
+      null,
+      null,
+      "#Chance de dégâts physiques contre les morts-vivants et les démons."
+    ]
+  },
+  "2104": {
+    "name": "SpécialDmgMagic1",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "BestaQnt",
+      "%Taux",
+      "PlanteQnt",
+      "%Taux",
+      "HumainQnt",
+      "#Chance de dégâts magiques contre les animaux, les plantes et les humanoïdes."
+    ]
+  },
+  "2105": {
+    "name": "SpécialDmgMagic2",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "ElemntQnt",
+      "%Taux",
+      "MechaQnt",
+      null,
+      null,
+      "#Chance de dégâts magiques contre les élémentaires et les machines."
+    ]
+  },
+  "2106": {
+    "name": "SpécialDmgMagic3",
+    "group": "Types spéciaux",
+    "status": "OK",
+    "params": [
+      "%Taux",
+      "ZumbiQnt",
+      "%Taux",
+      "DémonQnt",
+      null,
+      null,
+      "#Chance de dégâts magiques contre les morts-vivants et les démons."
+    ]
+  },
+  "2108": {
+    "name": "%DmgWeapTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "BrasSimples",
+      "BrasDouble",
+      "Canon",
+      "Katana",
+      "Cristal",
+      "#Dégâts physiques en %, lorsqu'il est équipé d'une arme Mecha à 1 et 2 mains, d'un canon, d'un katana et d'un cristal"
+    ]
+  },
+  "2109": {
+    "name": "CritDmgWeapTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "BrasSimples",
+      "BrasDouble",
+      "Canon",
+      "Katana",
+      "Cristal",
+      "#Chances de coup critique en %, lorsqu'il est équipé d'une arme Mecha 1 et 2 mains, d'un canon, d'un katana et d'un cristal"
+    ]
+  },
+  "2111": {
+    "name": "DmgWeapTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "1Épée",
+      "1Marteau",
+      "1Hache",
+      "2Épée",
+      "2Ax",
+      "2Marteau",
+      "#Dégâts physiques en %, lorsqu'il est équipé d'une épée, d'un marteau et d'une hache à 1 et 2 mains"
+    ]
+  },
+  "2112": {
+    "name": "HitCritWeapTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "1Épée",
+      "1Marteau",
+      "1Hache",
+      "2Épée",
+      "2Ax",
+      "2Marteau",
+      "#Chances de coup critique en %, lorsqu'il est équipé d'une épée, d'un marteau et d'une hache à 1 ou 2 mains"
+    ]
+  },
+  "2113": {
+    "name": "CritDmgWeapTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "1Épée",
+      "1Marteau",
+      "1Hache",
+      "2Épée",
+      "2Ax",
+      "2Marteau",
+      "#Dégâts critiques physiques en %, lorsqu'il est équipé d'une épée, d'un marteau et d'une hache à 1 et 2 mains"
+    ]
+  },
+  "2115": {
+    "name": "DmgWeapDTypes",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "Arc",
+      "arme à feu",
+      null,
+      null,
+      null,
+      null,
+      "#Dégâts physiques en %, lorsqu'il est équipé d'un arc et d'une arme à feu"
+    ]
+  },
+  "2116": {
+    "name": "HitCritWeapD",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "Arc",
+      "arme à feu",
+      null,
+      null,
+      null,
+      null,
+      "#Chances de coup critique en %, lorsqu'il est équipé d'un arc et d'une arme à feu"
+    ]
+  },
+  "2117": {
+    "name": "BouclierArme",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "bloquer",
+      "RéduireDmgBlock",
+      "Déf",
+      "DéfM",
+      null,
+      null,
+      "#Paramètres pour équipé d'un bouclier"
+    ]
+  },
+  "2118": {
+    "name": "Arme À Deux Mains",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "AtakSpeed",
+      "Dmg",
+      "Frapper",
+      "peutUtiliser2HW",
+      null,
+      null,
+      "#Paramètres pour 2 armes à une main, canUse2HW ; 0 activé, 1 désactivé."
+    ]
+  },
+  "2119": {
+    "name": "ArmeBâton",
+    "group": "DommagesArme",
+    "status": "OK",
+    "params": [
+      "DmgAvecStaff",
+      "RéduireDmgAvecStaff",
+      null,
+      null,
+      null,
+      null,
+      "#Paramètres pour équipé en personnel ; Dommages et dommages physiques reçus"
+    ]
+  },
+  "2121": {
+    "name": "Aggro",
+    "group": "Aggro",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia en nombre de points"
+    ]
+  },
+  "2122": {
+    "name": "Taux global",
+    "group": "Aggro",
+    "status": "OK",
+    "params": [
+      "Qnt%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Malicia en pourcentage de points"
+    ]
+  },
+  "2131": {
+    "name": "Transformation+Camufl",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "IDListeMonstre",
+      "Type de déguisement",
+      "%Taux",
+      "FauxMourir",
+      null,
+      null,
+      "#Transforme la cible et peut ajouter un effet de camouflage, selon le type de foule, allant de 1 à 8, la chance d'attaquer de la foule ; fakedie, je ne suis pas sûr mais cela donne l'impression que la cible est morte."
+    ]
+  },
+  "2132": {
+    "name": "TransformerAléatoire",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "ID1",
+      "ID2",
+      "ID3",
+      "ID4",
+      "ID5",
+      "ID6",
+      "#Transforme la cible aléatoirement parmi les ID choisis dans la MonsterList"
+    ]
+  },
+  "2133": {
+    "name": "TransformStealth",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "Distance",
+      "LvDiff",
+      "probabilité",
+      "Disparaître",
+      null,
+      null,
+      "#Transforme la cible en furtivité, peut être détecté à distance, en fonction de la différence de niveau de la cible et d'une probabilité,"
+    ]
+  },
+  "2134": {
+    "name": "TransformMount",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "Code de trajet",
+      "Masquer l'arme",
+      "SitCode",
+      "Combattre",
+      "Passager",
+      null,
+      "#Transformation de monture ; valeurs pour le combat, 1 vrai ; les valeurs pour Passager vont de 1 à 4"
+    ]
+  },
+  "2135": {
+    "name": "TransformMonster",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "IDListeMonstre",
+      "Aligner",
+      "AI_ID",
+      "Contrôle de niveau",
+      null,
+      null,
+      "#Transformez le monstre en allié ; Aligner, 1 normal, 2 sauvages, 3 PNJ, 4 PlayerRed, 5 PlayerBlue, 6 Friendly"
+    ]
+  },
+  "2136": {
+    "name": "TransformPlayer",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "IDListeMonstre",
+      "Type de formulaire",
+      null,
+      null,
+      null,
+      null,
+      "#FormType, Valeurs ; 0 humain, 1 vautour, 2 loups, 3 gorilles, 4 Sneak, 5 NoCheck, 6 Machine."
+    ]
+  },
+  "2137": {
+    "name": "TransformerPeur",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "IDListeMonstre",
+      "Contrôle de niveau",
+      null,
+      null,
+      null,
+      null,
+      "#Transformer la cible selon son lv min, si je n'ai rien dans Param1, Appliquer la Peur"
+    ]
+  },
+  "2139": {
+    "name": "Transformer les sorts",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "Sort1",
+      "Sort2",
+      "Sort3",
+      "Sort4",
+      "Sort5",
+      "AfficherCrtl",
+      "# Barre de sort de transformation ; ShowCrtl, 0 remplace la barre, 1 bloque la barre, 2 remplace la barre"
+    ]
+  },
+  "2142": {
+    "name": "TransformerSpell",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "Sort1",
+      "Sort2",
+      "Sort3",
+      "Sort4",
+      "Sort5",
+      "Sort6",
+      "#transforme un sort spécifique en un autre, jusqu'à 3 sorts"
+    ]
+  },
+  "2143": {
+    "name": "TransformTrone",
+    "group": "Transformation/Caouflages/Sorts",
+    "status": "OK",
+    "params": [
+      "Code Trone",
+      "Masquer l'arme",
+      "SitCode",
+      "Passager",
+      null,
+      null,
+      "#Transformation des Trônes ; les valeurs pour Passager vont de 1 à 4"
+    ]
+  },
+  "2144": {
+    "name": "Capacité",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après un F-crit"
+    ]
+  },
+  "2145": {
+    "name": "CapacitéMagie",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après un M-critique"
+    ]
+  },
+  "2146": {
+    "name": "CapacitéEVA",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après une EVA"
+    ]
+  },
+  "2147": {
+    "name": "CapacitéBloc",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après un blocage"
+    ]
+  },
+  "2148": {
+    "name": "CapacitéDmgF",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après avoir reçu des dégâts physiques critiques"
+    ]
+  },
+  "2149": {
+    "name": "CapacitéDmgM",
+    "group": "capacité",
+    "status": "OK",
+    "params": [
+      "%taux",
+      "EnchantID",
+      "Équipe",
+      null,
+      null,
+      null,
+      "#chance d'activer un enchantement pendant un certain temps après avoir reçu des dégâts magiques critiques"
+    ]
+  },
+  "2901": {
+    "name": "Taux de chute",
+    "group": "EXP/GOUTTE",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Augmenter le taux de chute"
+    ]
+  },
+  "2902": {
+    "name": "Taux de chute",
+    "group": "EXP/GOUTTE",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Augmenter le taux de chute"
+    ]
+  },
+  "2911": {
+    "name": "Taux d'expédition",
+    "group": "EXP/GOUTTE",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Augmente le taux d'EXP"
+    ]
+  },
+  "2912": {
+    "name": "BlocExp",
+    "group": "EXP/GOUTTE",
+    "status": "OK",
+    "params": [
+      "Exp.",
+      "AAexp",
+      "ArmeExp",
+      "MonterEpx",
+      null,
+      null,
+      "#Bloqueur d'EXP"
+    ]
+  },
+  "2921": {
+    "name": "Bonus de réussite",
+    "group": "ElfeBonus",
+    "status": "OK",
+    "params": [
+      "Alq%",
+      "Arme%",
+      "Armure%",
+      "Sprite%",
+      null,
+      null,
+      "#Augmentez la synthèse des éléments de personnage, le taux de réussite de la mise à niveau de l'équipement et le taux de réussite des sprites"
+    ]
+  },
+  "2922": {
+    "name": "Temps de travailBonus",
+    "group": "ElfeBonus",
+    "status": "OK",
+    "params": [
+      "Collecte",
+      "Tissu",
+      "Former",
+      null,
+      null,
+      null,
+      "#Réduction du temps de collecte, de fabrication et de formation des sprites"
+    ]
+  },
+  "2931": {
+    "name": "MéditerExpBonus",
+    "group": "Méditer",
+    "status": "OK",
+    "params": [
+      "Type EXP",
+      "Taux%",
+      "Tapez",
+      null,
+      null,
+      null,
+      "#Méditation, type EXP ; 1 exp, 2 AAexp, 3 WeaponExp, 4 renaître ; Type, variation du type de pierre"
+    ]
+  },
+  "2932": {
+    "name": "MéditerFamaBonus",
+    "group": "Méditer",
+    "status": "OK",
+    "params": [
+      "IDFama",
+      "Point",
+      "Taux%",
+      "MaxFama",
+      null,
+      null,
+      "#Méditation de renommée, taux ; chance de gagner des points toutes les 3 secondes"
+    ]
+  },
+  "2933": {
+    "name": "Système VIP",
+    "group": "VIP",
+    "status": "NO",
+    "params": [
+      "TypeVIP",
+      null,
+      null,
+      null,
+      null,
+      "système #vip"
+    ]
+  },
+  "2934": {
+    "name": "ElfeOil",
+    "group": "JcJ",
+    "status": "OK",
+    "params": [
+      "Tapez",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Pétrole pour éviter la perte d'équipement à PK ; Type> 0 une seule équipe, 1 toutes les équipes, 2 toutes les équipes Kuso, 3 toutes les équipes y compris kuso, 4 même effet, mais avec le temps"
+    ]
+  },
+  "2943": {
+    "name": "GainExtPoint",
+    "group": "Points extrêmes",
+    "status": "OK",
+    "params": [
+      "IDenchanter",
+      "LimiteMax",
+      "LimiteNv",
+      "DébutLv",
+      null,
+      null,
+      "#Délivre des points extrêmes, avec une limite maximale, une limite par niveau, un Lv initial"
+    ]
+  },
+  "2944": {
+    "name": "Canne à pêche",
+    "group": "Pêche",
+    "status": "NO",
+    "params": [
+      "ID de dépôt",
+      "ID de dépôt automatique",
+      null,
+      null,
+      null,
+      "FishGroundIndex",
+      "#Pêche insulaire"
+    ]
+  },
+  "2945": {
+    "name": "ArmeBonusExp",
+    "group": "EXP / DROP / RESETarme",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "Valeur",
+      null,
+      null,
+      null,
+      null,
+      "#Augmentation des chances de gagner de l'XP en étant équipé"
+    ]
+  },
+  "2947": {
+    "name": "Réinitialiser l'arme",
+    "group": "EXP / DROP / RESETarme",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      "Niveau",
+      "Tapez",
+      "NiveauArme",
+      null,
+      null,
+      "#Réinitialisez le niveau de croissance, les valeurs de croissance et la direction de croissance de l'équipement sélectionné."
+    ]
+  },
+  "2948": {
+    "name": "ExpBonusMount",
+    "group": "EXP / DROP / RESETarme",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "Valeur",
+      null,
+      null,
+      null,
+      null,
+      "#Augmentation des chances de gagner de l'XP sur la monture"
+    ]
+  },
+  "2950": {
+    "name": "Réinitialiser le montage",
+    "group": "EXP / DROP / RESETarme",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      "Niveau",
+      null,
+      null,
+      null,
+      null,
+      "#Redéfinissez le niveau de croissance, les valeurs de croissance et la direction de croissance de la monture sélectionnée."
+    ]
+  },
+  "2951": {
+    "name": "BoîteSprit",
+    "group": "EXP / DROP / RESETarme",
+    "status": "OK",
+    "params": [
+      "TypeLv",
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      "#Augmenter le niveau de la compétence sprite, 0 de base, 1 intermédiaire, 2 avancé"
+    ]
+  },
+  "2952": {
+    "name": "Système VIP",
+    "group": "VIP",
+    "status": "OK",
+    "params": [
+      "TypeVIP",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Système #Vip"
+    ]
+  },
+  "2954": {
+    "name": "GainBonus",
+    "group": "BonusOr/Renommée",
+    "status": "OK",
+    "params": [
+      "TypePièce de monnaie",
+      "AlignID",
+      "Valeur",
+      "EnchantID",
+      "Équipe",
+      null,
+      "#TypeCoin ; 0 or, 1 renommée ; Pour l’or, AlignID sera 1 ; si le paramètre 6 est activé (égal à 1), il appelle l'enchantement avec le temps dans les paramètres 4 et 5"
+    ]
+  },
+  "3001": {
+    "name": "CochezDmgHP",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      "%Min",
+      "%Max",
+      null,
+      null,
+      "#Valeurs positives, régénération ; valeurs négatives, poison"
+    ]
+  },
+  "3002": {
+    "name": "TauxTickHP",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "HPVérification%",
+      "%taux",
+      "Min.",
+      "Max.",
+      null,
+      null,
+      "#Vérifiez %HP et il y a % de chances que chaque action réinitialise la santé Min/Max"
+    ]
+  },
+  "3011": {
+    "name": "CochezDmgMP",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "Min.",
+      "Max.",
+      "%Min",
+      "%Max",
+      null,
+      null,
+      "#Valeurs positives, régénération ; valeurs négatives, poison"
+    ]
+  },
+  "3012": {
+    "name": "TauxTickMP",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "MPVérification%",
+      "%taux",
+      "Min.",
+      "Max.",
+      null,
+      null,
+      "#Vérifiez %MP et il y a % de chances que chaque action réinitialise la santé Min/Max"
+    ]
+  },
+  "3021": {
+    "name": "HPStealhTic",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "Valeur HP",
+      "%taux",
+      null,
+      null,
+      null,
+      null,
+      "#Vole les HP de la cible par tick en fonction d'un pourcentage"
+    ]
+  },
+  "3022": {
+    "name": "MPStealhTic",
+    "group": "Coche HP/MP",
+    "status": "OK",
+    "params": [
+      "Valeur MP",
+      "%taux",
+      null,
+      null,
+      null,
+      null,
+      "#Vole des MP à la cible par tick en fonction d'un pourcentage"
+    ]
+  },
+  "3101": {
+    "name": "Vérifier",
+    "group": "État/Vérification",
+    "status": "OK",
+    "params": [
+      "EnchantCheckType",
+      "HPCheck",
+      null,
+      null,
+      null,
+      null,
+      "#Conditionnel des enchantements et des HP ; CheckType est Hiword"
+    ]
+  },
+  "3102": {
+    "name": "Vérifier",
+    "group": "État/Vérification",
+    "status": "OK",
+    "params": [
+      "EnchantCheckType",
+      "HPCheck",
+      null,
+      null,
+      null,
+      null,
+      "#Conditionnel des enchantements et des HP ; CheckType est Hiword"
+    ]
+  },
+  "3901": {
+    "name": "BFexp",
+    "group": "BFexp",
+    "status": "OK",
+    "params": [
+      "EXP",
+      "AAEXP",
+      null,
+      null,
+      null,
+      null,
+      "#Gagnez de l'EXP dans l'arène"
+    ]
+  },
+  "4001": {
+    "name": "ÉnergieHumeur%",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "IntimitéMin",
+      "I_Max",
+      "E_Min",
+      "E_Max",
+      "M_Min",
+      "M_Max",
+      "#Accepte les valeurs positives et négatives, pour gagner ou réduire l'intimité (I), l'Énergie (E) et l'Humour (M) du Sprite en %"
+    ]
+  },
+  "4011": {
+    "name": "FamilySkill_N",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Compétence IDS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Pièces d'identité possibles, 1 mine, 2 récoltes, 3 chasses, 4 recyclage"
+    ]
+  },
+  "4012": {
+    "name": "FamilySkill_W",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Compétence IDS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID possible, 5 épée, 6 hache, 7 marteau, 8 arc, 9 pistolet, 10 bâton, 11 bouclier, 12 relique, 18 MechaP, 17 Cannom, 20 Katana, 21 CristalKey"
+    ]
+  },
+  "4013": {
+    "name": "FamilySkill_A",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Compétence IDS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ID possible, 13 Guerrier, 14 Archer, 15 Mage, 16 Sage, 19 Mecha, 22 Nomade"
+    ]
+  },
+  "4014": {
+    "name": "FamilleSkill_T",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Compétence IDS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Pièce d'identité possible, 75 voyages"
+    ]
+  },
+  "4021": {
+    "name": "Appeler",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "IDElf",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Invoquer le sprite par ID"
+    ]
+  },
+  "4031": {
+    "name": "Action",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "IDactionElfe",
+      "ID d'effet",
+      "Hauteur",
+      null,
+      null,
+      null,
+      "#Action dans Sprite"
+    ]
+  },
+  "4041": {
+    "name": "CoupleHumeur",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Qnt_Partenaire1",
+      "Qnt_Partenaire2",
+      null,
+      null,
+      null,
+      null,
+      "#Meilleure Humeur du couple"
+    ]
+  },
+  "5001": {
+    "name": "Temps de collecte",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Équipe(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Réduit le temps de collecte des Sprites"
+    ]
+  },
+  "5002": {
+    "name": "CollecterBonus",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "QntMin",
+      "QntPlant",
+      "QntHunt",
+      "QntRec",
+      null,
+      "#Augmente la quantité d'objets collectés respectivement dans l'exploitation minière, la recherche de nourriture, la chasse et le recyclage."
+    ]
+  },
+  "5003": {
+    "name": "Taux de collecte",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#augmenter le taux de collecte"
+    ]
+  },
+  "5004": {
+    "name": "Compétence_LvBonusN",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Exploitation minière",
+      "Fourrage",
+      "Chasse",
+      "Recycler",
+      null,
+      null,
+      "#Augmente le niveau de compétence du sprite"
+    ]
+  },
+  "5005": {
+    "name": "Taux de collecte",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "Qnt_Gas",
+      "Qnt_Pigments",
+      null,
+      null,
+      null,
+      "#Augmente la quantité d'objets collectés, de pigments et de gaz"
+    ]
+  },
+  "5006": {
+    "name": "Compétence_LvBonus",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Gaz",
+      "Pigments",
+      null,
+      null,
+      null,
+      null,
+      "#Augmente le niveau de compétence, de pigments et de gaz du sprite"
+    ]
+  },
+  "5011": {
+    "name": "Temps de production",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Équipe(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Réduit le temps de production des Sprites"
+    ]
+  },
+  "5012": {
+    "name": "Bonus de taux de production",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "TauxProduc",
+      "NivMax",
+      null,
+      null,
+      null,
+      null,
+      "#SBK"
+    ]
+  },
+  "5013": {
+    "name": "Skill_LvBonus_W",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Épée",
+      "Haches",
+      "Marteau",
+      "Arc",
+      "arme à feu",
+      "Personnel",
+      "#Augmente le niveau de compétence de fabrication d'armes du sprite"
+    ]
+  },
+  "5014": {
+    "name": "Compétence_LvBonus_A",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Bouclier",
+      "Relique",
+      "Guerrier",
+      "Archer",
+      "Mage",
+      "Sauge",
+      "#Augmente le niveau de compétence de fabrication d'armure du sprite"
+    ]
+  },
+  "5015": {
+    "name": "Compétence_LvBonus",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "MecArme",
+      "Canon",
+      "MecArmor",
+      "Kate",
+      "Christ",
+      "Nomade",
+      "#Augmente le niveau de compétence de fabrication d'armes et d'armures des classes Machiniste et Voyageur"
+    ]
+  },
+  "5016": {
+    "name": "Compétence_LvBonus_T",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Âme",
+      "Cartes",
+      null,
+      null,
+      null,
+      null,
+      "#Augmenter le niveau de compétence de l'âme et de la carte"
+    ]
+  },
+  "5017": {
+    "name": "ProduitRateBonus",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "TauxProduc",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#SBK par SoulCristal"
+    ]
+  },
+  "5021": {
+    "name": "BonusEXPtrain",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "Qnt_EXP",
+      null,
+      null,
+      null,
+      null,
+      "#chance % de gagner de l'EXP supplémentaire lors de l'entraînement"
+    ]
+  },
+  "5022": {
+    "name": "EnregistrerMatériel",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Taux%",
+      "Qnt_Matériel",
+      null,
+      null,
+      null,
+      null,
+      "#chance % d'économie de matériel lors de la formation"
+    ]
+  },
+  "5023": {
+    "name": "TrainTimeRéduc",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "Équipe(s)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Réduit le temps de formation des sprites"
+    ]
+  },
+  "5025": {
+    "name": "Méditer",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "ID_compétence",
+      "ExpTique",
+      "Taux%",
+      null,
+      null,
+      null,
+      "#Méditation des Sprites"
+    ]
+  },
+  "5028": {
+    "name": "BonbonExp",
+    "group": "SPRIT",
+    "status": "OK",
+    "params": [
+      "ID_compétence",
+      "Qnt_Exp",
+      null,
+      null,
+      null,
+      null,
+      "Consommable de sprite de compétence #exp"
+    ]
+  },
+  "6001": {
+    "name": "Équipement ReCombo",
+    "group": "Réinitialiser l'arme",
+    "status": "OK",
+    "params": [
+      "Type d'équipement",
+      "LvMaxZ",
+      null,
+      null,
+      null,
+      "#reset Enchantement d'équipement"
+    ]
+  },
+  "6002": {
+    "name": "ObtenirSpell",
+    "group": "Réinitialiser l'arme",
+    "status": "OK",
+    "params": [
+      "ID_Sort",
+      null,
+      null,
+      null,
+      null,
+      "#recebe Sort"
+    ]
+  },
+  "6003": {
+    "name": "Upanishads",
+    "group": "Réinitialiser l'arme",
+    "status": "OK",
+    "params": [
+      "ID_Sort",
+      null,
+      null,
+      null,
+      null,
+      "#recevoir des sorts Upanishads (professionnel extrême)"
+    ]
+  },
+  "6021": {
+    "name": "Vérification conditionnelle",
+    "group": "Conditionnel/Vérifications",
+    "status": "OK",
+    "params": [
+      "Monstre",
+      "NivMin",
+      "NivMax",
+      "Enchanter",
+      "Type de monstre",
+      "PV%",
+      "#Diverses Vodictions"
+    ]
+  },
+  "6022": {
+    "name": "EnchantCheck",
+    "group": "Conditionnel/Vérifications",
+    "status": "OK",
+    "params": [
+      "Enchanter*ID",
+      "Enchanter*ID",
+      null,
+      null,
+      null,
+      null,
+      "#Vérifiez un enchantement avant d'en appliquer un autre"
+    ]
+  },
+  "6024": {
+    "name": "EnchantStckCheck",
+    "group": "Conditionnel/Vérifications",
+    "status": "OK",
+    "params": [
+      "Enchanter*ID",
+      "StckMin",
+      "StckMax",
+      "Enchanter*ID",
+      "Équipe",
+      null,
+      "#Vérifiez la pile d'un enchantement puis appliquez-en un autre"
+    ]
+  },
+  "6025": {
+    "name": "Vérification de classe cible",
+    "group": "Conditionnel/Vérifications",
+    "status": "OK",
+    "params": [
+      "Id_ClassMons",
+      "Cible",
+      null,
+      null,
+      null,
+      null,
+      "#Vérifiez la classeMob"
+    ]
+  },
+  "7001": {
+    "name": "2Cible",
+    "group": "effet",
+    "status": "OK",
+    "params": [
+      "Type de cible",
+      "ID cible",
+      "Distance",
+      "EnchntID",
+      "Équipe",
+      "Pile (?)",
+      "#TypeCible ; 1 soi, 2 ennemis, 3 groupes d'équipe, 4 autour/ID cible ; 0 tous, 1 groupe de joueurs, 2 joueurs, 3 monstres ;"
+    ]
+  },
+  "7002": {
+    "name": "Recadrer",
+    "group": "effet",
+    "status": "OK",
+    "params": [
+      "Type de cible",
+      "Ranger",
+      "EnchantID",
+      "équipe",
+      null,
+      null,
+      "#Effet sur les plantations, doit être étudié plus en détail"
+    ]
+  },
+  "7003": {
+    "name": "Recadrer",
+    "group": "effet",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Effet sur les plantations"
+    ]
+  },
+  "7004": {
+    "name": "Discussion sur les monstres",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "ID de boîte de dialogue1",
+      "ID de boîte de dialogue2",
+      "Temps de recharge",
+      "Marche/Arrêt ?",
+      null,
+      null,
+      "#Monster parle au hasard, parmi les identifiants de dialogue,"
+    ]
+  },
+  "7006": {
+    "name": "ObtenirArticle",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "ID_Item",
+      "Pile",
+      null,
+      null,
+      null,
+      null,
+      "#Recevoir l'article"
+    ]
+  },
+  "7007": {
+    "name": "SpellCoolDown",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Changer",
+      "Équipe(s)/10",
+      "1ID",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#Réduit le cdr de compétence"
+    ]
+  },
+  "7008": {
+    "name": "SpellGrpCoolDown",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Changer",
+      "Équipe(s)/10",
+      "1ID",
+      "2iD",
+      "3iD",
+      "4iD",
+      "#Réduit les compétences de groupe cdr"
+    ]
+  },
+  "7009": {
+    "name": "AjouterRéussite",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "ID de réussite",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Ajouter une réalisation"
+    ]
+  },
+  "7010": {
+    "name": "EffetNextRandID",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "1ID",
+      "2iD",
+      "3iD",
+      "4iD",
+      "5iD",
+      "Équipe",
+      "#Appliquez un enchantement aléatoire, dans le temps"
+    ]
+  },
+  "7011": {
+    "name": "Appellation",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Changer",
+      "Numéro d'appellation",
+      null,
+      null,
+      null,
+      null,
+      "#Appliquer un titre ; 0 supprime, 1 ajoute"
+    ]
+  },
+  "7101": {
+    "name": "%FOR->VIT",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transférer FOR dans VIT"
+    ]
+  },
+  "7102": {
+    "name": "%AGI->VON",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transférer AGI vers VON"
+    ]
+  },
+  "7103": {
+    "name": "CRIT->AtkVelocity",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transfère le CRIT à la vitesse d'attaque"
+    ]
+  },
+  "7104": {
+    "name": "%INT->STR/AGI",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "TarifPOUR",
+      "NoterAGI",
+      null,
+      null,
+      null,
+      null,
+      "#Transfert"
+    ]
+  },
+  "7105": {
+    "name": "%VON->VIT",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Transférer VON en VIT"
+    ]
+  },
+  "7106": {
+    "name": "baseHPtransfert",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "ATak",
+      "Attaque-D",
+      "Attaque-M",
+      "POUR",
+      "INT",
+      "AGI",
+      "#Transfère le% des HP de base vers les attributs de chaque paramètre"
+    ]
+  },
+  "7107": {
+    "name": "transfert de baseMP",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "ATak",
+      "Attaque-D",
+      "Attaque-M",
+      "POUR",
+      "INT",
+      "AGI",
+      "#Transfère le% de MP de base vers les attributs de chaque paramètre"
+    ]
+  },
+  "7111": {
+    "name": "TransfertVersAnimal",
+    "group": "AttrTransfer",
+    "status": "OK",
+    "params": [
+      "HPMax",
+      "MPMax",
+      "Attaque-F",
+      "Attaque-M",
+      "Déf-F",
+      "Déf-M",
+      "#Transferts % du statut de Pj à Pet"
+    ]
+  },
+  "8001": {
+    "name": "SynthèseLucky",
+    "group": "Objet chanceux",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Alchimie Trèfles"
+    ]
+  },
+  "8002": {
+    "name": "FortClover",
+    "group": "Objet chanceux",
+    "status": "OK",
+    "params": [
+      "Tarif",
+      "Vaudou",
+      "mdr!",
+      "NivMin",
+      "NivMax",
+      "Tapez",
+      "#Trèfles de fortifications ; Le vaudou est activé, l'objet ne disparaît pas après +9 ; Type, 1 éveil, 2 FortNormal, 3Notch"
+    ]
+  },
+  "8003": {
+    "name": "uknowEnchanter",
+    "group": "Objet chanceux",
+    "status": "NO",
+    "params": [
+      "#Aucune information"
+    ]
+  },
+  "8005": {
+    "name": "Transfert",
+    "group": "Objet chanceux",
+    "status": "NO",
+    "params": [
+      "#fort transfert et pierre de résonance, TESTEZ LES CHAMPS"
+    ]
+  },
+  "8006": {
+    "name": "Pièces d'argile",
+    "group": "Objet chanceux",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#ajoute des pièces d'alchimie à un objet"
+    ]
+  },
+  "9003": {
+    "name": "ClapsuleElfe",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#fait perdre des compétences au sprite"
+    ]
+  },
+  "9005": {
+    "name": "ClapsuleElfe",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#supprimer l'emblème du sprite"
+    ]
+  },
+  "9007": {
+    "name": "Verrouiller l'élément",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Changer",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#bloquer l'élément ; 1 verrouiller, 2 déverrouiller"
+    ]
+  },
+  "9008": {
+    "name": "Mégaphone",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Chama Mégaphone"
+    ]
+  },
+  "9009": {
+    "name": "Déverrouiller la personne",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Qnt",
+      "#Débloquez le nombre de caractères"
+    ]
+  },
+  "9010": {
+    "name": "KitMakeElfe",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Trousse de maquillage #Sprite"
+    ]
+  },
+  "9011": {
+    "name": "KitMakePlayer",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Kit de maquillage"
+    ]
+  },
+  "9012": {
+    "name": "Supprimer la pierre",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Dissolvant de pierre résonante"
+    ]
+  },
+  "9013": {
+    "name": "changerSaint",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Je n'ai aucune idée de ce que c'est...."
+    ]
+  },
+  "9014": {
+    "name": "réinitialiser RD",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#réinitialiser la connexion quotidienne"
+    ]
+  },
+  "9022": {
+    "name": "Ouvrir la boutique",
+    "group": "Divers",
+    "status": "OK",
+    "params": [
+      "Tapez",
+      "ID_boutique",
+      "NiveauMin",
+      "NiveauMax",
+      null,
+      null,
+      "#ouvrir la boutique"
+    ]
+  },
+  "9023": {
+    "name": "Costume rouge",
+    "group": "Divers",
+    "status": "NO",
+    "params": [
+      "Tapez",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Enchanteur de pierre runique"
+    ]
+  },
+  "9024": {
+    "name": "Arc-en-cielRoute",
+    "group": "Divers",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Objets pour Sanctuaire Arco-Iris"
+    ]
+  },
+  "9025": {
+    "name": "Cristal d'âme",
+    "group": "Divers",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Cristal Anima"
+    ]
+  },
+  "9026": {
+    "name": "SouvenirStar",
+    "group": "Divers",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Encata souvenir"
+    ]
+  },
+  "9030": {
+    "name": "Compte+RainbowRoad",
+    "group": "Divers",
+    "status": "NO",
+    "params": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "#Nombre de fois à Santuario Arco-Iris"
+    ]
+  },
+  "9200": {
+    "name": "Guilde des Plantations",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "Eau%",
+      "% en croissance",
+      "#Fonctionne également pour la pêche"
+    ]
+  },
+  "9201": {
+    "name": "Engrais",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "% en croissance",
+      "#engrais"
+    ]
+  },
+  "9202": {
+    "name": "Engrais²",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "Putain !",
+      "#engrais de Fertilizer"
+    ]
+  },
+  "9204": {
+    "name": "Sprite minier",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "#objet à utiliser dans la mine de l'île aux sprites"
+    ]
+  },
+  "9206": {
+    "name": "SpriteDrill",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "#percer pour le sprite de la mine"
+    ]
+  },
+  "9207": {
+    "name": "Pêche",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "#aliments pour poissons et bétail"
+    ]
+  },
+  "9300": {
+    "name": "Peinture",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "#peintures sprites"
+    ]
+  },
+  "9301": {
+    "name": "RéparationÎle",
+    "group": "Agriculture",
+    "status": "OK",
+    "params": [
+      "Marteaux de réparation #Island"
+    ]
+  }
+}

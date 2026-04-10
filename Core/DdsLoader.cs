@@ -1,6 +1,7 @@
 using Pfim;
 using System;
 using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -45,41 +46,66 @@ namespace GrandFantasiaINIEditor.Core
             {
                 byte[] raw = File.ReadAllBytes(ddsPath);
 
-                // Validate magic
-                if (raw.Length < DDS_HEADER_SIZE ||
-                    raw[0] != 'D' || raw[1] != 'D' || raw[2] != 'S' || raw[3] != ' ')
+                // Find "DDS " magic. In some GF files it might not be at offset 0.
+                int magicOffset = -1;
+                for (int i = 0; i <= Math.Min(raw.Length - 4, 128); i++) // Check first 128 bytes
+                {
+                    if (raw[i] == 'D' && raw[i + 1] == 'D' && raw[i + 2] == 'S' && raw[i + 3] == ' ')
+                    {
+                        magicOffset = i;
+                        break;
+                    }
+                }
+
+                if (magicOffset == -1 || raw.Length < magicOffset + DDS_HEADER_SIZE)
                     return null;
 
-                uint fourCC  = ReadUInt32(raw, OFF_PF_FOURCC);
-                uint bitCount = ReadUInt32(raw, OFF_PF_BITCOUNT);
+                uint fourCC  = ReadUInt32(raw, magicOffset + OFF_PF_FOURCC);
+                uint bitCount = ReadUInt32(raw, magicOffset + OFF_PF_BITCOUNT);
 
                 // Uncompressed 16-bit: handle ourselves with the actual bitmasks
                 if (fourCC == 0 && bitCount == 16)
                 {
-                    uint rMask = ReadUInt32(raw, OFF_PF_R_MASK);
-                    uint gMask = ReadUInt32(raw, OFF_PF_G_MASK);
-                    uint bMask = ReadUInt32(raw, OFF_PF_B_MASK);
-                    uint aMask = ReadUInt32(raw, OFF_PF_A_MASK);
+                    uint rMask = ReadUInt32(raw, magicOffset + OFF_PF_R_MASK);
+                    uint gMask = ReadUInt32(raw, magicOffset + OFF_PF_G_MASK);
+                    uint bMask = ReadUInt32(raw, magicOffset + OFF_PF_B_MASK);
+                    uint aMask = ReadUInt32(raw, magicOffset + OFF_PF_A_MASK);
 
-                    // Parse width/height from header (offsets 16 and 12)
-                    int width  = (int)ReadUInt32(raw, 16);
-                    int height = (int)ReadUInt32(raw, 12);
+                    // Parse width/height from header (offsets 16 and 12 relative to magic)
+                    int width  = (int)ReadUInt32(raw, magicOffset + 16);
+                    int height = (int)ReadUInt32(raw, magicOffset + 12);
 
-                    return Convert16BitToBgra32(raw, DDS_HEADER_SIZE,
+                    return Convert16BitToBgra32(raw, magicOffset + DDS_HEADER_SIZE,
                                                 width, height,
                                                 rMask, gMask, bMask, aMask);
                 }
 
                 // All other formats: delegate to Pfimage
                 using var image = Pfimage.FromFile(ddsPath);
+                
+                PixelFormat format;
+                switch (image.Format)
+                {
+                    case ImageFormat.Rgb24: format = PixelFormats.Bgr24; break;
+                    case ImageFormat.Rgba32: format = PixelFormats.Bgra32; break;
+                    case ImageFormat.R5g5b5: format = PixelFormats.Bgr555; break;
+                    case ImageFormat.R5g6b5: format = PixelFormats.Bgr565; break;
+                    case ImageFormat.R5g5b5a1: format = PixelFormats.Bgr555; break;
+                    default: format = PixelFormats.Bgra32; break;
+                }
 
                 var bitmap = BitmapSource.Create(
                     image.Width, image.Height,
                     96, 96,
-                    PixelFormats.Bgra32,
+                    format,
                     null,
                     image.Data,
                     image.Stride);
+
+                if (format != PixelFormats.Bgra32)
+                {
+                    bitmap = new FormatConvertedBitmap(bitmap, PixelFormats.Bgra32, null, 0);
+                }
 
                 bitmap.Freeze();
                 return bitmap;
@@ -89,6 +115,7 @@ namespace GrandFantasiaINIEditor.Core
                 return null;
             }
         }
+
 
         // ─── Helpers ─────────────────────────────────────────────────────────
 

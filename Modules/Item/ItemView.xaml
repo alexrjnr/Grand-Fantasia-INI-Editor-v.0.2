@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="GrandFantasiaINIEditor.Modules.Item.ItemView"
+<UserControl x:Class="GrandFantasiaINIEditor.Modules.Item.ItemView"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:loc="clr-namespace:GrandFantasiaINIEditor.Core">
 
     <Grid Background="#0F0F12">
         <Grid.ColumnDefinitions>
@@ -18,7 +19,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                     <RowDefinition Height="42"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Item Database"
+                <TextBlock Text="{loc:Loc Item.Labels.ItemDatabase}"
                            FontSize="22"
                            Margin="0,0,0,10"
                            FontWeight="SemiBold">
@@ -29,9 +30,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                             <GradientStop Color="#2B58CC" Offset="1.0" />
                         </LinearGradientBrush>
                     </TextBlock.Foreground>
-                    <TextBlock.Effect>
-                        <DropShadowEffect BlurRadius="8" Color="#4FD1FF" Opacity="0.3" ShadowDepth="0"/>
-                    </TextBlock.Effect>
                 </TextBlock>
 
                 <TextBox
@@ -53,7 +51,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                     BorderBrush="#2B2E36"
                     SelectionChanged="ItemList_SelectionChanged"/>
 
-                <Grid Grid.Row="3" Margin="0,10,0,0">
+                <Grid Grid.Row="3" Margin="0,10,0,-10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -61,7 +59,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0"
-                            Content="Resync S/C Item"
+                            Content="{loc:Loc Item.Labels.Resync}"
                             FontSize="9"
                             Height="30"
                             Margin="0,0,8,0"
@@ -71,7 +69,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                             Click="Reload_Click"/>
 
                     <Button Grid.Column="1"
-                            Content="Salvar"
+                            Content="{loc:Loc Common.Save}"
                             FontSize="9"
                             Height="30"
                             Margin="4,0,4,0"
@@ -81,7 +79,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                             Click="Save_Click"/>
 
                     <Button Grid.Column="2"
-                            Content="Clonar"
+                            Content="{loc:Loc Common.Clone}"
                             FontSize="9"
                             Height="30"
                             Margin="8,0,0,0"
@@ -96,10 +94,33 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <!-- EDITOR -->
         <Grid Grid.Column="1">
             <TabControl Background="#121318" BorderBrush="#2B2E36" Foreground="White">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border Name="Border" BorderBrush="#2B2E36" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0" Margin="2,0">
+                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#1A1C22"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Border" Property="Background" Value="#23262E"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
 
                 <!-- GERAL -->
-                <TabItem Header="Geral">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TabItem Header="{loc:Loc Main.Tabs.Geral}">
+                    
                         <Grid Margin="20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120"/>
@@ -145,7 +166,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                        VerticalAlignment="Center"/>
                             </Border>
 
-                            <TextBlock Text="Nome"
+                            <TextBlock Text="{loc:Loc Common.Name}"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
                                        VerticalAlignment="Top"
@@ -160,7 +181,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Grid.ColumnSpan="2"
                                      Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Ícone"
+                            <TextBlock Text="{loc:Loc Item.Labels.Icon}"
                                        Grid.Row="2"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -173,7 +194,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="36,5,0,5"/>
 
-                            <TextBlock Text="Model"
+                            <TextBlock Text="{loc:Loc Item.Labels.Model}"
                                        Grid.Row="3"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -185,7 +206,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="36,5,0,10"/>
 
-                            <TextBlock Text="caixa"
+                            <TextBlock Text="{loc:Loc Item.Labels.Box}"
                                        Grid.Row="4"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -197,7 +218,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="36,5,0,10"/>
 
-                            <TextBlock Text="Item Type"
+                            <TextBlock Text="{loc:Loc Item.Labels.ItemType}"
                                        Grid.Row="2"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -212,7 +233,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       BorderBrush="#333"
                                       Margin="70,4,73,10"/>
 
-                            <TextBlock Text="Qualidade"
+                            <TextBlock Text="{loc:Loc Item.Labels.Quality}"
                                        Grid.Row="3"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -227,7 +248,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       BorderBrush="#333"
                                       Margin="70,5,73,10"/>
 
-                            <TextBlock Text="Level Mín."
+                            <TextBlock Text="{loc:Loc Item.Labels.MinLevel}"
                                        Grid.Row="4"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -242,7 +263,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="70,5,73,10"/>
 
-                            <TextBlock Text="Descrição"
+                            <TextBlock Text="{loc:Loc Common.Description}"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -260,7 +281,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Grid.ColumnSpan="2"
                                      Margin="0,20,10,6"/>
 
-                            <TextBlock Text="Equip Type"
+                            <TextBlock Text="{loc:Loc Item.Labels.EquipType}"
                                        Grid.Row="5"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -273,7 +294,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       Margin="70,5,162,10"
                                       Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Alvo"
+                            <TextBlock Text="{loc:Loc Item.Labels.Target}"
                                        Grid.Row="5"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -289,7 +310,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       Margin="155,5,108,10"
                                       Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Max Stacks"
+                            <TextBlock Text="{loc:Loc Item.Labels.MaxStacks}"
                                        Grid.Row="6"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -302,7 +323,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="83,5,223,10"
                                      Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Max. slot"
+                            <TextBlock Text="{loc:Loc Item.Labels.MaxSlot}"
                                        Grid.Row="6"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -318,7 +339,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="155,5,108,10"
                                      Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Slot Rate"
+                            <TextBlock Text="{loc:Loc Item.Labels.SlotRate}"
                                        Grid.Row="7"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -330,7 +351,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="155,3,108,12" Grid.Column="1" Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Moeda"
+                            <TextBlock Text="{loc:Loc Item.Labels.Currency}"
                                        Grid.Row="4"
                                        Grid.Column="3"
                                        Foreground="AliceBlue"
@@ -345,7 +366,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       BorderBrush="#333"
                                       Margin="130,2,10,8"/>
 
-                            <TextBlock Text="Preço"
+                            <TextBlock Text="{loc:Loc Item.Labels.Price}"
                                        Grid.Row="5"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -357,7 +378,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="130,5,10,10" Grid.Column="3"/>
 
-                            <TextBlock Text="Max Level"
+                            <TextBlock Text="{loc:Loc Item.Labels.MaxLevel}"
                                        Grid.Row="4"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -372,7 +393,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="3,2,0,13"/>
 
-                            <TextBlock Text="Cooldown"
+                            <TextBlock Text="{loc:Loc Item.Labels.Cooldown}"
                                        Grid.Row="9"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -385,7 +406,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="83,0,223,15"
                                      Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Cd Grupo"
+                            <TextBlock Text="{loc:Loc Item.Labels.CdGroup}"
                                        Grid.Row="10"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -399,7 +420,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="83,0,223,15"
                                      Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Item Group"
+                            <TextBlock Text="{loc:Loc Item.Labels.ItemGroup}"
                                        Grid.Row="11"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -412,7 +433,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="83,0,223,15"
                                      Grid.ColumnSpan="2" />
 
-                            <TextBlock Text="Conjuração"
+                            <TextBlock Text="{loc:Loc Item.Labels.Casting}"
                                        Grid.Row="10"
                                        Grid.Column="1"
                                        Foreground="AliceBlue"
@@ -427,7 +448,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="151,39,42,18" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Rebirth Count"
+                            <TextBlock Text="{loc:Loc Item.Labels.RebirthCount}"
                                        Grid.Row="10"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -439,7 +460,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="133,12,10,3" Grid.Column="3"/>
 
-                            <TextBlock Text="Rebirth Max"
+                            <TextBlock Text="{loc:Loc Item.Labels.RebirthMax}"
                                        Grid.Row="11"
                                        Grid.Column="3"
                                        Foreground="AliceBlue"
@@ -454,7 +475,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="133,5,10,12"/>
 
-                            <TextBlock Text="Sexo"
+                            <TextBlock Text="{loc:Loc Item.Labels.Gender}"
            Grid.Row="2"
            Grid.Column="1"
            Grid.ColumnSpan="2"
@@ -482,7 +503,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 </ComboBox.ItemContainerStyle>
                             </ComboBox>
 
-                            <TextBlock Text="Rebirth Score"
+                            <TextBlock Text="{loc:Loc Item.Labels.RebirthScore}"
                                        Grid.Row="12"
                                        Grid.Column="3"
                                        Foreground="AliceBlue"
@@ -497,7 +518,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="133,5,10,10"/>
 
-                            <TextBlock Text="Fama Necessária"
+                            <TextBlock Text="{loc:Loc Item.Labels.FameRequired}"
            Grid.Row="7"
            Foreground="AliceBlue"
            FontFamily="Segoe UI Semibold"
@@ -519,7 +540,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 </ComboBox.ItemContainerStyle>
                             </ComboBox>
 
-                            <TextBlock Text="Quantidade"
+                            <TextBlock Text="{loc:Loc Item.Labels.Amount}"
            Grid.Row="8"
            Grid.Column="3"
            Foreground="AliceBlue"
@@ -534,7 +555,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
          BorderBrush="#333"
          Margin="113,7,10,9"/>
 
-                            <TextBlock Text="Backpack Size"
+                            <TextBlock Text="{loc:Loc Item.Labels.BackpackSize}"
                                        Grid.Row="14"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -547,7 +568,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Margin="83,39,223,16"
                                      Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Max Durability"
+                            <TextBlock Text="{loc:Loc Item.Labels.MaxDurability}"
                                        Grid.Row="7"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -559,7 +580,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="84,5,223,10" Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Event Pos"
+                            <TextBlock Text="{loc:Loc Item.Labels.EventPos}"
                                        Grid.Row="13"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -571,12 +592,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="110,39,76,16" Grid.Column="1" Grid.RowSpan="2"/>
                         </Grid>
-                    </ScrollViewer>
+                    
                 </TabItem>
 
                 <!-- STATUS -->
-                <TabItem Header="Status">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TabItem Header="{loc:Loc Main.Tabs.Status}">
+                    
                         <Grid Margin="20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="140"/>
@@ -604,85 +625,85 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="Hp" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,7,0,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Hp}" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,7,0,0"/>
                             <TextBox x:Name="HpBox" Background="#23262E" Foreground="White" BorderBrush="#333" Grid.ColumnSpan="2" Margin="22,5,118,10"/>
 
-                            <TextBlock Text="Mp" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Margin="37,4,113,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Mp}" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Margin="37,4,113,0"/>
                             <TextBox x:Name="MpBox" Background="#23262E" Foreground="White" BorderBrush="#333" Grid.ColumnSpan="2" Margin="62,3,78,10" Grid.Column="1"/>
 
-                            <TextBlock Text="str" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,9,27,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Str}" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,9,27,0"/>
                             <TextBox x:Name="StrBox" Grid.Column="2" Background="#23262E" Foreground="White" BorderBrush="#333" Grid.ColumnSpan="2" Margin="123,10,82,15"/>
 
-                            <TextBlock Text="vit" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,29,27,0" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Vit}" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,29,27,0" Grid.RowSpan="2"/>
                             <TextBox x:Name="DexBox" Grid.Column="2" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="123,30,82,35" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="int" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="97,9,27,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Int}" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="97,9,27,0"/>
                             <TextBox x:Name="IntBox" Grid.Column="2" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="123,10,82,15" Grid.ColumnSpan="2" Grid.Row="1"/>
 
-                            <TextBlock Text="atk-f" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Grid.Row="1"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AtkF}" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Grid.Row="1"/>
                             <TextBox x:Name="AtkBox" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="37,12,43,10" Grid.Row="1"/>
 
-                            <TextBlock Text="def-f" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="119,12,31,0" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.DefF}" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="119,12,31,0" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="DefBox" Grid.Row="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="25,12,52,10" Grid.Column="1"/>
 
-                            <TextBlock Text="atk-m" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AtkM}" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Grid.RowSpan="2"/>
                             <TextBox x:Name="MatkBox" Grid.Row="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="37,32,43,31" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="def-m" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="119,32,31,0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.DefM}" Grid.Row="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="119,32,31,0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="MdefBox" Grid.Row="1" Grid.Column="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="25,32,52,32" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="agi" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,7,21,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Agi}" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.Column="2" Margin="98,7,21,0"/>
                             <TextBox x:Name="ConBox" Grid.Row="2" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="123,10,82,15" Grid.Column="2" Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="von" Grid.Row="1" Grid.Column="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="98,30,22,0" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Von}" Grid.Row="1" Grid.Column="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="98,30,22,0" Grid.RowSpan="2"/>
                             <TextBox x:Name="VolBox" Grid.Row="1" Grid.Column="2" Background="#23262E" Foreground="White" BorderBrush="#333" Grid.ColumnSpan="2" Margin="123,30,81,35" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Rand Dmg" Grid.Row="8" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" HorizontalAlignment="Right" Width="79" Margin="0,0,61,24" Height="16" VerticalAlignment="Bottom"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.RandDmg}" Grid.Row="8" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" HorizontalAlignment="Right" Width="79" Margin="0,0,61,24" Height="16" VerticalAlignment="Bottom"/>
                             <TextBox x:Name="RandPhysicoDamageBox" Grid.Row="8" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="70,0,9,24"/>
 
-                            <TextBlock Text="Avg   Dmg" Grid.Row="8" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,21,0,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AvgDmg}" Grid.Row="8" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,21,0,0"/>
                             <TextBox x:Name="AvgPhysicoDamageBox" Grid.Row="8" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="70,21,9,3"/>
 
-                            <TextBlock Text="alcançe de ataque" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="116,37,60,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AtkRange}" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="116,37,60,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                             <TextBox x:Name="AttackRangeBox" Grid.Row="4" Grid.Column="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="81,36,32,26" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Atk Speed" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,37,28,0" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AtkSpeed}" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,37,28,0" Grid.RowSpan="2"/>
                             <TextBox x:Name="AttackSpeedBox" Grid.Row="4" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="75,37,28,25" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="atk-d" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,10,0,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.AtkD}" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,10,0,0"/>
                             <TextBox x:Name="RangeAttackBox" Grid.Row="2" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="37,12,43,11"/>
 
-                            <TextBlock Text="Acerto" Grid.Row="2" Grid.Column="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" Margin="109,10,125,14" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Hit}" Grid.Row="2" Grid.Column="1" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" Margin="109,10,125,14" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="HitRateBox" Grid.Row="2" Grid.Column="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="147,10,98,14" Grid.ColumnSpan="2" />
 
-                            <TextBlock Text="evasão" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" Margin="119,10,116,14" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.Evasion}" Grid.Row="2" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" Margin="119,10,116,14" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="DodgeRateBox" Grid.Row="2" Grid.Column="1" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="25,10,51,14"/>
 
-                            <TextBlock Text="Taxa Critic. F" Grid.Row="3" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,22,0,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.CritRateF}" Grid.Row="3" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,22,0,0"/>
                             <TextBox x:Name="PhysicoCriticalRateBox" Grid.Row="3" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="75,22,28,0"/>
 
-                            <TextBlock Text="Dano Critc. F" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,10,28,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.CritDmgF}" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="0,10,28,0"/>
                             <TextBox x:Name="PhysicoCriticalDamageBox" Grid.Row="4" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="75,10,28,12"/>
 
-                            <TextBlock Text="Taxa Critic.  M" Grid.Row="3" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="117,22,93,0" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.CritRateM}" Grid.Row="3" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="117,22,93,0" Grid.ColumnSpan="2"/>
                             <TextBox x:Name="MagicCriticalRateBox" Grid.Row="3" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="81,22,32,0" Grid.Column="1" />
 
-                            <TextBlock Text="Dano Critic. M" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="116,10,34,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.CritDmgM}" Grid.Row="4" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="116,10,34,0"/>
                             <TextBox x:Name="MagicCriticalDamageBox" Grid.Row="4" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="81,10,32,12" Grid.Column="1"/>
 
-                            <TextBlock Text="Pen  F" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="-1,14,109,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.PenF}" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="-1,14,109,0"/>
                             <TextBox x:Name="PhysicalPenetrationBox" Grid.Row="6" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="38,14,61,10"/>
 
-                            <TextBlock Text="Pen M" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="-1,34,107,0" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.PenM}" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="-1,34,107,0" Grid.RowSpan="2"/>
                             <TextBox x:Name="MagicalPenetrationBox" Grid.Row="6" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="38,35,61,29" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="PenDef  F" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="87,14,63,0"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.PenDefF}" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="87,14,63,0"/>
                             <TextBox x:Name="PhysicalPenetrationDefenceBox" Grid.Row="6" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="4,14,105,0" Grid.Column="1" Height="16" VerticalAlignment="Top"/>
 
-                            <TextBlock Text="PenDef M" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="87,34,139,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                            <TextBlock Text="{loc:Loc Item.Labels.PenDefM}" Grid.Row="6" Foreground="AliceBlue" FontFamily="Segoe UI Semibold" VerticalAlignment="Top" Margin="87,34,139,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                             <TextBox x:Name="MagicalPenetrationDefenceBox" Grid.Row="6" Background="#23262E" Foreground="White" BorderBrush="#333" Margin="4,35,105,29" Grid.Column="1" Grid.RowSpan="2"/>
 
-                            <TextBlock Text="Attribute"
+                            <TextBlock Text="{loc:Loc Item.Labels.Attribute}"
                                        Grid.Row="11"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -695,7 +716,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                       Margin="75,5,75,10"
                                       Grid.ColumnSpan="2"/>
 
-                            <TextBlock Text="Special Rate"
+                            <TextBlock Text="{loc:Loc Item.Labels.SpecialRate}"
                                        Grid.Row="11"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -711,7 +732,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="20,0,71,15"/>
 
-                            <TextBlock Text="Atr. Resistência"
+                            <TextBlock Text="{loc:Loc Item.Labels.AtrResist}"
                                        Grid.Row="12"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -724,7 +745,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="89,5,14,10"/>
 
-                            <TextBlock Text="Special Dmg"
+                            <TextBlock Text="{loc:Loc Item.Labels.SpecialDmg}"
                                        Grid.Row="12"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -740,7 +761,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="20,0,71,15"/>
 
-                            <TextBlock Text="Attribute Dano"
+                            <TextBlock Text="{loc:Loc Item.Labels.AtrDmg}"
                                        Grid.Row="13"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -753,7 +774,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="89,0,14,15"/>
 
-                            <TextBlock Text="Special Type"
+                            <TextBlock Text="{loc:Loc Item.Labels.SpecialType}"
                                        Grid.Row="13"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -769,7 +790,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="20,0,71,15"/>
 
-                            <TextBlock Text="Attribute Rate"
+                            <TextBlock Text="{loc:Loc Item.Labels.AtrRate}"
                                        Grid.Row="14"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -782,7 +803,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="89,0,14,15"/>
 
-                            <TextBlock Text="Enchant Time Type"
+                            <TextBlock Text="{loc:Loc Item.Labels.EnchantTimeType}"
                                        Grid.Row="14"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -797,7 +818,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="20,0,71,10"/>
 
-                            <TextBlock Text="Enchant Type"
+                            <TextBlock Text="{loc:Loc Item.Labels.EnchantType}"
                                        Grid.Row="15"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -810,7 +831,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="89,0,14,15"/>
 
-                            <TextBlock Text="Enchant Duration"
+                            <TextBlock Text="{loc:Loc Item.Labels.EnchantDuration}"
                                        Grid.Row="15"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -825,7 +846,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="20,0,71,10"/>
 
-                            <TextBlock Text="Enchant"
+                            <TextBlock Text="{loc:Loc Item.Labels.Enchant}"
                                        Grid.Row="8"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -840,11 +861,11 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="50,0,12,22"/>
                         </Grid>
-                    </ScrollViewer>
+                    
                 </TabItem>
 
                 <!-- OUTROS -->
-                <TabItem Header="Outros">
+                <TabItem Header="{loc:Loc Main.Tabs.Outros}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Grid Margin="20">
                             <Grid.ColumnDefinitions>
@@ -869,7 +890,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="WeaponEffectId"
+                            <TextBlock Text="{loc:Loc Item.Labels.WeaponEffectId}"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
                                        VerticalAlignment="Center"/>
@@ -880,7 +901,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="FlyEffectId"
+                            <TextBlock Text="{loc:Loc Item.Labels.FlyEffectId}"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -892,7 +913,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="UsedEffectId"
+                            <TextBlock Text="{loc:Loc Item.Labels.UsedEffectId}"
                                        Grid.Row="1"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -905,7 +926,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="UsedSoundName"
+                            <TextBlock Text="{loc:Loc Item.Labels.UsedSoundName}"
                                        Grid.Row="1"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -919,7 +940,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="EnhanceEffectId"
+                            <TextBlock Text="{loc:Loc Item.Labels.EnhanceEffectId}"
                                        Grid.Row="2"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -932,7 +953,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="DropRate"
+                            <TextBlock Text="{loc:Loc Item.Labels.DropRate}"
                                        Grid.Row="2"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -946,7 +967,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="DropIndex"
+                            <TextBlock Text="{loc:Loc Item.Labels.DropIndex}"
                                        Grid.Row="3"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -959,7 +980,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="TreasureBuff 1"
+                            <TextBlock Text="{loc:Loc Item.Labels.TreasureBuff1}"
                                        Grid.Row="3"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -973,7 +994,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="TreasureBuff 2"
+                            <TextBlock Text="{loc:Loc Item.Labels.TreasureBuff2}"
                                        Grid.Row="4"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -986,7 +1007,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="TreasureBuff 3"
+                            <TextBlock Text="{loc:Loc Item.Labels.TreasureBuff3}"
                                        Grid.Row="4"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1000,7 +1021,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="TreasureBuff 4"
+                            <TextBlock Text="{loc:Loc Item.Labels.TreasureBuff4}"
                                        Grid.Row="5"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1013,7 +1034,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ExpertLevel"
+                            <TextBlock Text="{loc:Loc Item.Labels.ExpertLevel}"
                                        Grid.Row="5"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1027,7 +1048,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ExpertEnchantId"
+                            <TextBlock Text="{loc:Loc Item.Labels.ExpertEnchantId}"
                                        Grid.Row="6"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1040,7 +1061,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ElfSkillId"
+                            <TextBlock Text="{loc:Loc Item.Labels.ElfSkillId}"
                                        Grid.Row="6"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1054,7 +1075,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="LimitType"
+                            <TextBlock Text="{loc:Loc Item.Labels.LimitType}"
                                        Grid.Row="7"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1067,7 +1088,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="DueDateTime"
+                            <TextBlock Text="{loc:Loc Item.Labels.DueDateTime}"
                                        Grid.Row="7"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1081,7 +1102,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="MissionPosId"
+                            <TextBlock Text="{loc:Loc Item.Labels.MissionPosId}"
                                        Grid.Row="8"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1094,7 +1115,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="BlockRate"
+                            <TextBlock Text="{loc:Loc Item.Labels.BlockRate}"
                                        Grid.Row="8"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1108,7 +1129,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="LogLevel"
+                            <TextBlock Text="{loc:Loc Item.Labels.LogLevel}"
                                        Grid.Row="9"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1121,7 +1142,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="AuctionType"
+                            <TextBlock Text="{loc:Loc Item.Labels.AuctionType}"
                                        Grid.Row="9"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1135,7 +1156,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ExtraData 1"
+                            <TextBlock Text="{loc:Loc Item.Labels.ExtraData1}"
                                        Grid.Row="10"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1148,7 +1169,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ExtraData 2"
+                            <TextBlock Text="{loc:Loc Item.Labels.ExtraData2}"
                                        Grid.Row="10"
                                        Grid.Column="2"
                                        Foreground="AliceBlue"
@@ -1162,7 +1183,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      BorderBrush="#333"
                                      Margin="0,5,20,10"/>
 
-                            <TextBlock Text="ExtraData 3"
+                            <TextBlock Text="{loc:Loc Item.Labels.ExtraData3}"
                                        Grid.Row="11"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
@@ -1179,7 +1200,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                 </TabItem>
 
                 <!-- CLASSE -->
-                <TabItem Header="Classe">
+                <TabItem Header="{loc:Loc Main.Tabs.Classe}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Grid Margin="20">
                             <Grid.RowDefinitions>
@@ -1194,7 +1215,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Classes Hex"
+                            <TextBlock Text="{loc:Loc Item.Labels.ClassesHex}"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
                                        VerticalAlignment="Center"
@@ -1206,7 +1227,8 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                      Background="#23262E"
                                      Foreground="White"
                                      BorderBrush="#333"
-                                     Margin="-50,0,0,0"/>
+                                     Margin="-50,0,0,0"
+                                     TextChanged="ClassBox_TextChanged"/>
 
                             <TextBlock x:Name="restrictclass_value"
                                        Grid.Row="1"
@@ -1232,7 +1254,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                 </TabItem>
 
                 <!-- FLAGS -->
-                <TabItem Header="Flags" HorizontalAlignment="Right" Width="50">
+                <TabItem Header="{loc:Loc Main.Tabs.Flags}" HorizontalAlignment="Right" Width="50">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Grid Margin="20">
                             <Grid.RowDefinitions>
@@ -1250,7 +1272,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="OpFlags"
+                            <TextBlock Text="{loc:Loc Item.Labels.OpFlags}"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"
                                        VerticalAlignment="Center"/>
@@ -1275,7 +1297,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                                 </ScrollViewer>
                             </Border>
 
-                            <TextBlock Text="OpFlagsPlus"
+                            <TextBlock Text="{loc:Loc Item.Labels.OpFlagsPlus}"
                                        Grid.Row="3"
                                        Foreground="AliceBlue"
                                        FontFamily="Segoe UI Semibold"

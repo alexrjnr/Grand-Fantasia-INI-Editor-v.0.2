@@ -1,0 +1,441 @@
+<UserControl x:Class="GrandFantasiaINIEditor.Modules.Npc.NpcView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:loc="clr-namespace:GrandFantasiaINIEditor.Core">
+
+    <Grid Background="#0F0F12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#1A1C22" Padding="12" Margin="0,0,10,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="42"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{loc:Loc Key=Npc.Title}"
+                           FontSize="22"
+                           Margin="0,0,0,10"
+                           FontWeight="SemiBold">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#4FD1FF" Offset="0.0"/>
+                            <GradientStop Color="#3A8DFF" Offset="0.6"/>
+                            <GradientStop Color="#2B58CC" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <TextBox x:Name="SearchBox"
+                         Grid.Row="1"
+                         Height="32"
+                         Margin="0,0,0,10"
+                         Background="#23262E"
+                         Foreground="White"
+                         BorderBrush="#333"
+                         Padding="8,6"
+                         TextChanged="SearchBox_TextChanged"/>
+
+                <DataGrid x:Name="NpcGrid"
+                          Grid.Row="2"
+                          AutoGenerateColumns="False"
+                          SelectionMode="Single"
+                          SelectionChanged="NpcGrid_SelectionChanged"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column"
+                          Background="#14161B"
+                          Foreground="White"
+                          BorderBrush="#2B2E36"
+                          RowBackground="#14161B"
+                          AlternatingRowBackground="#1A1C22"
+                          GridLinesVisibility="None"
+                          RowHeaderWidth="0">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#23262E"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" Value="#2B2E36"/>
+                            <Setter Property="Padding" Value="8,4"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc Npc.Headers.Id}" Binding="{Binding Id}" Width="76" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{loc:Loc Npc.Headers.Name}" Binding="{Binding CompactDisplayName}" Width="*" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock x:Name="StatusText"
+                           Grid.Row="3"
+                           Margin="2,10,0,8"
+                           Foreground="#9CD67A"/>
+
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Content="{loc:Loc Npc.Buttons.Add}"
+                            Height="30"
+                            Margin="0,0,8,0"
+                            Background="#3A8DFF"
+                            Foreground="White"
+                            BorderBrush="#3A8DFF"
+                            Click="AddButton_Click"/>
+
+                    <Button Grid.Column="1"
+                            Content="{loc:Loc Npc.Buttons.Remove}"
+                            Height="30"
+                            Margin="4,0,4,0"
+                            Background="#C74646"
+                            Foreground="White"
+                            BorderBrush="#C74646"
+                            Click="RemoveButton_Click"/>
+
+                    <Button Grid.Column="2"
+                            Content="{loc:Loc Npc.Buttons.Save}"
+                            Height="30"
+                            Margin="8,0,0,0"
+                            Background="#2E8B57"
+                            Foreground="White"
+                            BorderBrush="#2E8B57"
+                            Click="SaveButton_Click"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <TabControl Background="#121318" BorderBrush="#2B2E36" Foreground="White">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border Name="Border" BorderBrush="#2B2E36" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0" Margin="2,0">
+                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#1A1C22"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Border" Property="Background" Value="#23262E"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="AliceBlue"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,6,14,6"/>
+                        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+                    </Style>
+
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="0,6,0,6"/>
+                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="Background" Value="#23262E"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderBrush" Value="#333"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                    </Style>
+
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Margin" Value="0,6,0,6"/>
+                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="Background" Value="#23262E"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderBrush" Value="#333"/>
+                    </Style>
+
+                    <Style x:Key="CommandLegendStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#D6D6D6"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="Margin" Value="0,2,8,2"/>
+                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="LineHeight" Value="18"/>
+                    </Style>
+
+                    <DataTemplate x:Key="CommandTokenLineTemplate">
+                        <Border Background="#17191F" BorderBrush="#333" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="360"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0"
+                                         Text="{Binding Token, UpdateSourceTrigger=PropertyChanged}"
+                                         LostFocus="CommandTokenLine_LostFocus"
+                                         Tag="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=Tag}"
+                                         Background="#1B1E24"
+                                         Foreground="White"
+                                         BorderBrush="#333"
+                                         FontFamily="Consolas"
+                                         FontSize="12"
+                                         Padding="6,4"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Legend}" Style="{StaticResource CommandLegendStyle}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="CommandSectionsEditorTemplate">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="{loc:Loc Npc.Labels.Entry}" Foreground="#8ED0FF" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <ItemsControl ItemsSource="{Binding EntryTokens}"
+                                          Tag="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}"
+                                          ItemTemplate="{StaticResource CommandTokenLineTemplate}"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.Condition}" Foreground="#8ED0FF" FontWeight="SemiBold" Margin="0,10,0,6"/>
+                            <ItemsControl ItemsSource="{Binding ConditionTokens}"
+                                          Tag="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}"
+                                          ItemTemplate="{StaticResource CommandTokenLineTemplate}"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.Command}" Foreground="#8ED0FF" FontWeight="SemiBold" Margin="0,10,0,6"/>
+                            <ItemsControl ItemsSource="{Binding SuccessTokens}"
+                                          Tag="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}"
+                                          ItemTemplate="{StaticResource CommandTokenLineTemplate}"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.FailCommand}" Foreground="#8ED0FF" FontWeight="SemiBold" Margin="0,10,0,6"/>
+                            <ItemsControl ItemsSource="{Binding FailTokens}"
+                                          Tag="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag}"
+                                          ItemTemplate="{StaticResource CommandTokenLineTemplate}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.Resources>
+
+                <TabItem Header="{loc:Loc Npc.Tabs.General}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Margin="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="170"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.NpcId}" Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.Id, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.NpcNameDb}" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.NpcName, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Row="1"
+                                     Grid.Column="1"
+                                     MinHeight="78"
+                                     Height="78"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     VerticalContentAlignment="Top"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.TranslatedName}" Grid.Row="2" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.TranslatedName, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Row="2"
+                                     Grid.Column="1"
+                                     MinHeight="78"
+                                     Height="78"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     VerticalContentAlignment="Top"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.TranslatedDesc}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="0,8,14,0"/>
+                            <TextBox Text="{Binding SelectedNpc.TranslatedDesc, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" MinHeight="72" Height="72" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.ModelString}" Grid.Row="4" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.ModelString, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.NpcControl}" Grid.Row="5" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.NpcControl, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.CursorType}" Grid.Row="6" Grid.Column="0"/>
+                            <ComboBox x:Name="CursorTypeCombo"
+                                      SelectedItem="{Binding SelectedNpc.CursorType, Mode=TwoWay}"
+                                      Grid.Row="6"
+                                      Grid.Column="1"
+                                      Background="#23262E"
+                                      Foreground="Black"
+                                      FontFamily="Segoe UI Semibold"
+                                      BorderBrush="#333"
+                                      IsEditable="True"
+                                      IsReadOnly="True">
+                                <ComboBox.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="White"/>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                                </ComboBox.Resources>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Background" Value="#23262E"/>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.DialogIds}" Grid.Row="7" Grid.Column="0"/>
+                            <Grid Grid.Row="7" Grid.Column="1" Margin="0,6,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding SelectedNpc.DialogId1, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="0"/>
+                                <TextBox Text="{Binding SelectedNpc.DialogId2, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Margin="0"/>
+                            </Grid>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.DialogRate}" Grid.Row="8" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.DialogRate, UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.LocateLimit}" Grid.Row="9" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.LocateLimit, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.ControlFlag}" Grid.Row="10" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.ControlFlag, UpdateSourceTrigger=PropertyChanged}" Grid.Row="10" Grid.Column="1"/>
+
+                            <TextBlock Text="{loc:Loc Npc.Labels.Note}" Grid.Row="11" Grid.Column="0"/>
+                            <TextBox Text="{Binding SelectedNpc.Note, UpdateSourceTrigger=PropertyChanged}" Grid.Row="11" Grid.Column="1"/>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="{loc:Loc Npc.Tabs.Commands}">
+                    <Grid Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                       
+
+                        <TabControl Grid.Row="1" Background="#121318" BorderBrush="#2B2E36" Foreground="White">
+                            <TabItem Header="{loc:Loc Npc.Tabs.Base}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel Margin="10">
+                                        <TextBlock Text="{loc:Loc Npc.Labels.MainDialog}"
+                                                   Foreground="#8ED0FF"
+                                                   FontWeight="SemiBold"
+                                                   Margin="0,0,0,6"/>
+                                        <Border Background="#17191F" BorderBrush="#333" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="220"/>
+                                                    <ColumnDefinition Width="12"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0"
+                                                         Text="{Binding SelectedNpc.NpcBaseDialogId, UpdateSourceTrigger=PropertyChanged}"
+                                                         Background="#1B1E24"
+                                                         Foreground="White"
+                                                         BorderBrush="#333"
+                                                         FontFamily="Consolas"
+                                                         FontSize="12"
+                                                         Padding="6,4"/>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="{loc:Loc Npc.Legends.MainDialogId}"
+                                                           Style="{StaticResource CommandLegendStyle}"/>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option1}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd1"
+                                                    Content="{Binding SelectedNpc.OptionCmd1Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option2}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd2"
+                                                    Content="{Binding SelectedNpc.OptionCmd2Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option3}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd3"
+                                                    Content="{Binding SelectedNpc.OptionCmd3Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option4}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd4"
+                                                    Content="{Binding SelectedNpc.OptionCmd4Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option5}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd5"
+                                                    Content="{Binding SelectedNpc.OptionCmd5Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option6}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd6"
+                                                    Content="{Binding SelectedNpc.OptionCmd6Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option7}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd7"
+                                                    Content="{Binding SelectedNpc.OptionCmd7Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+
+                            <TabItem Header="{loc:Loc Npc.Tabs.Option8}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ContentControl Tag="OptionCmd8"
+                                                    Content="{Binding SelectedNpc.OptionCmd8Sections}"
+                                                    ContentTemplate="{StaticResource CommandSectionsEditorTemplate}"/>
+                                </ScrollViewer>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <Grid x:Name="LoadingOverlay" Grid.ColumnSpan="2" Background="#80000000" Visibility="Collapsed">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{loc:Loc Npc.Labels.Loading}" Foreground="White" FontSize="20" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

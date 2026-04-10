@@ -31,7 +31,8 @@
                     <Border x:Name="border"
                             CornerRadius="6"
                             Background="Red"
-                            Padding="10">
+                            Padding="0"
+                            Margin="0,-15,0,15">
 
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"

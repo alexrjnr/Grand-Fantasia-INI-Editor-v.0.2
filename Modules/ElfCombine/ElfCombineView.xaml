@@ -1,0 +1,483 @@
+<UserControl x:Class="GrandFantasiaINIEditor.Modules.ElfCombine.ElfCombineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid Background="#0F0F12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══ LISTA ESQUERDA ═══ -->
+        <Border Grid.Column="0" Background="#1A1C22" Padding="12" Margin="0,0,10,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="42"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="ElfCombine Database"
+                            FontSize="22"
+                             Margin="0,0,0,10"
+                              FontWeight="SemiBold">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Color="#4FD1FF" Offset="0.0" />
+                            <GradientStop Color="#3A8DFF" Offset="0.6" />
+                            <GradientStop Color="#2B58CC" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <TextBox x:Name="SearchBox"
+                         Grid.Row="1"
+                         Height="32" Margin="0,0,0,10"
+                         Background="#23262E" Foreground="White"
+                         BorderBrush="#333" Padding="8,6"
+                         TextChanged="SearchBox_TextChanged"/>
+
+                <ListBox x:Name="CombineList"
+                         Grid.Row="2"
+                         Background="#14161B" Foreground="White"
+                         BorderBrush="#2B2E36"
+                         SelectionChanged="CombineList_SelectionChanged"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="6,4" Margin="1" CornerRadius="4" Background="Transparent">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="36"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="32" Height="32"
+                                            Background="#15171C"
+                                            BorderBrush="#444" BorderThickness="1"
+                                            CornerRadius="3">
+                                        <Image Source="{Binding Icon}" Stretch="Uniform"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,0">
+                                        <TextBlock Text="{Binding Id}"
+                                                   FontSize="11" Foreground="#888"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="12" FontWeight="SemiBold" Foreground="White"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!-- Botões -->
+                <Grid Grid.Row="3" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="Recarregar"
+                            FontSize="9" Height="30" Margin="0,0,8,0"
+                            Background="#A020F0" Foreground="White" BorderBrush="#A020F0"
+                            Click="Reload_Click"/>
+
+                    <Button Grid.Column="1" Content="Salvar"
+                            FontSize="9" Height="30" Margin="4,0"
+                            Background="#2E8B57" Foreground="White" BorderBrush="#2E8B57"
+                            Click="Save_Click"/>
+
+                    <Button Grid.Column="2" Content="Clonar"
+                            FontSize="9" Height="30" Margin="8,0,0,0"
+                            Background="#3A8DFF" Foreground="White" BorderBrush="#3A8DFF"
+                            Click="Clone_Click"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- ═══ EDITOR DIREITA ═══ -->
+        <Grid Grid.Column="1">
+            <TabControl Background="#121318" BorderBrush="#2B2E36" Foreground="White">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border Name="Border" BorderBrush="#2B2E36" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0" Margin="2,0">
+                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#1A1C22"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Border" Property="Background" Value="#23262E"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- ── ABA GERAL ── -->
+                <TabItem Header="Geral">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="15">
+                            <!-- Propriedades Básicas -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="180"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Row 0: ID, Taxa de Sucesso -->
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="ID:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="IdBox" Grid.Row="0" Grid.Column="1"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" IsReadOnly="True" FontSize="11"
+                                         VerticalContentAlignment="Center"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Sucesso (%):" Foreground="#AAA" VerticalAlignment="Center" FontSize="11" Margin="10,0,0,0"/>
+                                <TextBox x:Name="SuccessRateBox" Grid.Row="0" Grid.Column="3"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <!-- Row 1: SkillType, CombineType -->
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Habilidade:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <ComboBox x:Name="SkillTypeCombo" Grid.Row="1" Grid.Column="1"
+                                          Background="#23262E" Foreground="Black" BorderBrush="#444" FontFamily="Segoe UI Semibold"
+                                          Height="24" DisplayMemberPath="Label" SelectedValuePath="Value" FontSize="11"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Combinação:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11" Margin="10,0,0,0"/>
+                                <ComboBox x:Name="CombineTypeCombo" Grid.Row="1" Grid.Column="3"
+                                          Background="#23262E" Foreground="Black" BorderBrush="#444" FontFamily="Segoe UI Semibold"
+                                          Height="24" DisplayMemberPath="Label" SelectedValuePath="Value" FontSize="11"/>
+
+                                <!-- Row 2: Nível Mín, Nível Máx -->
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Nível Mín:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="LevelMinBox" Grid.Row="2" Grid.Column="1"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="Nível Máx:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11" Margin="10,0,0,0"/>
+                                <TextBox x:Name="LevelMaxBox" Grid.Row="2" Grid.Column="3"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <!-- Row 3: Taxa Exp, Exp -->
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Taxa Exp (%):" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="ExpRateBox" Grid.Row="3" Grid.Column="1"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="Exp Ganha:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11" Margin="10,0,0,0"/>
+                                <TextBox x:Name="ExpBox" Grid.Row="3" Grid.Column="3"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <!-- Row 4: Duração, Energia -->
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Duração:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="DurationBox" Grid.Row="4" Grid.Column="1"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="Energia:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11" Margin="10,0,0,0"/>
+                                <TextBox x:Name="NeedEnergyBox" Grid.Row="4" Grid.Column="3"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <!-- Row 5: Ouro -->
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Ouro:" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="NeedGoldBox" Grid.Row="5" Grid.Column="1"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+
+                                <!-- Row 6: Tip -->
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Legenda (Tip):" Foreground="#AAA" VerticalAlignment="Center" FontSize="11"/>
+                                <TextBox x:Name="TipBox" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"
+                                         Background="#1E2128" Foreground="White" BorderBrush="#444"
+                                         Height="24" Padding="5,2" VerticalContentAlignment="Center" FontSize="11"/>
+                            </Grid>
+
+                            <Border Height="1" Background="#2B2E36" Margin="0,12"/>
+
+                            <!-- Item Resultado -->
+                            <TextBlock Text="Item Resultado" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="#A0F0C0" Margin="0,0,0,6"/>
+
+                            <Border Background="#1A1C22" BorderBrush="#3A8DFF" BorderThickness="1"
+                                    CornerRadius="6" Padding="10" Margin="0,0,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="52"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="42" Height="42"
+                                            Background="#15171C"
+                                            BorderBrush="Gold" BorderThickness="1.5"
+                                            CornerRadius="4" VerticalAlignment="Top">
+                                        <Image x:Name="ResultIcon" Stretch="Uniform"/>
+                                    </Border>
+                                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                            <TextBlock Text="ID: " Foreground="#888" VerticalAlignment="Center" FontSize="11"/>
+                                            <TextBox x:Name="ResultItemIdBox"
+                                                     Width="80"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="22" Padding="4,2"
+                                                     VerticalContentAlignment="Center" FontSize="11"
+                                                     TextChanged="ResultItemId_TextChanged"/>
+                                        </StackPanel>
+                                        <TextBlock x:Name="ResultItemNameText"
+                                                   Grid.Row="1"
+                                                   Foreground="White" FontSize="12" FontWeight="SemiBold"
+                                                   Margin="0,4,0,0" Text="—"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <!-- Separador -->
+                            <Border Height="1" Background="#2B2E36" Margin="0,12"/>
+
+                            <!-- Materiais -->
+                            <TextBlock Text="Materiais Necessários" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="#FFD57A" Margin="0,0,0,6"/>
+
+                            <UniformGrid Columns="3" Margin="0,0,0,0">
+
+                                <!-- Material 1 -->
+                                <Border Margin="0,0,6,0" Background="#1A1C22"
+                                        BorderBrush="#444" BorderThickness="1"
+                                        CornerRadius="6" Padding="8">
+                                    <StackPanel>
+                                        <TextBlock Text="Material 1" Foreground="#888"
+                                                   FontSize="10" Margin="0,0,0,4"/>
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="36" Height="36" HorizontalAlignment="Left"
+                                                    Background="#15171C"
+                                                    BorderBrush="Gold" BorderThickness="1"
+                                                    CornerRadius="3">
+                                                <Image x:Name="Mat1Icon" Stretch="Uniform"/>
+                                            </Border>
+                                            <TextBlock x:Name="Mat1NameText" Grid.Column="1" Foreground="White"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       TextWrapping="Wrap" Text="—" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                            <TextBlock Text="ID:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat1IdBox" Width="65"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"
+                                                     TextChanged="Mat1Id_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Qtd:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat1QtyBox" Width="40"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Material 2 -->
+                                <Border Margin="3,0" Background="#1A1C22"
+                                        BorderBrush="#444" BorderThickness="1"
+                                        CornerRadius="6" Padding="8">
+                                    <StackPanel>
+                                        <TextBlock Text="Material 2" Foreground="#888"
+                                                   FontSize="10" Margin="0,0,0,4"/>
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="36" Height="36" HorizontalAlignment="Left"
+                                                    Background="#15171C"
+                                                    BorderBrush="Gold" BorderThickness="1"
+                                                    CornerRadius="3">
+                                                <Image x:Name="Mat2Icon" Stretch="Uniform"/>
+                                            </Border>
+                                            <TextBlock x:Name="Mat2NameText" Grid.Column="1" Foreground="White"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       TextWrapping="Wrap" Text="—" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                            <TextBlock Text="ID:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat2IdBox" Width="65"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"
+                                                     TextChanged="Mat2Id_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Qtd:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat2QtyBox" Width="40"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Material 3 -->
+                                <Border Margin="6,0,0,0" Background="#1A1C22"
+                                        BorderBrush="#444" BorderThickness="1"
+                                        CornerRadius="6" Padding="8">
+                                    <StackPanel>
+                                        <TextBlock Text="Material 3" Foreground="#888"
+                                                   FontSize="10" Margin="0,0,0,4"/>
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="36" Height="36" HorizontalAlignment="Left"
+                                                    Background="#15171C"
+                                                    BorderBrush="Gold" BorderThickness="1"
+                                                    CornerRadius="3">
+                                                <Image x:Name="Mat3Icon" Stretch="Uniform"/>
+                                            </Border>
+                                            <TextBlock x:Name="Mat3NameText" Grid.Column="1" Foreground="White"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       TextWrapping="Wrap" Text="—" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                            <TextBlock Text="ID:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat3IdBox" Width="65"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"
+                                                     TextChanged="Mat3Id_TextChanged"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Qtd:" Foreground="#888" VerticalAlignment="Center" FontSize="10" Width="20"/>
+                                            <TextBox x:Name="Mat3QtyBox" Width="40"
+                                                     Background="#1E2128" Foreground="White"
+                                                     BorderBrush="#555" Height="20" Padding="3,1"
+                                                     FontSize="10" VerticalContentAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                            </UniformGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- ── ABA EFEITOS ── -->
+                <TabItem Header="Efeitos Pós-Combinação">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Lista de Efeitos (Resumo) -->
+                        <Border Grid.Column="0" Background="#1A1C22" CornerRadius="6" Padding="8" Margin="0,0,10,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Lista de Efeitos (1-8)" Foreground="#AAAAFF" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <ListBox x:Name="EffectsList" Grid.Row="1"
+                                         Background="#14161B" BorderBrush="#333" Foreground="White"
+                                         SelectionChanged="EffectsList_SelectionChanged">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Padding="4" BorderBrush="#2B2E36" BorderThickness="0,0,0,1">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Label}" Foreground="#888" FontSize="11"/>
+                                                    <TextBlock Foreground="White" FontSize="11">
+                                                        <Run Text="Prob: " Foreground="#666"/>
+                                                        <Run Text="{Binding Probability}"/>
+                                                    </TextBlock>
+                                                    <TextBlock Text="{Binding Command}" Foreground="#666" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+
+                        <!-- Editor de Comandos Estruturado -->
+                        <Border Grid.Column="1" Background="#1A1C22" CornerRadius="6" Padding="12">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <TextBlock Text="Editor de Comando Estruturado" FontSize="14" FontWeight="SemiBold" Foreground="#A0C0FF" Margin="0,0,0,12"/>
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Probabilidade de Execução (0-100):" Foreground="#888" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <TextBox Grid.Column="1" Text="{Binding SelectedItem.Probability, ElementName=EffectsList, UpdateSourceTrigger=PropertyChanged}"
+                                                 Background="#1E2128" Foreground="White" BorderBrush="#333" Height="26" Width="80" HorizontalAlignment="Left" Padding="5,3" VerticalContentAlignment="Center"/>
+                                    </Grid>
+
+                                    <ItemsControl x:Name="CmdPartsList">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,0,6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="22"/>
+                                                        <ColumnDefinition Width="220"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text=":" Foreground="#555" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"/>
+                                                    <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                                             Tag="{Binding}" TextChanged="CmdPart_TextChanged"
+                                                             Background="#1E2128" Foreground="#C0E0FF" BorderBrush="#333"
+                                                             Height="26" Padding="6,3" FontFamily="Consolas" VerticalContentAlignment="Center"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding LegendText}"
+                                                               Foreground="#999" FontSize="11" VerticalAlignment="Center"
+                                                               Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    
+                                    <TextBlock Text="Comando Bruto:" Foreground="#555" FontSize="10" Margin="0,20,0,4"/>
+                                    <TextBox Text="{Binding SelectedItem.Command, ElementName=EffectsList, Mode=OneWay}"
+                                             Background="Transparent" Foreground="#444" BorderThickness="0" IsReadOnly="True" FontSize="9"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>
