@@ -6,10 +6,9 @@
 Editor desktop para arquivos `.ini` do Grand Fantasia, com foco em visualização, edição e salvamento direto dos dados do cliente.
 
 ## Funcionalidades
-
-- Edição de `S_Item.ini`
-- Edição de `S_ItemMall.ini`
-- Leitura de tradução via `T_Item.ini` e `T_ItemMall.ini`
+- Suporte a Múltiplos idiomas  `Português-BR, English, Spanish, Francês e Chinês`
+- Edição de `S/C_.inis`
+- Leitura de tradução via `T_.ini` 
 - Busca de itens por ID ou nome
 - Visualização de ícones `.dds`
 - Edição de atributos e campos gerais
@@ -17,12 +16,22 @@ Editor desktop para arquivos `.ini` do Grand Fantasia, com foco em visualizaçã
 - Clonagem de itens
 - Salvamento direto nos arquivos `.ini`
 - Suporte a campos de reputação/fama via dicionário no `RestrictAlign`
+- Visualização clara em Condições e Tipagens via legendas ituitivas.
 
 ## Módulos atuais
 
 - **Geral**
 - **Itens**
 - **ItemMall**
+- **Mission**
+- **Store**
+- **Elf Combine**
+- **Drop Item**
+- **Enchant**
+- **Collection**
+- **Npc**
+- **Monster**
+- **Scene**
 
 ## Tecnologias usadas
 
