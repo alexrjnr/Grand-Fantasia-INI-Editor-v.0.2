@@ -757,6 +757,108 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
         }
 
         // ── Build row from controls ───────────────────────────────────────────
+        private void PatchIniRowInPlace(string path, Encoding encoding, string oldId, string newId, List<string> editedRow)
+        {
+            if (!File.Exists(path)) return;
+
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string rawLine = lines[i];
+                var parts = rawLine.Split(new[] { '|' }, StringSplitOptions.None).ToList();
+
+                if (parts.Count == 0) continue;
+
+                string lineId = parts[0].Trim();
+                if (!string.Equals(lineId, oldId, StringComparison.Ordinal)) continue;
+
+                // Atualizar os campos
+                int needed = Math.Max(parts.Count, editedRow.Count);
+                while (parts.Count < needed) parts.Add(string.Empty);
+
+                for (int j = 0; j < editedRow.Count; j++)
+                {
+                    parts[j] = editedRow[j] ?? string.Empty;
+                }
+
+                if (!string.IsNullOrWhiteSpace(newId))
+                    parts[IDX_ID] = newId;
+
+                string newLine = string.Join("|", parts);
+
+                // Preservar pipe final
+                if (rawLine.TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                    newLine += "|";
+
+                lines[i] = newLine;
+                found = true;
+                break;
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private string CaptureOriginalBlock(string path, Encoding encoding, string id)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int pipe = line.IndexOf('|');
+                bool startsWithId = pipe > 0 && int.TryParse(line.Substring(0, pipe).Trim(), out _);
+
+                if (startsWithId)
+                {
+                    string currentId = line.Substring(0, pipe).Trim();
+                    if (currentId == id)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            int pipe = block.IndexOf('|');
+            if (pipe > 0)
+            {
+                string newBlock = newId + block.Substring(pipe);
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
+        }
+
         private List<string> BuildRowFromControls()
         {
             var row = _currentRow != null
@@ -818,13 +920,21 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
 
             string id = IdBox.Text.Trim();
             var newRow = BuildRowFromControls();
-            db.Rows[id]      = newRow;
+            
             _currentRow      = new List<string>(newRow);
             _originalRowSnapshot = new List<string>(newRow);
 
             try
             {
-                SaveDataIni(db.FilePath, Encoding.GetEncoding(950));
+                string sPath = db.FilePath;
+                string cPath = Path.Combine(Path.GetDirectoryName(sPath) ?? string.Empty, "C_ElfCombine.ini");
+
+                PatchIniRowInPlace(sPath, Encoding.GetEncoding(950), id, id, newRow);
+                if (File.Exists(cPath))
+                    PatchIniRowInPlace(cPath, Encoding.GetEncoding(950), id, id, newRow);
+
+                db.Rows[id] = newRow;
+
                 MessageBox.Show("Salvo com sucesso!", "ElfCombine", MessageBoxButton.OK, MessageBoxImage.Information);
                 RefreshList((SearchBox.Text ?? "").Trim());
             }
@@ -849,18 +959,26 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
                 return;
             }
 
-            var cloned = new List<string>(_currentRow);
-            while (cloned.Count <= IDX_ID) cloned.Add("");
-            cloned[IDX_ID] = newId;
-            db.Rows[newId] = cloned;
-
             try
             {
-                SaveDataIni(db.FilePath, Encoding.GetEncoding(950));
+                string sPath = db.FilePath;
+                string cPath = Path.Combine(Path.GetDirectoryName(sPath) ?? string.Empty, "C_ElfCombine.ini");
+
+                AppendClonedBlock(sPath, Encoding.GetEncoding(950), _lastSelectedId, newId);
+                if (File.Exists(cPath))
+                    AppendClonedBlock(cPath, Encoding.GetEncoding(950), _lastSelectedId, newId);
+
+                // Atualizar o banco em memória para refletir a nova linha
+                var cloned = new List<string>(_currentRow);
+                if (cloned.Count > IDX_ID) cloned[IDX_ID] = newId;
+                db.Rows[newId] = cloned;
+
                 RefreshList((SearchBox.Text ?? "").Trim());
                 _lastSelectedId = newId;
                 var match = Entries.FirstOrDefault(e2 => e2.Id == newId);
                 if (match != null) CombineList.SelectedItem = match;
+
+                MessageBox.Show("Clonado com sucesso!", "ElfCombine", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {

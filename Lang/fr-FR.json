@@ -800,7 +800,8 @@
     "Buttons": {
       "Add": "Ajouter",
       "Remove": "Supprimer",
-      "Save": "Enregistrer"
+      "Save": "Enregistrer",
+      "Clone": "Cloner"
     },
     "Tabs": {
       "General": "Général",
@@ -1123,6 +1124,13 @@
       "4194304": "Pas de pile",
       "8388608": "RécupérerPrêtreFormulaire",
       "16777216": "Pas d'actualisation"
+    }
+  },
+  "Monster": {
+    "Buttons": {
+      "Reload": "Recharger",
+      "Clone": "Cloner",
+      "Save": "Enregistrer"
     }
   }
 }

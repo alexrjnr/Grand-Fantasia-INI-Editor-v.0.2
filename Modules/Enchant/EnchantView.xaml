@@ -140,9 +140,14 @@
                                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                     <GroupBox Header="{loc:Loc Enchant.Labels.Information}" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,10">
                                         <WrapPanel Margin="2">
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Name}" Foreground="Gray" FontSize="11" />
-                                                <TextBox x:Name="NameBox" Width="200" Background="#23262E" Foreground="White" BorderBrush="#333" Height="28" VerticalContentAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" Margin="5,2">
+                                                <Border Width="52" Height="52" Background="#23262E" BorderBrush="#4FD1FF" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0">
+                                                    <Image x:Name="EnchantIcon" Stretch="Fill"/>
+                                                </Border>
+                                                <StackPanel>
+                                                    <TextBlock Text="{loc:Loc Enchant.Labels.Name}" Foreground="Gray" FontSize="11" />
+                                                    <TextBox x:Name="NameBox" Width="200" Background="#23262E" Foreground="White" BorderBrush="#333" Height="28" VerticalContentAlignment="Center"/>
+                                                </StackPanel>
                                             </StackPanel>
                                             
                                             <StackPanel Margin="5,2">
@@ -151,7 +156,7 @@
                                             </StackPanel>
                                             <StackPanel Margin="5,2">
                                                 <TextBlock Text="{loc:Loc Enchant.Labels.IconFile}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="IconFileBox" Width="120" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                                <TextBox x:Name="IconFileBox" Width="120" Background="#23262E" Foreground="White" BorderBrush="#333" TextChanged="IconFileBox_TextChanged"/>
                                             </StackPanel>
                                             <StackPanel Margin="5,2">
                                                 <TextBlock Text="{loc:Loc Enchant.Labels.AnimId}" Foreground="Gray" FontSize="10"/>
@@ -217,9 +222,14 @@
                                 <!-- Column 2 -->
                                 <GroupBox Grid.Column="1" Header="{loc:Loc Enchant.Labels.Transition}" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,10" VerticalAlignment="Top">
                                     <WrapPanel Margin="2">
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransType}" Foreground="Gray" FontSize="10"/>
-                                            <ComboBox x:Name="TransTypeCombo" Width="140" Background="#23262E" Foreground="Black"/>
+                                        <StackPanel Orientation="Horizontal" Margin="5,2">
+                                            <Border Width="42" Height="42" Background="#23262E" BorderBrush="#3A8DFF" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0" VerticalAlignment="Bottom">
+                                                <Image x:Name="TransEnchantIcon" Stretch="Fill"/>
+                                            </Border>
+                                            <StackPanel>
+                                                <TextBlock Text="{loc:Loc Enchant.Labels.TransType}" Foreground="Gray" FontSize="10"/>
+                                                <ComboBox x:Name="TransTypeCombo" Width="140" Background="#23262E" Foreground="Black"/>
+                                            </StackPanel>
                                         </StackPanel>
                                         <StackPanel Margin="5,2">
                                             <TextBlock Text="{loc:Loc Enchant.Labels.Rate}" Foreground="Gray" FontSize="10"/>
@@ -235,7 +245,7 @@
                                         </StackPanel>
                                         <StackPanel Margin="5,2">
                                             <TextBlock Text="{loc:Loc Enchant.Labels.TransIcon}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransIconBox" Width="80" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                            <TextBox x:Name="TransIconBox" Width="80" Background="#23262E" Foreground="White" BorderBrush="#333" TextChanged="TransIconBox_TextChanged"/>
                                         </StackPanel>
                                         <StackPanel Margin="5,2">
                                             <TextBlock Text="{loc:Loc Enchant.Labels.EncType}" Foreground="Gray" FontSize="10"/>

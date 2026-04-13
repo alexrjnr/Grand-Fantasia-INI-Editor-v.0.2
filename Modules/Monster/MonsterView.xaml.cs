@@ -300,7 +300,7 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             if (!File.Exists(path))
                 return;
 
-            var rawLines = File.ReadAllLines(path, Encoding.GetEncoding(950));
+            var rawLines = File.ReadAllLines(path, Encoding.GetEncoding(1252));
             string currentId = null;
             var currentName = new StringBuilder();
 
@@ -333,14 +333,13 @@ namespace GrandFantasiaINIEditor.Modules.Monster
                 }
                 else if (currentId != null)
                 {
-                    string extra = (line ?? string.Empty).Trim();
-                    if (string.IsNullOrWhiteSpace(extra))
-                        continue;
-
-                    if (currentName.Length > 0)
-                        currentName.AppendLine();
-
-                    currentName.Append(SanitizeTranslationField(extra));
+                    string extra = (line ?? string.Empty).Trim().Trim('|').Trim();
+                    if (!string.IsNullOrEmpty(extra))
+                    {
+                        if (currentName.Length > 0)
+                            currentName.Append(" ");
+                        currentName.Append(SanitizeTranslationField(extra));
+                    }
                 }
             }
 
@@ -358,7 +357,7 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             string sMonster = Path.Combine(dbPath, "S_Monster.ini");
             if (File.Exists(sMonster))
             {
-                foreach (var line in File.ReadLines(sMonster, Encoding.GetEncoding(950)).Skip(1))
+                foreach (var line in File.ReadLines(sMonster, Encoding.GetEncoding(1252)).Skip(1))
                 {
                     var parts = line.Split('|');
                     if (parts.Length > 1)
@@ -370,7 +369,7 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             if (!File.Exists(monsterList))
                 return;
 
-            foreach (var line in File.ReadLines(monsterList, Encoding.GetEncoding(950)))
+            foreach (var line in File.ReadLines(monsterList, Encoding.GetEncoding(1252)))
             {
                 if (!line.StartsWith("DB", StringComparison.OrdinalIgnoreCase))
                     continue;
@@ -600,9 +599,33 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             try
             {
                 WriteCurrentToSelected();
-                WriteMonsterFile();
-                StatusText.Text = "S_Monster.ini salvo com sucesso.";
-                MessageBox.Show("S_Monster.ini salvo com sucesso.", "Monster", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                var sPath = db.FilePath;
+                var dir = Path.GetDirectoryName(sPath);
+                var cPath = Path.Combine(dir, "C_Monster.ini");
+                var tPath = Path.Combine(clientPath, "data", "translate", "T_Monster.ini");
+
+                var big5 = Encoding.GetEncoding(950);
+                var w1252 = Encoding.GetEncoding(1252);
+
+                var rowData = _selected.Row.ToArray();
+
+                // Patch S and C
+                PatchIniRowInPlace(sPath, big5, _selected.Id, _selected.Id, rowData);
+                if (File.Exists(cPath))
+                    PatchIniRowInPlace(cPath, big5, _selected.Id, _selected.Id, rowData);
+
+                // Patch T
+                if (File.Exists(tPath))
+                {
+                    PatchTranslateRowInPlace(tPath, w1252, _selected.Id, _selected.TranslatedName);
+                }
+
+                StatusText.Text = "Monstro salvo com sucesso em S/C/T.";
+                MessageBox.Show("Alterações salvas com sucesso em S_Monster, C_Monster e T_Monster.", 
+                                "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                LoadMonsters();
             }
             catch (Exception ex)
             {
@@ -797,6 +820,187 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             SetColumnItemValue(IDX_ATTRIBUTE_DAMAGE, AttributeDamageBox.Text);
             SetColumnItemValue(IDX_ATTRIBUTE_RATE, AttributeRateBox.Text);
             SetColumnItemValue(IDX_ATTRIBUTE_RESIST, AttributeResistBox.Text);
+        }
+        private string CaptureOriginalBlock(string path, Encoding encoding, string id)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                var parts = line.Split('|');
+                if (parts.Length == 0) continue;
+
+                string currentId = parts[0].Trim();
+                bool startsWithId = !string.IsNullOrWhiteSpace(currentId) && int.TryParse(currentId, out _);
+
+                if (startsWithId)
+                {
+                    if (currentId == id)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            string firstLine = block.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[0];
+            var firstLineParts = firstLine.Split('|').ToList();
+            if (firstLineParts.Count > 0)
+            {
+                firstLineParts[0] = newId;
+                string newFirstLine = string.Join("|", firstLineParts);
+                string newBlock = newFirstLine + block.Substring(firstLine.Length);
+
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
+        }
+
+        private void PatchIniRowInPlace(string path, Encoding encoding, string oldId, string newId, string[] editedRow)
+        {
+            if (!File.Exists(path)) return;
+
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string rawLine = lines[i];
+                var parts = rawLine.Split(new[] { '|' }, StringSplitOptions.None).ToList();
+
+                if (parts.Count == 0) continue;
+
+                if (parts[0].Trim() != oldId) continue;
+
+                // Atualizar campos presentes no editedRow
+                int needed = Math.Max(parts.Count, editedRow.Length);
+                while (parts.Count < needed) parts.Add(string.Empty);
+
+                for (int j = 0; j < editedRow.Length; j++)
+                {
+                    parts[j] = editedRow[j] ?? string.Empty;
+                }
+
+                if (!string.IsNullOrWhiteSpace(newId))
+                    parts[0] = newId;
+
+                string newLine = string.Join("|", parts);
+
+                // Preservar pipe final
+                if (rawLine.TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                    newLine += "|";
+
+                lines[i] = newLine;
+                found = true;
+                break;
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private void PatchTranslateRowInPlace(string path, Encoding encoding, string id, string name)
+        {
+            if (!File.Exists(path)) return;
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split('|').ToList();
+                if (parts.Count > 0 && parts[0].Trim() == id)
+                {
+                    while (parts.Count < 2) parts.Add(string.Empty);
+                    parts[1] = name ?? "";
+                    
+                    string newLine = string.Join("|", parts);
+                    if (lines[i].TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                        newLine += "|";
+                    
+                    lines[i] = newLine;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private void Clone_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selected == null) return;
+
+            string oldId = _selected.Id;
+            var dialog = new InputDialog("Informe o novo ID:", "Clonar Monstro");
+            if (dialog.ShowDialog() != true) return;
+
+            string newId = dialog.InputText?.Trim();
+            if (string.IsNullOrWhiteSpace(newId)) return;
+
+            if (db.Rows.ContainsKey(newId))
+            {
+                MessageBox.Show("Este ID já existe.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var sPath = db.FilePath;
+                var dir = Path.GetDirectoryName(sPath);
+                var cPath = Path.Combine(dir, "C_Monster.ini");
+                var tPath = Path.Combine(clientPath, "data", "translate", "T_Monster.ini");
+
+                var big5 = Encoding.GetEncoding(950);
+                var w1252 = Encoding.GetEncoding(1252);
+
+                AppendClonedBlock(sPath, big5, oldId, newId);
+                if (File.Exists(cPath))
+                    AppendClonedBlock(cPath, big5, oldId, newId);
+                
+                if (File.Exists(tPath))
+                    AppendClonedBlock(tPath, w1252, oldId, newId);
+
+                MessageBox.Show("Monstro clonado com sucesso!", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                LoadMonsters();
+                
+                var newItem = Entries.FirstOrDefault(x => x.Id == newId);
+                if (newItem != null) MonsterList.SelectedItem = newItem;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao clonar: " + ex.Message, "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void WriteMonsterFile()

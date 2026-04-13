@@ -91,7 +91,7 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
 
         private void LoadReferenceData()
         {
-            Encoding chi = Encoding.GetEncoding(950);
+            Encoding chi = Encoding.GetEncoding(1252);
 
 
             // 2. Item Names (T_Item.ini)
@@ -121,8 +121,9 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                     }
                     else if (currentId != null)
                     {
-                        nameBuilder.AppendLine();
-                        nameBuilder.Append(line);
+                        // Desativado: Não capturar descrição (linhas extras)
+                        // nameBuilder.AppendLine();
+                        // nameBuilder.Append(line);
                     }
                 }
                 Flush();
@@ -132,11 +133,41 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             string tMonPath = Path.Combine(clientPath, "data", "translate", "T_Monster.ini");
             if (File.Exists(tMonPath))
             {
+                string currentMonId = null;
+                var monNameBuilder = new StringBuilder();
+
+                void FlushMon()
+                {
+                    if (currentMonId != null)
+                        _monsterNames[currentMonId] = monNameBuilder.ToString().Trim();
+                }
+
                 foreach (var line in File.ReadLines(tMonPath, chi).Skip(1))
                 {
-                    var parts = line.Split('|');
-                    if (parts.Length > 1) _monsterNames[parts[0]] = parts[1];
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    int pipe = line.IndexOf('|');
+                    bool startsWithId = pipe > 0 && int.TryParse(line.Substring(0, pipe), out _);
+
+                    if (startsWithId)
+                    {
+                        FlushMon();
+                        var parts = line.Split('|');
+                        currentMonId = parts[0];
+                        monNameBuilder.Clear();
+                        if (parts.Length > 1) monNameBuilder.Append(parts[1]);
+                    }
+                    else if (currentMonId != null)
+                    {
+                        string extra = line.Trim().Trim('|').Trim();
+                        if (!string.IsNullOrEmpty(extra))
+                        {
+                            if (monNameBuilder.Length > 0) monNameBuilder.Append(" ");
+                            monNameBuilder.Append(extra);
+                        }
+                    }
                 }
+                FlushMon();
             }
 
             // 4. Monster Codigos (S_Monster.ini)

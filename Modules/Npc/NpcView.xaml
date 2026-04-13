@@ -83,13 +83,13 @@ xmlns:loc="clr-namespace:GrandFantasiaINIEditor.Core">
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0"
-                            Content="{loc:Loc Npc.Buttons.Add}"
+                            Content="{loc:Loc Npc.Buttons.Clone}"
                             Height="30"
                             Margin="0,0,8,0"
                             Background="#3A8DFF"
                             Foreground="White"
                             BorderBrush="#3A8DFF"
-                            Click="AddButton_Click"/>
+                            Click="CloneButton_Click"/>
 
                     <Button Grid.Column="1"
                             Content="{loc:Loc Npc.Buttons.Remove}"

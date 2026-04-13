@@ -792,12 +792,81 @@ namespace GrandFantasiaINIEditor.Modules.Item
                     parts[idx] = newValue;
                 }
 
+                string rawLine = lines[i];
                 lines[i] = string.Join("|", parts);
+
+                // Garantir que o pipe final seja preservado se existia na linha original
+                if (rawLine.TrimEnd().EndsWith("|") && !lines[i].EndsWith("|"))
+                {
+                    lines[i] += "|";
+                }
+
                 File.WriteAllLines(path, lines, encoding);
                 return;
             }
 
             throw new InvalidOperationException($"Item {itemId} não foi encontrado em {Path.GetFileName(path)}.");
+        }
+
+        private string CaptureOriginalBlock(string path, Encoding encoding, string itemId)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int pipe = line.IndexOf('|');
+                bool startsWithId = pipe > 0 && int.TryParse(line.Substring(0, pipe).Trim(), out _);
+
+                if (startsWithId)
+                {
+                    string currentId = line.Substring(0, pipe).Trim();
+                    if (currentId == itemId)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            // Substituir o ID na primeira linha do bloco
+            int pipe = block.IndexOf('|');
+            if (pipe > 0)
+            {
+                string newBlock = newId + block.Substring(pipe);
+                
+                // Garantir que há uma quebra de linha antes de anexar se o arquivo não terminar com uma
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
         }
 
         private void PatchTranslateRowInPlace(string path, Encoding encoding, string itemId, string newName, string newDesc)
@@ -1533,14 +1602,16 @@ namespace GrandFantasiaINIEditor.Modules.Item
                 string cItemPath = Path.Combine(clientPath, "data", "db", "C_Item.ini");
                 string tItemPath = Path.Combine(clientPath, "data", "translate", "T_Item.ini");
 
-                SaveDataIni(sItemPath, Encoding.GetEncoding(950));
-                SaveDataIni(cItemPath, Encoding.GetEncoding(950));
-                SaveTranslateIni(tItemPath, Encoding.GetEncoding(1252));
+                AppendClonedBlock(sItemPath, Encoding.GetEncoding(950), selected.Id, newId);
+                if (File.Exists(cItemPath))
+                    AppendClonedBlock(cItemPath, Encoding.GetEncoding(950), selected.Id, newId);
+                
+                PatchTranslateRowInPlace(tItemPath, Encoding.GetEncoding(1252), newId, translation?.Name ?? selected.Name, translation?.Description ?? string.Empty);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "O item foi clonado em memória, mas houve erro ao salvar:\n\n" + ex.Message,
+                    "Erro ao salvar arquivos durante a clonagem:\n\n" + ex.Message,
                     "Erro",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

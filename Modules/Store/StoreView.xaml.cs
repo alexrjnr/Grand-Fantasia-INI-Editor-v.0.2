@@ -885,12 +885,81 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 if (parts.Count > db.Schema.Columns)
                     parts = parts.Take(db.Schema.Columns).ToList();
 
+                string rawLine = lines[i];
                 lines[i] = string.Join("|", parts);
+
+                // Garantir que o pipe final seja preservado se existia na linha original
+                if (rawLine.TrimEnd().EndsWith("|") && !lines[i].EndsWith("|"))
+                {
+                    lines[i] += "|";
+                }
+
                 File.WriteAllLines(path, lines, encoding);
                 return;
             }
 
-            throw new InvalidOperationException($"Store {oldStoreId} nÃ£o foi encontrada em {Path.GetFileName(path)}.");
+            throw new InvalidOperationException($"Store {oldStoreId} não foi encontrada em {Path.GetFileName(path)}.");
+        }
+
+        private string CaptureOriginalBlock(string path, Encoding encoding, string storeId)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int pipe = line.IndexOf('|');
+                bool startsWithId = pipe > 0 && int.TryParse(line.Substring(0, pipe).Trim(), out _);
+
+                if (startsWithId)
+                {
+                    string currentId = line.Substring(0, pipe).Trim();
+                    if (currentId == storeId)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            // Substituir o ID na primeira linha do bloco
+            int pipe = block.IndexOf('|');
+            if (pipe > 0)
+            {
+                string newBlock = newId + block.Substring(pipe);
+                
+                // Garantir que há uma quebra de linha antes de anexar se o arquivo não terminar com uma
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
         }
 
         private bool HasCurrentStoreChanges()
@@ -969,9 +1038,13 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
             var changedColumns = GetChangedColumnIndices(_originalRowSnapshot, editedRow);
 
-            PatchIniRowInPlace(db.FilePath, Encoding.GetEncoding(950), oldId, newId, changedColumns, editedRow);
+            string cStorePath = Path.Combine(clientPath, "data", "db", "C_Store.ini");
 
-            SaveDataIni(db.FilePath, Encoding.GetEncoding(950));
+            PatchIniRowInPlace(db.FilePath, Encoding.GetEncoding(950), oldId, newId, changedColumns, editedRow);
+            if (File.Exists(cStorePath))
+                PatchIniRowInPlace(cStorePath, Encoding.GetEncoding(950), oldId, newId, changedColumns, editedRow);
+            
+            // SaveDataIni redundante removido para evitar perda de formatação (pipes)
 
             if (!string.Equals(oldId, newId, StringComparison.Ordinal))
                 db.Rows.Remove(oldId);
@@ -1068,7 +1141,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
             }
         }
 
-        private async void Clone_Click(object sender, RoutedEventArgs e)
+        private void Clone_Click(object sender, RoutedEventArgs e)
         {
             if (StoreList.SelectedItem is not StoreEntry selected || db == null)
                 return;
@@ -1104,16 +1177,21 @@ namespace GrandFantasiaINIEditor.Modules.Store
             try
             {
                 string sStorePath = Path.Combine(clientPath, "data", "db", STORE_FILE_NAME);
-                SaveDataIni(sStorePath, Encoding.GetEncoding(950));
-                await Task.Run(() => {
-                    LoadDatabases();
-                    
-                    // Load item icons for lookup
-                    string dataDb = Path.Combine(clientPath, "data", "db");
-                    if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
-                    LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
-                    LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
-                });
+                string cStorePath = Path.Combine(clientPath, "data", "db", "C_Store.ini");
+                
+                // Usar anexo de bloco para preservar formatação original em ambos os arquivos
+                AppendClonedBlock(sStorePath, Encoding.GetEncoding(950), selected.Id, newId);
+                if (File.Exists(cStorePath))
+                    AppendClonedBlock(cStorePath, Encoding.GetEncoding(950), selected.Id, newId);
+
+                // Executar atualização de banco e ícones de forma segura na thread principal
+                LoadDatabases();
+
+                string dataDb = Path.Combine(clientPath, "data", "db");
+                if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
+                
+                LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
+                LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
                 _suppressSelectionChanged = true;
                 StoreList.SelectedItem = Entries.FirstOrDefault(x => x.Id == newId);
                 _suppressSelectionChanged = false;

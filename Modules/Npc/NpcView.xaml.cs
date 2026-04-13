@@ -380,29 +380,199 @@ namespace GrandFantasiaINIEditor.Modules.Npc
             return NpcEntry.ReplaceTokenInSection(source, sectionIndex, tokenIndex, newToken);
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private string CaptureOriginalBlock(string path, Encoding encoding, string id)
         {
-            var entry = new NpcEntry
-            {
-                Id = "9999",
-                NpcName = "New NPC",
-                CursorType = NpcCursorType.None,
-                NpcCmd = DefaultNpcCmdTemplate,
-                OptionCmd1 = DefaultOptionCmdTemplate,
-                OptionCmd2 = DefaultOptionCmdTemplate,
-                OptionCmd3 = DefaultOptionCmdTemplate,
-                OptionCmd4 = DefaultOptionCmdTemplate,
-                OptionCmd5 = DefaultOptionCmdTemplate,
-                OptionCmd6 = DefaultOptionCmdTemplate,
-                OptionCmd7 = DefaultOptionCmdTemplate,
-                OptionCmd8 = DefaultOptionCmdTemplate
-            };
+            if (!File.Exists(path)) return null;
 
-            AllEntries.Add(entry);
-            SelectedNpc = entry;
-            NpcGrid.ScrollIntoView(entry);
-            SearchBox.Text = "";
-            StatusText.Text = LocalizationManager.Instance.GetLocalizedString("Npc.Status.Added");
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                var parts = line.Split('|');
+                if (parts.Length == 0) continue;
+
+                string currentId = parts[0].Trim();
+                bool startsWithId = !string.IsNullOrWhiteSpace(currentId) && int.TryParse(currentId, out _);
+
+                if (startsWithId)
+                {
+                    if (currentId == id)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            string firstLine = block.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[0];
+            var firstLineParts = firstLine.Split('|').ToList();
+            if (firstLineParts.Count > 0)
+            {
+                firstLineParts[0] = newId;
+                string newFirstLine = string.Join("|", firstLineParts);
+                string newBlock = newFirstLine + block.Substring(firstLine.Length);
+
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
+        }
+
+        private void PatchIniRowInPlace(string path, Encoding encoding, string oldId, string newId, string[] editedRow)
+        {
+            if (!File.Exists(path)) return;
+
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string rawLine = lines[i];
+                var parts = rawLine.Split(new[] { '|' }, StringSplitOptions.None).ToList();
+
+                if (parts.Count == 0) continue;
+
+                if (parts[0].Trim() != oldId) continue;
+
+                // Atualizar campos presentes no editedRow
+                int needed = Math.Max(parts.Count, editedRow.Length);
+                while (parts.Count < needed) parts.Add(string.Empty);
+
+                for (int j = 0; j < editedRow.Length; j++)
+                {
+                    parts[j] = editedRow[j] ?? string.Empty;
+                }
+
+                if (!string.IsNullOrWhiteSpace(newId))
+                    parts[0] = newId;
+
+                string newLine = string.Join("|", parts);
+
+                // Preservar pipe final
+                if (rawLine.TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                    newLine += "|";
+
+                lines[i] = newLine;
+                found = true;
+                break;
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private void PatchTranslateRowInPlace(string path, Encoding encoding, string id, string name, string desc)
+        {
+            if (!File.Exists(path)) return;
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split('|').ToList();
+                if (parts.Count > 0 && parts[0].Trim() == id)
+                {
+                    while (parts.Count < 3) parts.Add(string.Empty);
+                    parts[1] = name ?? "";
+                    parts[2] = desc ?? "";
+                    
+                    string newLine = string.Join("|", parts);
+                    if (lines[i].TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                        newLine += "|";
+                    
+                    lines[i] = newLine;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private void CloneButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedNpc == null)
+            {
+                MessageBox.Show("Selecione um NPC para clonar.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string oldId = SelectedNpc.Id;
+            string newId = PromptNewId("Clonar NPC", "Informe o novo ID:");
+            if (string.IsNullOrWhiteSpace(newId)) return;
+
+            if (db.Rows.ContainsKey(newId))
+            {
+                MessageBox.Show("Este ID já existe.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var sPath = db.FilePath;
+                var dir = Path.GetDirectoryName(sPath);
+                var cPath = Path.Combine(dir, "C_Npc.ini");
+                var tPath = db.TranslationFilePath;
+
+                var big5 = Encoding.GetEncoding(950);
+                var w1252 = Encoding.GetEncoding(1252);
+
+                AppendClonedBlock(sPath, big5, oldId, newId);
+                if (File.Exists(cPath))
+                    AppendClonedBlock(cPath, big5, oldId, newId);
+                
+                if (!string.IsNullOrEmpty(tPath))
+                    AppendClonedBlock(tPath, w1252, oldId, newId);
+
+                MessageBox.Show("NPC clonado com sucesso!", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                LoadDataAsync();
+                
+                // Tenta selecionar o novo
+                var newItem = AllEntries.FirstOrDefault(x => x.Id == newId);
+                if (newItem != null) SelectedNpc = newItem;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao clonar: " + ex.Message, "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private string PromptNewId(string title, string message)
+        {
+            var dialog = new InputDialog(title, message);
+            if (dialog.ShowDialog() == true)
+            {
+                return dialog.InputText;
+            }
+            return null;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -422,10 +592,11 @@ namespace GrandFantasiaINIEditor.Modules.Npc
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedNpc == null) return;
+
             var sPath = db.FilePath;
             if (string.IsNullOrEmpty(sPath)) return;
             var dir = Path.GetDirectoryName(sPath);
-
             var cPath = Path.Combine(dir, "C_Npc.ini");
             var tPath = db.TranslationFilePath;
 
@@ -436,68 +607,54 @@ namespace GrandFantasiaINIEditor.Modules.Npc
             {
                 await Task.Run(() =>
                 {
-                    // Save translation (T_Npc.ini)
+                    var big5 = Encoding.GetEncoding(950);
+                    var w1252 = Encoding.GetEncoding(1252);
+
+                    var rowData = new string[20];
+                    rowData[0] = SelectedNpc.Id ?? "";
+                    rowData[1] = SelectedNpc.ModelString ?? "";
+                    rowData[2] = SelectedNpc.NpcName ?? "";
+                    rowData[3] = SelectedNpc.NpcControl ?? "";
+                    rowData[4] = ((int)SelectedNpc.CursorType).ToString();
+                    rowData[5] = SelectedNpc.DialogId1 ?? "";
+                    rowData[6] = SelectedNpc.DialogId2 ?? "";
+                    rowData[7] = SelectedNpc.DialogRate ?? "";
+                    rowData[8] = SelectedNpc.NpcCmd ?? "";
+                    rowData[9] = SelectedNpc.OptionCmd1 ?? "";
+                    rowData[10] = SelectedNpc.OptionCmd2 ?? "";
+                    rowData[11] = SelectedNpc.OptionCmd3 ?? "";
+                    rowData[12] = SelectedNpc.OptionCmd4 ?? "";
+                    rowData[13] = SelectedNpc.OptionCmd5 ?? "";
+                    rowData[14] = SelectedNpc.OptionCmd6 ?? "";
+                    rowData[15] = SelectedNpc.OptionCmd7 ?? "";
+                    rowData[16] = SelectedNpc.OptionCmd8 ?? "";
+                    rowData[17] = SelectedNpc.LocateLimit ?? "";
+                    rowData[18] = SelectedNpc.ControlFlag ?? "";
+                    rowData[19] = SelectedNpc.Note ?? "";
+
+                    // Patch S and C
+                    PatchIniRowInPlace(sPath, big5, SelectedNpc.Id, SelectedNpc.Id, rowData);
+                    if (File.Exists(cPath))
+                        PatchIniRowInPlace(cPath, big5, SelectedNpc.Id, SelectedNpc.Id, rowData);
+
+                    // Patch T
                     if (!string.IsNullOrEmpty(tPath))
                     {
-                        using var tWriter = new StreamWriter(tPath, false, System.Text.Encoding.GetEncoding("Big5"));
-                        if (!string.IsNullOrEmpty(db.VersionLine)) tWriter.WriteLine(db.VersionLine);
-                        tWriter.WriteLine("ID|Name|Description|");
-                        foreach (var entry in AllEntries.OrderBy(x => int.TryParse(x.Id, out int i) ? i : 999999))
-                        {
-                            string safeName = SanitizeTranslationField(entry.TranslatedName);
-                            string safeDesc = SanitizeTranslationField(entry.TranslatedDesc);
-                            tWriter.WriteLine($"{entry.Id}|{safeName}|{safeDesc}|");
-                        }
+                        PatchTranslateRowInPlace(tPath, w1252, SelectedNpc.Id, 
+                            SelectedNpc.TranslatedName, SelectedNpc.TranslatedDesc);
                     }
-
-                    var lines = new System.Collections.Generic.List<string>();
-                    
-                    if (!string.IsNullOrEmpty(db.VersionLine)) lines.Add(db.VersionLine);
-                    
-                    string header = "NpcID|ModelString|NpcName|NpcControl|CursorType|DialogId1|DialogId2|DialogRate|NpcCmd|OptionCmd1|OptionCmd2|OptionCmd3|OptionCmd4|OptionCmd5|OptionCmd6|OptionCmd7|OptionCmd8|LocateLimit|ControlFlag|Note|";
-                    if (!string.IsNullOrEmpty(db.ColumnHeader)) header = db.ColumnHeader;
-                    lines.Add(header);
-
-                    foreach (var entry in AllEntries.OrderBy(x => int.TryParse(x.Id, out int i) ? i : 999999))
-                    {
-                        var row = new string[20];
-                        row[0] = entry.Id ?? "";
-                        row[1] = entry.ModelString ?? "";
-                        row[2] = entry.NpcName ?? "";
-                        row[3] = entry.NpcControl ?? "";
-                        row[4] = ((int)entry.CursorType).ToString();
-                        row[5] = entry.DialogId1 ?? "";
-                        row[6] = entry.DialogId2 ?? "";
-                        row[7] = entry.DialogRate ?? "";
-                        row[8] = entry.NpcCmd ?? "";
-                        row[9] = entry.OptionCmd1 ?? "";
-                        row[10] = entry.OptionCmd2 ?? "";
-                        row[11] = entry.OptionCmd3 ?? "";
-                        row[12] = entry.OptionCmd4 ?? "";
-                        row[13] = entry.OptionCmd5 ?? "";
-                        row[14] = entry.OptionCmd6 ?? "";
-                        row[15] = entry.OptionCmd7 ?? "";
-                        row[16] = entry.OptionCmd8 ?? "";
-                        row[17] = entry.LocateLimit ?? "";
-                        row[18] = entry.ControlFlag ?? "";
-                        row[19] = entry.Note ?? "";
-                        
-                        lines.Add(string.Join("|", row) + "|");
-                    }
-
-                    // Write to S_Npc.ini
-                    File.WriteAllLines(sPath, lines, System.Text.Encoding.GetEncoding("Big5"));
-                    // Write strictly mirroring to C_Npc.ini
-                    File.WriteAllLines(cPath, lines, System.Text.Encoding.GetEncoding("Big5"));
                 });
 
                 StatusText.Text = LocalizationManager.Instance.GetLocalizedString("Npc.Dialogs.SuccessSaving");
                 MessageBox.Show(LocalizationManager.Instance.GetLocalizedString("Npc.Dialogs.SuccessSaving"), 
-                                LocalizationManager.Instance.GetLocalizedString("Common.Success") ?? "Success");
+                                LocalizationManager.Instance.GetLocalizedString("Common.Success") ?? "Success",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                LoadDataAsync();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(LocalizationManager.Instance.GetLocalizedString("Npc.Dialogs.ErrorSaving"), ex.Message));
+                MessageBox.Show("Erro ao salvar: " + ex.Message, "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 StatusText.Text = LocalizationManager.Instance.GetLocalizedString("Common.Error") ?? "Error";
             }
             finally

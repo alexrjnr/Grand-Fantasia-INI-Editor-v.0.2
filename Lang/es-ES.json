@@ -800,7 +800,8 @@
     "Buttons": {
       "Add": "Añadir",
       "Remove": "Quitar",
-      "Save": "Guardar"
+      "Save": "Guardar",
+      "Clone": "clonar"
     },
     "Tabs": {
       "General": "generales",
@@ -1123,6 +1124,13 @@
       "4194304": "Sin pila",
       "8388608": "RecuperarForma De Sacerdote",
       "16777216": "No actualizar"
+    }
+  },
+  "Monster": {
+    "Buttons": {
+      "Reload": "recargar",
+      "Clone": "clonar",
+      "Save": "Guardar"
     }
   }
 }

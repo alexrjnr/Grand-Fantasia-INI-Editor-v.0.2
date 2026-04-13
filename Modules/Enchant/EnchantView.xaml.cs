@@ -220,6 +220,147 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             }
         }
 
+        private void LoadIcon(string iconName, Image imageControl)
+        {
+            if (imageControl == null) return;
+            if (string.IsNullOrWhiteSpace(iconName))
+            {
+                imageControl.Source = null;
+                return;
+            }
+
+            string path = Path.Combine(clientPath, "UI", "skillicon", iconName + ".dds");
+            if (File.Exists(path))
+            {
+                imageControl.Source = DdsLoader.Load(path);
+            }
+            else
+            {
+                imageControl.Source = null;
+            }
+        }
+
+        private void PatchIniRowInPlace(string path, Encoding encoding, string oldId, string newId, List<string> editedRow)
+        {
+            if (!File.Exists(path)) return;
+
+            var lines = File.ReadAllLines(path, encoding);
+            bool found = false;
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string rawLine = lines[i];
+                var parts = rawLine.Split(new[] { '|' }, StringSplitOptions.None).ToList();
+
+                if (parts.Count == 0) continue;
+
+                string lineId = parts[0].Trim();
+                // Alguns arquivos T começam com |ID|... (o primeiro elemento é vazio)
+                int idIdx = 0;
+                if (string.IsNullOrWhiteSpace(lineId) && parts.Count > 1)
+                {
+                    idIdx = 1;
+                    lineId = parts[1].Trim();
+                }
+
+                if (!string.Equals(lineId, oldId, StringComparison.Ordinal)) continue;
+
+                // Atualizar os campos
+                int needed = Math.Max(parts.Count, editedRow.Count + idIdx);
+                while (parts.Count < needed) parts.Add(string.Empty);
+
+                for (int j = 0; j < editedRow.Count; j++)
+                {
+                    parts[j + idIdx] = editedRow[j] ?? string.Empty;
+                }
+
+                if (!string.IsNullOrWhiteSpace(newId))
+                    parts[idIdx + IDX_ID] = newId;
+
+                string newLine = string.Join("|", parts);
+
+                // Preservar pipe final
+                if (rawLine.TrimEnd().EndsWith("|") && !newLine.EndsWith("|"))
+                    newLine += "|";
+
+                lines[i] = newLine;
+                found = true;
+                break;
+            }
+
+            if (found)
+                File.WriteAllLines(path, lines, encoding);
+        }
+
+        private string CaptureOriginalBlock(string path, Encoding encoding, string id)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                var parts = line.Split('|');
+                int idIdx = (parts.Length > 1 && string.IsNullOrWhiteSpace(parts[0])) ? 1 : 0;
+                
+                bool startsWithId = parts.Length > idIdx && int.TryParse(parts[idIdx].Trim(), out _);
+
+                if (startsWithId)
+                {
+                    string currentId = parts[idIdx].Trim();
+                    if (currentId == id)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            var parts = block.Split('|').ToList();
+            int idIdx = (parts.Count > 1 && string.IsNullOrWhiteSpace(parts[0])) ? 1 : 0;
+            
+            if (parts.Count > idIdx)
+            {
+                // Reconstruir o bloco trocando o ID na primeira linha do bloco
+                string firstLine = block.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[0];
+                var firstLineParts = firstLine.Split('|').ToList();
+                firstLineParts[idIdx] = newId;
+                
+                string newFirstLine = string.Join("|", firstLineParts);
+                string newBlock = newFirstLine + block.Substring(firstLine.Length);
+
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
+        }
+
         private void EnchantList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (EnchantList.SelectedItem is EnchantEntry entry)
@@ -230,8 +371,22 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
                 _originalRowSnapshot = new List<string>(_currentRow);
                 
                 PopulateFields();
+                LoadIcon(IconFileBox.Text, EnchantIcon);
+                LoadIcon(TransIconBox.Text, TransEnchantIcon);
                 _loading = false;
             }
+        }
+
+        private void IconFileBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_loading) return;
+            LoadIcon(IconFileBox.Text, EnchantIcon);
+        }
+
+        private void TransIconBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_loading) return;
+            LoadIcon(TransIconBox.Text, TransEnchantIcon);
         }
 
         private void PopulateFields()
@@ -473,56 +628,39 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             }
 
             string selectedId = selectedEntry.Id;
-
-            if (!db.Rows.TryGetValue(selectedId, out var row))
-                return;
-
             string newId = PromptNewId("Clonar Encantamento", "Informe o novo ID:");
             if (newId == null) return;
 
             newId = newId.Trim();
-            if (string.IsNullOrWhiteSpace(newId))
+            if (string.IsNullOrWhiteSpace(newId) || db.Rows.ContainsKey(newId))
             {
-                MessageBox.Show("O ID não pode ser vazio.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("O ID não pode ser vazio ou já existente.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (db.Rows.ContainsKey(newId))
+            try
             {
-                MessageBox.Show("Este ID já existe!", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                string sEnchPath = Path.Combine(clientPath, "data", "db", "S_Enchant.ini");
+                string cEnchPath = Path.Combine(clientPath, "data", "db", "C_Enchant.ini");
+                string tEnchPath = Path.Combine(clientPath, "data", "translate", "T_Enchant.ini");
+
+                AppendClonedBlock(sEnchPath, Encoding.GetEncoding(950), selectedId, newId);
+                if (File.Exists(cEnchPath))
+                    AppendClonedBlock(cEnchPath, Encoding.GetEncoding(950), selectedId, newId);
+                
+                // Para o T_Enchant, usamos AppendClonedBlock também pois ele preserva o formato pipe-first
+                AppendClonedBlock(tEnchPath, Encoding.GetEncoding(1252), selectedId, newId);
+
+                MessageBox.Show("Clonado com sucesso!", "Enchant", MessageBoxButton.OK, MessageBoxImage.Information);
+                LoadDatabase();
+                
+                var newItem = EnchantListSource.FirstOrDefault(x => x.Id == newId);
+                if (newItem != null) EnchantList.SelectedItem = newItem;
             }
-
-            // Clonar Row
-            var clonedRow = new List<string>(row);
-            clonedRow[IDX_ID] = newId;
-            db.Rows[newId] = clonedRow;
-
-            // Clonar Tradução
-            if (db.Translations.TryGetValue(selectedId, out var translation))
+            catch (Exception ex)
             {
-                var newTrans = new GenericTranslation();
-                newTrans.Values = new List<string>(translation.Values);
-                if (newTrans.Values.Count > 0) newTrans.Values[0] = newId;
-                db.Translations[newId] = newTrans;
+                MessageBox.Show($"Erro ao salvar clone:\n{ex.Message}", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            else
-            {
-                var newTrans = new GenericTranslation();
-                newTrans.Name = selectedEntry.Name ?? "Cloned Enchant";
-                if (newTrans.Values.Count > 0) newTrans.Values[0] = newId;
-                db.Translations[newId] = newTrans;
-            }
-
-            // Atualizar UI
-            SearchBox_TextChanged(null, null);
-            
-            // Selecionar o novo item
-            Enchants.TryGetValue(newId, out var newItem);
-            if (newItem != null) EnchantList.SelectedItem = newItem;
-
-            // Salvar automaticamente para garantir consistência
-            Save_Click(null, null);
         }
 
         private void Flag_Click(object sender, RoutedEventArgs e)
@@ -565,26 +703,29 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
         {
             if (_currentRow == null) return;
 
+            string id = entry_id_global_hack;
+            var editedRow = BuildEditedRowFromControls();
+
             try
             {
-                var editedRow = BuildEditedRowFromControls();
-                var changedColumns = GetChangedColumnIndices(_originalRowSnapshot, editedRow);
+                string sEnchPath = Path.Combine(clientPath, "data", "db", "S_Enchant.ini");
+                string cEnchPath = Path.Combine(clientPath, "data", "db", "C_Enchant.ini");
+                string tEnchPath = Path.Combine(clientPath, "data", "translate", "T_Enchant.ini");
 
-                if (changedColumns.Count > 0)
-                {
-                    PatchIniRowInPlace(db.FilePath, Encoding.GetEncoding(950), entry_id_global_hack, changedColumns, editedRow);
-                }
+                PatchIniRowInPlace(sEnchPath, Encoding.GetEncoding(950), id, id, editedRow);
+                if (File.Exists(cEnchPath))
+                    PatchIniRowInPlace(cEnchPath, Encoding.GetEncoding(950), id, id, editedRow);
 
                 // Patch translations
-                PatchTranslateRowInPlace(db.TranslationFilePath, Encoding.GetEncoding(1252), entry_id_global_hack, 
+                PatchTranslateRowInPlace(tEnchPath, Encoding.GetEncoding(1252), id, 
                     NameBox.Text, TooltipBox.Text, TransTooltipBox.Text, TransNameBox.Text);
 
-                MessageBox.Show("Alterações salvas com sucesso!");
+                MessageBox.Show("Alterações salvas com sucesso!", "Enchant", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadDatabase();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar: " + ex.Message);
+                MessageBox.Show("Erro ao salvar: " + ex.Message, "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -800,7 +800,8 @@
     "Buttons": {
       "Add": "Add",
       "Remove": "Remove",
-      "Save": "Save"
+      "Save": "Save",
+      "Clone": "Clone"
     },
     "Tabs": {
       "General": "General",
@@ -1123,6 +1124,13 @@
       "4194304": "NoStack",
       "8388608": "RecoverPriestForm",
       "16777216": "NoRefresh"
+    }
+  },
+  "Monster": {
+    "Buttons": {
+      "Reload": "Reload",
+      "Clone": "Clone",
+      "Save": "Save"
     }
   }
 }

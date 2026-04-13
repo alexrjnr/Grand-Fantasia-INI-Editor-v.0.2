@@ -800,7 +800,8 @@
     "Buttons": {
       "Add": "Adicionar",
       "Remove": "Remover",
-      "Save": "Salvar"
+      "Save": "Salvar",
+      "Clone": "Clonar"
     },
     "Tabs": {
       "General": "Geral",
@@ -885,7 +886,7 @@
       "Prefix": "Comando: ",
       "EntryNone": "entrada sem comando.",
       "Talk": "Falar: {0}",
-      "Service": "Serviço {0} ({1})"
+      "Service": "Servicio {0} ({1})"
     },
     "Conditions": {
       "Prefix": "Condição: ",
@@ -1123,6 +1124,13 @@
       "4194304": "NoStack",
       "8388608": "RecoverPriestForm",
       "16777216": "NoRefresh"
+    }
+  },
+  "Monster": {
+    "Buttons": {
+      "Reload": "Recarregar",
+      "Clone": "Clonar",
+      "Save": "Salvar"
     }
   }
 }
