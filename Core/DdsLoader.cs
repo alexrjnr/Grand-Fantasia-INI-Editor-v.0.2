@@ -1,6 +1,8 @@
 using Pfim;
 using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,6 +22,7 @@ namespace GrandFantasiaINIEditor.Core
     /// </summary>
     public static class DdsLoader
     {
+        private static readonly ConcurrentDictionary<string, BitmapSource> _cache = new(StringComparer.OrdinalIgnoreCase);
         // ── DDS header offsets (all values are little-endian uint32) ─────────
         private const int OFF_MAGIC          = 0;  // "DDS "
         private const int OFF_PF_FLAGS       = 80; // DDSPIXELFORMAT.dwFlags
@@ -36,11 +39,14 @@ namespace GrandFantasiaINIEditor.Core
 
         // ─────────────────────────────────────────────────────────────────────
 
-        /// <summary>Returns a frozen BitmapSource, or null on failure.</summary>
+        /// <summary>Returns a frozen BitmapSource, or null on failure (Cached).</summary>
         public static BitmapSource Load(string ddsPath)
         {
             if (string.IsNullOrWhiteSpace(ddsPath) || !File.Exists(ddsPath))
                 return null;
+
+            if (_cache.TryGetValue(ddsPath, out var cached))
+                return cached;
 
             try
             {
@@ -107,13 +113,33 @@ namespace GrandFantasiaINIEditor.Core
                     bitmap = new FormatConvertedBitmap(bitmap, PixelFormats.Bgra32, null, 0);
                 }
 
-                bitmap.Freeze();
+                if (bitmap != null)
+                {
+                    if (bitmap.CanFreeze) bitmap.Freeze();
+                    _cache.TryAdd(ddsPath, bitmap);
+                }
+
                 return bitmap;
             }
             catch
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Loads a DDS texture asynchronously without blocking the UI thread.
+        /// Returns a frozen BitmapSource from cache or newly loaded.
+        /// </summary>
+        public static async Task<BitmapSource> LoadAsync(string ddsPath)
+        {
+            if (string.IsNullOrWhiteSpace(ddsPath))
+                return null;
+
+            if (_cache.TryGetValue(ddsPath, out var cached))
+                return cached;
+
+            return await Task.Run(() => Load(ddsPath));
         }
 
 

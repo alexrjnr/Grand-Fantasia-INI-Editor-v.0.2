@@ -128,20 +128,24 @@
 
                 <!-- GERAL -->
                 <TabItem Header="{loc:Loc Main.Tabs.Geral}">
-                    
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="15">
                             <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Column 1 -->
-                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
                                     <GroupBox Header="{loc:Loc Enchant.Labels.Information}" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,10">
                                         <WrapPanel Margin="2">
                                             <StackPanel Orientation="Horizontal" Margin="5,2">
-                                                <Border Width="52" Height="52" Background="#23262E" BorderBrush="#4FD1FF" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0">
+                                                <Border Width="52" Height="52" Background="#23262E" BorderBrush="Red" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0">
                                                     <Image x:Name="EnchantIcon" Stretch="Fill"/>
                                                 </Border>
                                                 <StackPanel>
@@ -149,7 +153,7 @@
                                                     <TextBox x:Name="NameBox" Width="200" Background="#23262E" Foreground="White" BorderBrush="#333" Height="28" VerticalContentAlignment="Center"/>
                                                 </StackPanel>
                                             </StackPanel>
-                                            
+
                                             <StackPanel Margin="5,2">
                                                 <TextBlock Text="{loc:Loc Enchant.Labels.Id}" Foreground="Gray" FontSize="10"/>
                                                 <TextBox x:Name="IdBox"  Width="60" Background="#23262E" Foreground="White" BorderBrush="#444"/>
@@ -170,164 +174,218 @@
                                                 <TextBlock Text="{loc:Loc Enchant.Labels.EffectNode}" Foreground="Gray" FontSize="10"/>
                                                 <TextBox x:Name="EffectNodeBox" Width="100" Background="#23262E" Foreground="White" BorderBrush="#333"/>
                                             </StackPanel>
-                                        </WrapPanel>
-                                    </GroupBox>
-
-                                    <GroupBox Header="{loc:Loc Enchant.Labels.Properties}" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,10">
-                                        <WrapPanel Margin="2">
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Type}" Foreground="Gray" FontSize="10"/>
-                                                <ComboBox x:Name="TypeCombo" Width="100" Background="#23262E" Foreground="Black"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Category}" Foreground="Gray" FontSize="10"/>
-                                                <ComboBox x:Name="CategoryCombo" Width="100" Background="#23262E" Foreground="Black"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Period}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="PeriodBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Cooldown}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="CooldownBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.MaxStack}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="MaxStackBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.Immune}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="ImmuneMobBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.HiWord}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="HiWordBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.LowWord}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="LowWordBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.NextLvl}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="NextLevelIdBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="5,2">
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.WpnFlag}" Foreground="Gray" FontSize="10"/>
-                                                <TextBox x:Name="WeaponFlagBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                            
+                                            <StackPanel Margin="5,16,5,2" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                                <Button Content="Buscar Item" Height="22" Padding="12,0" Background="#3A8DFF" Foreground="White" BorderBrush="#3A8DFF" Click="FindRelated_Click" Cursor="Hand"/>
                                             </StackPanel>
                                         </WrapPanel>
                                     </GroupBox>
                                 </StackPanel>
+                                <GroupBox Header="{loc:Loc Enchant.Labels.Properties}" Foreground="AliceBlue" BorderBrush="#333" Grid.Row="0" Grid.Column="1" Margin="9,-1,1,17">
+                                    <WrapPanel Margin="2,0,2,0" Height="77">
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.Type}" Foreground="Gray" FontSize="10"/>
+                                            <ComboBox x:Name="TypeCombo" Width="100" Background="#23262E" Foreground="Black"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.Category}" Foreground="Gray" FontSize="10"/>
+                                            <ComboBox x:Name="CategoryCombo" Width="100" Background="#23262E" Foreground="Black"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.Period}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="PeriodBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.Cooldown}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="CooldownBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.MaxStack}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="MaxStackBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.Immune}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="ImmuneMobBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.HiWord}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="HiWordBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="5,2">
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.LowWord}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="LowWordBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                        </StackPanel>
 
-                                <!-- Column 2 -->
-                                <GroupBox Grid.Column="1" Header="{loc:Loc Enchant.Labels.Transition}" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,10" VerticalAlignment="Top">
-                                    <WrapPanel Margin="2">
-                                        <StackPanel Orientation="Horizontal" Margin="5,2">
-                                            <Border Width="42" Height="42" Background="#23262E" BorderBrush="#3A8DFF" BorderThickness="1" CornerRadius="4" Margin="0,0,10,0" VerticalAlignment="Bottom">
-                                                <Image x:Name="TransEnchantIcon" Stretch="Fill"/>
-                                            </Border>
-                                            <StackPanel>
-                                                <TextBlock Text="{loc:Loc Enchant.Labels.TransType}" Foreground="Gray" FontSize="10"/>
-                                                <ComboBox x:Name="TransTypeCombo" Width="140" Background="#23262E" Foreground="Black"/>
-                                            </StackPanel>
-                                        </StackPanel>
                                         <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.Rate}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransRateBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.Dur}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransDurationBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransPeriod}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransPeriodBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransIcon}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransIconBox" Width="80" Background="#23262E" Foreground="White" BorderBrush="#333" TextChanged="TransIconBox_TextChanged"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.EncType}" Foreground="Gray" FontSize="10"/>
-                                            <ComboBox x:Name="TransEncTypeCombo" Width="80" Background="#23262E" Foreground="Black"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransFlag}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransFlagBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.Cat}" Foreground="Gray" FontSize="10"/>
-                                            <ComboBox x:Name="TransCategoryCombo" Width="80" Background="#23262E" Foreground="Black"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransAnim}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransAnimBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.Eff}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransEffectBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.Node}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransNodeBox" Width="90" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.EffDur}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransEffDurBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.DurNode}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransDurNodeBox" Width="90" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.HiW}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransHiWordBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="5,2">
-                                            <TextBlock Text="{loc:Loc Enchant.Labels.LoW}" Foreground="Gray" FontSize="10"/>
-                                            <TextBox x:Name="TransLowWordBox" Width="50" Background="#23262E" Foreground="White" BorderBrush="#333"/>
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.WpnFlag}" Foreground="Gray" FontSize="10"/>
+                                            <TextBox x:Name="WeaponFlagBox" Width="60" Background="#23262E" Foreground="White" BorderBrush="#333"/>
                                         </StackPanel>
                                     </WrapPanel>
                                 </GroupBox>
+                                <GroupBox Header="Flags" Foreground="AliceBlue" BorderBrush="#333" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,10">
+                                    <StackPanel Margin="5">
+                                        <TextBlock x:Name="FlagValueText" Foreground="AliceBlue" Margin="10,0,10,5" FontSize="11"/>
+                                        <ItemsControl x:Name="FlagsItemsControl">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="10,2" FontSize="11" Click="Flag_Click"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </GroupBox>
+
                             </Grid>
 
-                            <!-- Flags at the bottom -->
-                            <GroupBox Header="Flags" Foreground="AliceBlue" BorderBrush="#333">
-                                <StackPanel Margin="5">
-                                    <TextBlock x:Name="FlagValueText" Foreground="Gold" Margin="10,0,10,5" FontSize="11"/>
-                                    <ItemsControl x:Name="FlagsItemsControl">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="10,2" FontSize="11" Click="Flag_Click"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="Textos e Identificação" Foreground="AliceBlue" BorderBrush="#333" Margin="0,0,0,15">
+                            <GroupBox Header="Textos e Identificação" Foreground="AliceBlue" BorderBrush="#333" Margin="0,5,0,15">
                                 <StackPanel Margin="0">
 
                                     <TextBlock Text="Tooltip" Foreground="Gray" FontSize="11" Margin="10,5,10,0"/>
-                                    <TextBox x:Name="TooltipBox" Height="30" Margin="10,2,10,15" AcceptsReturn="True" TextWrapping="Wrap" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalScrollBarVisibility="Auto"/>
+                                    <TextBox x:Name="TooltipBox" Height="81" Margin="15,2,15,2" AcceptsReturn="True" TextWrapping="Wrap" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalScrollBarVisibility="Auto"/>
 
                                     <TextBlock Text="Trans Tooltip" Foreground="Gray" FontSize="11" Margin="10,5,10,0"/>
-                                    <TextBox x:Name="TransTooltipBox" Height="30" Margin="10,2,10,15" AcceptsReturn="True" TextWrapping="Wrap" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalScrollBarVisibility="Auto"/>
+                                    <TextBox x:Name="TransTooltipBox" Height="74" Margin="15,2,15,15" AcceptsReturn="True" TextWrapping="Wrap" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalScrollBarVisibility="Auto"/>
 
                                     <TextBlock Text="Trans Name" Foreground="Gray" FontSize="11" Margin="10,5,10,0"/>
-                                    <TextBox x:Name="TransNameBox" Margin="10,2,10,5" Background="#23262E" Foreground="White" BorderBrush="#333" Height="28" VerticalContentAlignment="Center"/>
+                                    <TextBox x:Name="TransNameBox" Margin="15,2,15,5" Background="#23262E" Foreground="White" BorderBrush="#333" Height="62" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
-                    
+                    </ScrollViewer>
                 </TabItem>
 
-           
+                <!-- TRANSIÇÃO -->
+                <TabItem Header="{loc:Loc Enchant.Labels.Transition}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="20">
+                            <GroupBox Header="{loc:Loc Enchant.Labels.Transition}" Foreground="White" BorderBrush="#333" Padding="10">
+                                <WrapPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5,2">
+                                        <Border Width="64" Height="64" Background="#23262E" BorderBrush="#4FD1FF" BorderThickness="1" CornerRadius="4" Margin="0,0,15,0" VerticalAlignment="Bottom">
+                                            <Image x:Name="TransEnchantIcon" Stretch="Fill"/>
+                                        </Border>
+                                        <StackPanel>
+                                            <TextBlock Text="{loc:Loc Enchant.Labels.TransType}" Foreground="Gray" FontSize="11"/>
+                                            <ComboBox x:Name="TransTypeCombo" Width="180" Height="30" Background="#23262E" Foreground="Black"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.Rate}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransRateBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.Dur}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransDurationBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.TransPeriod}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransPeriodBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.TransIcon}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransIconBox" Width="100" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" TextChanged="TransIconBox_TextChanged" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.EncType}" Foreground="Gray" FontSize="11"/>
+                                        <ComboBox x:Name="TransEncTypeCombo" Width="100" Height="30" Background="#23262E" Foreground="Black"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.TransFlag}" Foreground="Gray" FontSize="11"/>
+                                        <TextBlock x:Name="TransFlagValueText" Width="100" Height="30" Foreground="Gold" Background="#23262E" VerticalAlignment="Center" Padding="5,5" FontSize="11"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.Cat}" Foreground="Gray" FontSize="11"/>
+                                        <ComboBox x:Name="TransCategoryCombo" Width="100" Height="30" Background="#23262E" Foreground="Black"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.TransAnim}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransAnimBox" Width="80" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.Eff}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransEffectBox" Width="80" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.Node}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransNodeBox" Width="120" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.EffDur}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransEffDurBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.DurNode}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransDurNodeBox" Width="120" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.HiW}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransHiWordBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,2">
+                                        <TextBlock Text="{loc:Loc Enchant.Labels.LoW}" Foreground="Gray" FontSize="11"/>
+                                        <TextBox x:Name="TransLowWordBox" Width="60" Height="30" Background="#23262E" Foreground="White" BorderBrush="#333" VerticalContentAlignment="Center" Padding="5,0"/>
+                                    </StackPanel>
+
+                                    <!-- SISTEMA DE EFEITOS ATIVOS -->
+                                    <Border Background="#1A1C22" BorderBrush="#333" BorderThickness="1" CornerRadius="8" Padding="15" Margin="5,15,5,5" Width="300">
+                                        <StackPanel>
+                                            <TextBlock Text="Efeitos Ativos (IDX_NEXT_LVL)" Foreground="#4FD1FF" FontSize="13" FontWeight="Bold" Margin="0,0,0,5"/>
+                                            <TextBlock Text="IDs de encantamentos que serão ativados." Foreground="Gray" FontSize="10" Margin="0,0,0,10" FontStyle="Italic"/>
+
+                                            <UniformGrid Columns="2">
+                                                <CheckBox x:Name="ActiveEffect1" Content="Enchant 1" Foreground="White" Margin="0,5"/>
+                                                <CheckBox x:Name="ActiveEffect2" Content="Enchant 2" Foreground="White" Margin="0,5"/>
+                                                <CheckBox x:Name="ActiveEffect3" Content="Enchant 3" Foreground="White" Margin="0,5"/>
+                                                <CheckBox x:Name="ActiveEffect4" Content="Enchant 4" Foreground="White" Margin="0,5"/>
+                                            </UniformGrid>
+
+                                            <TextBlock Text="Nota: Os que estiverem desmarcados são fixos." Foreground="Gray" FontSize="9" Margin="0,10,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <GroupBox Header="Flags de Transição" Foreground="AliceBlue" BorderBrush="#333" Margin="5,15,5,5">
+                                        <StackPanel Margin="4" >
+                                            <ItemsControl x:Name="TransFlagsItemsControl">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="10,2" FontSize="11" Click="TransFlag_Click"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <!-- TRANSITION FLAGS BOX -->
+                                </WrapPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+
 
                 <!-- CLASSE -->
                 <TabItem Header="{loc:Loc Main.Tabs.Classe}">
@@ -387,7 +445,7 @@
                 <TabItem Header="{loc:Loc Main.Tabs.Enchant}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="20">
-                            
+
                             <!-- Command 1 -->
                             <GroupBox Header="{loc:Loc Enchant.Labels.Command1}" Foreground="White" BorderBrush="White" Margin="0,0,0,0">
                                 <StackPanel>

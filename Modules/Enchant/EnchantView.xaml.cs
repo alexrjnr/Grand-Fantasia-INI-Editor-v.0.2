@@ -27,6 +27,7 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
         private List<string> _originalRowSnapshot;
         private EnchantEntry _selectedEntry;
         private readonly List<(ulong bit, CheckBox cb)> _classChecks = new();
+        private List<FlagItem> _transFlagsList = new();
 
         // Indices
         private const int IDX_ID = 0;
@@ -111,7 +112,6 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
                 .ToList();
             CategoryCombo.ItemsSource = categories;
             TransCategoryCombo.ItemsSource = categories;
-
             // Flags
             var flagsDict = LocalizationManager.Instance.GetDictionary("Enchant.Flags");
             var flagsList = flagsDict
@@ -119,6 +119,12 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
                 .OrderBy(x => x.Value)
                 .ToList();
             FlagsItemsControl.ItemsSource = flagsList;
+
+            _transFlagsList = flagsDict
+                .Select(kv => new FlagItem(kv.Value, ulong.Parse(kv.Key)))
+                .OrderBy(x => x.Value)
+                .ToList();
+            TransFlagsItemsControl.ItemsSource = _transFlagsList;
         }
 
         private void InitClassesUi()
@@ -220,7 +226,7 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             }
         }
 
-        private void LoadIcon(string iconName, Image imageControl)
+        private async void LoadIcon(string iconName, Image imageControl)
         {
             if (imageControl == null) return;
             if (string.IsNullOrWhiteSpace(iconName))
@@ -232,7 +238,7 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             string path = Path.Combine(clientPath, "UI", "skillicon", iconName + ".dds");
             if (File.Exists(path))
             {
-                imageControl.Source = DdsLoader.Load(path);
+                imageControl.Source = await DdsLoader.LoadAsync(path);
             }
             else
             {
@@ -403,7 +409,11 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             ImmuneMobBox.Text = GetField(IDX_IMMUNE);
             HiWordBox.Text = GetField(IDX_HIWORD);
             LowWordBox.Text = GetField(IDX_LOWWORD);
-            NextLevelIdBox.Text = GetField(IDX_NEXT_LVL);
+            var activeEffects = GetField(IDX_NEXT_LVL).Split(';', StringSplitOptions.RemoveEmptyEntries);
+            ActiveEffect1.IsChecked = activeEffects.Contains("1");
+            ActiveEffect2.IsChecked = activeEffects.Contains("2");
+            ActiveEffect3.IsChecked = activeEffects.Contains("3");
+            ActiveEffect4.IsChecked = activeEffects.Contains("4");
             ClassBox.Text = GetField(IDX_WEAPON_FLAG);
             UpdateClassChecks(GetFieldULong(IDX_WEAPON_FLAG));
             restrictclass_value.Text = $"{GetField(IDX_WEAPON_FLAG)}  |  0x{GetFieldULong(IDX_WEAPON_FLAG):X}";
@@ -427,7 +437,6 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             TransDurNodeBox.Text = GetField(IDX_TRANS_DUR_NODE);
             TransHiWordBox.Text = GetField(IDX_TRANS_HIWORD);
             TransLowWordBox.Text = GetField(IDX_TRANS_LOWWORD);
-            TransFlagBox.Text = GetField(IDX_TRANS_FLAG);
 
             // Translations from T_Enchant
             if (db.Translations.TryGetValue(entry_id_global_hack, out var trans))
@@ -443,17 +452,27 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
                 TransTooltipBox.Text = "";
                 TransNameBox.Text = "";
             }
-
             // Flags
-            ulong flags = GetFieldULong(IDX_FLAG);
-            FlagValueText.Text = $"Flag: {flags} (0x{flags:X})";
+            ulong flagsGeral = GetFieldULong(IDX_FLAG);
+            FlagValueText.Text = $"Flag: {flagsGeral} (0x{flagsGeral:X})";
             if (FlagsItemsControl.ItemsSource is List<FlagItem> flagsList)
             {
                 foreach (var item in flagsList)
                 {
-                    item.IsChecked = (flags & item.Value) != 0;
+                    item.IsChecked = (flagsGeral & item.Value) != 0;
                 }
                 FlagsItemsControl.Items.Refresh();
+            }
+
+            ulong flagsTrans = GetFieldULong(IDX_TRANS_FLAG);
+            TransFlagValueText.Text = $"Flag: {flagsTrans} (0x{flagsTrans:X})";
+            if (_transFlagsList != null)
+            {
+                foreach (var item in _transFlagsList)
+                {
+                    item.IsChecked = (flagsTrans & item.Value) != 0;
+                }
+                TransFlagsItemsControl.Items.Refresh();
             }
 
             // Commands and Params
@@ -677,6 +696,20 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             }
         }
 
+        private void TransFlag_Click(object sender, RoutedEventArgs e)
+        {
+            if (_loading) return;
+            ulong total = 0;
+            if (_transFlagsList != null)
+            {
+                foreach (var item in _transFlagsList)
+                {
+                    if (item.IsChecked) total |= item.Value;
+                }
+                TransFlagValueText.Text = $"Flag: {total} (0x{total:X})";
+            }
+        }
+
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string filter = SearchBox.Text.ToLower();
@@ -744,7 +777,12 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             row[IDX_IMMUNE] = ImmuneMobBox.Text;
             row[IDX_HIWORD] = HiWordBox.Text;
             row[IDX_LOWWORD] = LowWordBox.Text;
-            row[IDX_NEXT_LVL] = NextLevelIdBox.Text;
+            var effects = new List<string>();
+            if (ActiveEffect1.IsChecked == true) effects.Add("1");
+            if (ActiveEffect2.IsChecked == true) effects.Add("2");
+            if (ActiveEffect3.IsChecked == true) effects.Add("3");
+            if (ActiveEffect4.IsChecked == true) effects.Add("4");
+            row[IDX_NEXT_LVL] = string.Join(";", effects);
             row[IDX_WEAPON_FLAG] = ClassBox.Text;
 
             // Transition
@@ -762,7 +800,16 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             row[IDX_TRANS_DUR_NODE] = TransDurNodeBox.Text;
             row[IDX_TRANS_HIWORD] = TransHiWordBox.Text;
             row[IDX_TRANS_LOWWORD] = TransLowWordBox.Text;
-            row[IDX_TRANS_FLAG] = TransFlagBox.Text;
+            
+            ulong transFlagValue = 0;
+            if (_transFlagsList != null)
+            {
+                foreach (var item in _transFlagsList)
+                {
+                    if (item.IsChecked) transFlagValue |= item.Value;
+                }
+            }
+            row[IDX_TRANS_FLAG] = transFlagValue.ToString();
 
             // Flags
             ulong flagValue = 0;
@@ -887,6 +934,12 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             combo.SelectedIndex = -1;
         }
 
+        private void FindRelated_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(IdBox.Text)) return;
+            GrandFantasiaINIEditor.Modules.Main.MainView.Instance.SearchEnchantInItems(IdBox.Text);
+        }
+
         public class EnchantEntry
         {
             public string Id { get; set; }
@@ -899,6 +952,20 @@ namespace GrandFantasiaINIEditor.Modules.Enchant
             public int Value { get; set; }
             public string Label { get; set; }
             public override string ToString() => Label;
+        }
+
+        public void SelectEnchant(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return;
+            
+            SearchBox.Text = id; // This triggers SearchBox_TextChanged
+            
+            var item = EnchantListSource.FirstOrDefault(x => x.Id == id);
+            if (item != null)
+            {
+                EnchantList.SelectedItem = item;
+                EnchantList.ScrollIntoView(item);
+            }
         }
 
         public class FlagItem : INotifyPropertyChanged

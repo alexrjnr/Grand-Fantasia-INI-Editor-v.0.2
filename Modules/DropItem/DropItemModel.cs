@@ -5,11 +5,19 @@ using System.Windows.Media.Imaging;
 
 namespace GrandFantasiaINIEditor.Modules.DropItem
 {
-    public class DropEntry
+    public class DropEntry : INotifyPropertyChanged
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public BitmapSource Icon { get; set; }
+        private string id;
+        private string name;
+        private BitmapSource icon;
+
+        public string Id { get => id; set { id = value; OnPropertyChanged(); } }
+        public string Name { get => name; set { name = value; OnPropertyChanged(); } }
+        public BitmapSource Icon { get => icon; set { icon = value; OnPropertyChanged(); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     public class DropItemSlot : INotifyPropertyChanged

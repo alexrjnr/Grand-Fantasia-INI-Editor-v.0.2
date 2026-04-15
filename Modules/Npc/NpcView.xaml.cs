@@ -86,6 +86,7 @@ namespace GrandFantasiaINIEditor.Modules.Npc
 
             LoadMultilineNameLookup(Path.Combine(clientPath, "data", "translate", "T_Npc.ini"), _npcNames, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Item.ini"), _itemNames, 0, 1, Encoding.GetEncoding(1252));
+            LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_ItemMall.ini"), _itemNames, 0, 1, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Monster.ini"), _monsterNames, 0, 1, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Node.ini"), _nodeNames, 0, 1, Encoding.GetEncoding(1252));
         }

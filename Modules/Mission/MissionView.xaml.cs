@@ -79,6 +79,7 @@ namespace GrandFantasiaINIEditor.Modules.Mission
 
             LoadMultilineNameLookup(Path.Combine(clientPath, "data", "translate", "T_Npc.ini"), _npcNames, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Item.ini"), _itemNames, 0, 1, Encoding.GetEncoding(1252));
+            LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_ItemMall.ini"), _itemNames, 0, 1, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Monster.ini"), _monsterNames, 0, 1, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Node.ini"), _nodeNames, 0, 1, Encoding.GetEncoding(1252));
             LoadSimpleNameLookup(Path.Combine(clientPath, "data", "translate", "T_Title.ini"), _titleNames, 0, 1, Encoding.GetEncoding(1252));
@@ -1663,6 +1664,65 @@ namespace GrandFantasiaINIEditor.Modules.Mission
             SetText(FinishItemLegendBox, GetItemLegendText(GetBoxText(FinishItemBox)));
         }
 
+        private string CaptureOriginalBlock(string path, Encoding encoding, string missionId)
+        {
+            if (!File.Exists(path)) return null;
+
+            var lines = File.ReadAllLines(path, encoding);
+            var block = new StringBuilder();
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                int pipe = line.IndexOf('|');
+                bool startsWithId = pipe > 0;
+
+                if (startsWithId)
+                {
+                    string currentId = line.Substring(0, pipe).Trim();
+                    if (currentId == missionId)
+                    {
+                        found = true;
+                        block.AppendLine(line);
+                        continue;
+                    }
+                    else if (found)
+                    {
+                        break;
+                    }
+                }
+                else if (found)
+                {
+                    block.AppendLine(line);
+                }
+            }
+
+            return found ? block.ToString().TrimEnd('\r', '\n') : null;
+        }
+
+        private void AppendClonedBlock(string path, Encoding encoding, string oldId, string newId)
+        {
+            if (!File.Exists(path)) return;
+
+            string block = CaptureOriginalBlock(path, encoding, oldId);
+            if (string.IsNullOrEmpty(block)) return;
+
+            int pipe = block.IndexOf('|');
+            if (pipe > 0)
+            {
+                string newBlock = newId + block.Substring(pipe);
+
+                string content = File.ReadAllText(path, encoding);
+                using var sw = new StreamWriter(path, true, encoding);
+                if (!string.IsNullOrEmpty(content) && !content.EndsWith("\n") && !content.EndsWith("\r"))
+                {
+                    sw.WriteLine();
+                }
+                sw.WriteLine(newBlock);
+            }
+        }
+
         private void SaveDataIni(string path, Encoding encoding)
         {
             string header = string.Empty;
@@ -2454,12 +2514,13 @@ namespace GrandFantasiaINIEditor.Modules.Mission
                 string cMissionPath = Path.Combine(clientPath, "data", "db", "C_Mission.ini");
                 string tMissionPath = Path.Combine(clientPath, "data", "translate", "T_Mission.ini");
 
-                SaveDataIni(sMissionPath, Encoding.GetEncoding(950));
+                AppendClonedBlock(sMissionPath, Encoding.GetEncoding(950), selected.Id, newId);
 
                 if (File.Exists(cMissionPath))
-                    SaveDataIni(cMissionPath, Encoding.GetEncoding(950));
+                    AppendClonedBlock(cMissionPath, Encoding.GetEncoding(950), selected.Id, newId);
 
-                SaveTranslateIni(tMissionPath, Encoding.GetEncoding(1252));
+                var trans = db.TRows[newId];
+                PatchTranslateRowInPlace(tMissionPath, Encoding.GetEncoding(1252), newId, trans.Name, trans.Classification);
             }
             catch (Exception ex)
             {

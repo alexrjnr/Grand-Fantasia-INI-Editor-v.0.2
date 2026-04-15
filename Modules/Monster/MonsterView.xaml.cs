@@ -31,7 +31,6 @@ namespace GrandFantasiaINIEditor.Modules.Monster
 
         private readonly Dictionary<string, string> _translatedMonsterNames = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, string> _monsterIcons = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<string, BitmapSource> _iconCache = new(StringComparer.OrdinalIgnoreCase);
 
         private bool _loading;
         private MonsterEntry _selected;
@@ -451,10 +450,6 @@ namespace GrandFantasiaINIEditor.Modules.Monster
             if (!_monsterIcons.TryGetValue(id, out var icon) || string.IsNullOrWhiteSpace(icon))
                 return null;
 
-            string cacheKey = "uiicon_" + icon;
-            if (_iconCache.TryGetValue(cacheKey, out var cached))
-                return cached;
-
             string[] paths =
             {
                 Path.Combine(clientPath, "UI", "uiicon", icon + ".dds"),
@@ -467,12 +462,7 @@ namespace GrandFantasiaINIEditor.Modules.Monster
                 if (!File.Exists(p))
                     continue;
 
-                var bitmap = DdsLoader.Load(p);
-                if (bitmap != null)
-                {
-                    _iconCache[cacheKey] = bitmap;
-                    return bitmap;
-                }
+                return DdsLoader.Load(p);
             }
 
             return null;

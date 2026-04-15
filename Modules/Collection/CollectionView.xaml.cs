@@ -98,40 +98,15 @@ namespace GrandFantasiaINIEditor.Modules.Collection
             }
         }
 
-        private void LoadIconsInBackground()
+        private async void LoadIconsInBackground()
         {
             var entriesWithIcons = AllEntries.ToList();
             
-            // Try different possible item icon folders
-            string[] possibleFolders = {
-                Path.Combine(clientPath, "data", "icon"),
-                Path.Combine(clientPath, "Data", "icon"),
-                Path.Combine(clientPath, "UI", "itemicon"),
-                Path.Combine(clientPath, "ui", "itemicon"),
-                Path.Combine(clientPath, "data", "item"),
-                Path.Combine(clientPath, "Data", "item")
-            };
-
-            string foundFolder = possibleFolders.FirstOrDefault(Directory.Exists);
-
             foreach (var entry in entriesWithIcons)
             {
-                if (foundFolder == null) break;
-
-                // Lookup icon name from S_Item/S_ItemMall mappings
                 if (itemIcons.TryGetValue(entry.Id, out var iconName) && !string.IsNullOrEmpty(iconName))
                 {
-                    string iconPath = Path.Combine(foundFolder, iconName + ".dds");
-                    if (File.Exists(iconPath))
-                    {
-                        var icon = DdsLoader.Load(iconPath);
-                        if (icon != null)
-                        {
-                            Dispatcher.BeginInvoke(new Action(() => {
-                                entry.Icon = icon;
-                            }));
-                        }
-                    }
+                    entry.Icon = await GetSingleIconAsync(entry.Id);
                 }
             }
         }
@@ -154,24 +129,24 @@ namespace GrandFantasiaINIEditor.Modules.Collection
             LoadNames(Path.Combine(dataTrans, "T_ItemMall.ini"));
 
             // S_Item.ini for Icons
-            LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
-            LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
+            LoadIcons("S_Item.ini");
+            LoadIcons("S_ItemMall.ini");
         }
 
-        private void LoadIcons(string path)
+        private void LoadIcons(string fileName)
         {
-            if (!File.Exists(path)) return;
-            // Use BIG5 (950) for S_ files
-            var lines = File.ReadAllLines(path, Encoding.GetEncoding(950));
-            for (int i = 1; i < lines.Length; i++)
+            try
             {
-                var parts = lines[i].Split('|');
-                if (parts.Length < 2) continue;
-                string id = parts[0].Trim();
-                string icon = parts[1].Trim();
-                if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(icon)) 
-                    itemIcons[id] = icon;
+                var itemDb = GenericIniLoader.Load(clientPath, schemasPath, fileName);
+                foreach (var row in itemDb.Rows)
+                {
+                    if (row.Value.Count > 1 && !string.IsNullOrWhiteSpace(row.Key) && !string.IsNullOrWhiteSpace(row.Value[1]))
+                    {
+                        itemIcons[row.Key] = row.Value[1].Trim();
+                    }
+                }
             }
+            catch { }
         }
 
         private void LoadNames(string path)
@@ -736,6 +711,35 @@ namespace GrandFantasiaINIEditor.Modules.Collection
             }
 
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        }
+
+        private async Task<BitmapSource> GetSingleIconAsync(string itemId)
+        {
+            if (string.IsNullOrEmpty(itemId)) return null;
+            if (!itemIcons.TryGetValue(itemId, out var iconName) || string.IsNullOrEmpty(iconName)) return null;
+
+            string[] folders = {
+                Path.Combine(clientPath, "data", "icon"),
+                Path.Combine(clientPath, "Data", "icon"),
+                Path.Combine(clientPath, "UI", "itemicon"),
+                Path.Combine(clientPath, "ui", "itemicon"),
+                Path.Combine(clientPath, "UI", "Icon"),
+                Path.Combine(clientPath, "ui", "icon"),
+                Path.Combine(clientPath, "data", "item"),
+                Path.Combine(clientPath, "Data", "item"),
+                Path.Combine(clientPath, "ui", "item"),
+                Path.Combine(clientPath, "UI", "item")
+            };
+
+            foreach (var folder in folders)
+            {
+                if (Directory.Exists(folder))
+                {
+                    string path = Path.Combine(folder, iconName + ".dds");
+                    if (File.Exists(path)) return await DdsLoader.LoadAsync(path);
+                }
+            }
+            return null;
         }
 
         private BitmapSource GetSingleIcon(string itemId)

@@ -30,7 +30,6 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
         private readonly Dictionary<string, string> _monsterNames = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, string> _monsterIcons = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, string> _itemIconsLookup = new(StringComparer.OrdinalIgnoreCase);
-        private readonly Dictionary<string, BitmapSource> _iconCache = new(StringComparer.OrdinalIgnoreCase);
 
         private bool _loading;
         private int _currentPage = 1;
@@ -94,11 +93,16 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             Encoding chi = Encoding.GetEncoding(1252);
 
 
-            // 2. Item Names (T_Item.ini)
-            string tItemPath = Path.Combine(clientPath, "data", "translate", "T_Item.ini");
-            if (File.Exists(tItemPath))
+            // 2. Item Names (T_Item.ini and T_ItemMall.ini)
+            string[] tItemPaths = {
+                Path.Combine(clientPath, "data", "translate", "T_Item.ini"),
+                Path.Combine(clientPath, "data", "translate", "T_ItemMall.ini")
+            };
+            foreach (var tItemPath in tItemPaths)
             {
-                var lines = File.ReadAllLines(tItemPath, chi);
+                if (File.Exists(tItemPath))
+                {
+                    var lines = File.ReadAllLines(tItemPath, chi);
                 string currentId = null;
                 var nameBuilder = new StringBuilder();
 
@@ -125,10 +129,11 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                         // nameBuilder.AppendLine();
                         // nameBuilder.Append(line);
                     }
+                    }
+                    Flush();
                 }
-                Flush();
             }
-
+            
             // 3. Monster Names (T_Monster.ini)
             string tMonPath = Path.Combine(clientPath, "data", "translate", "T_Monster.ini");
             if (File.Exists(tMonPath))
@@ -221,15 +226,18 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             
             void LoadIcons(string fileName) 
             {
-                string path = Path.Combine(dataDb, fileName);
-                if (File.Exists(path))
+                try
                 {
-                    foreach (var line in File.ReadLines(path, chi).Skip(1))
+                    var itemDb = GenericIniLoader.Load(clientPath, schemasPath, fileName);
+                    foreach (var row in itemDb.Rows)
                     {
-                        var parts = line.Split('|');
-                        if (parts.Length > 1) _itemIconsLookup[parts[0].Trim()] = parts[1].Trim();
+                        if (row.Value.Count > 1 && !string.IsNullOrWhiteSpace(row.Key) && !string.IsNullOrWhiteSpace(row.Value[1]))
+                        {
+                            _itemIconsLookup[row.Key] = row.Value[1].Trim();
+                        }
                     }
                 }
+                catch { }
             }
             LoadIcons("S_Item.ini");
             LoadIcons("S_ItemMall.ini");
@@ -249,15 +257,24 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                 {
                     Id = kv.Key,
                     Name = ResolveName(kv.Key),
-                    Icon = GetEntryIcon(kv.Key)
+                    Icon = null
                 }).OrderBy(e => int.TryParse(e.Id, out var id) ? id : 999999).ToList();
 
                 Dispatcher.Invoke(() =>
                 {
                     Entries.Clear();
-                    foreach (var e in entryList) Entries.Add(e);
+                    foreach (var e in entryList)
+                    {
+                        Entries.Add(e);
+                        _ = LoadIconForEntryAsync(e);
+                    }
                 });
             });
+        }
+
+        private async Task LoadIconForEntryAsync(DropEntry entry)
+        {
+            entry.Icon = await GetEntryIconAsync(entry.Id);
         }
 
         private string ResolveName(string id)
@@ -268,11 +285,50 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             return "Desconhecido";
         }
 
-        private BitmapSource GetEntryIcon(string id)
+        private async Task<BitmapSource> GetEntryIconAsync(string id)
         {
             if (string.IsNullOrEmpty(id)) return null;
             
-            // If it's an item, load directly
+            // Try load icon even if name is unknown
+            if (_itemIconsLookup.TryGetValue(id, out var itemIconName) && !string.IsNullOrEmpty(itemIconName))
+            {
+
+                string[] folders = {
+                    Path.Combine(clientPath, "data", "icon"),
+                    Path.Combine(clientPath, "Data", "icon"),
+                    Path.Combine(clientPath, "UI", "itemicon"),
+                    Path.Combine(clientPath, "ui", "itemicon"),
+                    Path.Combine(clientPath, "data", "item"),
+                    Path.Combine(clientPath, "Data", "item")
+                };
+
+                foreach (var folder in folders)
+                {
+                    if (Directory.Exists(folder))
+                    {
+                        string path = Path.Combine(folder, itemIconName + ".dds");
+                        if (File.Exists(path)) return await DdsLoader.LoadAsync(path);
+                    }
+                }
+            }
+
+            // Otherwise check monster icons
+            if (!_monsterIcons.TryGetValue(id, out string monIconName) || string.IsNullOrEmpty(monIconName)) 
+                return null;
+            
+            string iconPath = Path.Combine(clientPath, "UI", "uiicon", monIconName + ".dds");
+            return await DdsLoader.LoadAsync(iconPath);
+        }
+
+        private BitmapSource GetEntryIcon(string id)
+        {
+            return DdsLoader.Load(GetEntryIconPath(id));
+        }
+
+        private string GetEntryIconPath(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return null;
+            
             if (_itemNames.ContainsKey(id))
             {
                 if (!_itemIconsLookup.TryGetValue(id, out var itemIconName) || string.IsNullOrEmpty(itemIconName)) return null;
@@ -291,31 +347,16 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                     if (Directory.Exists(folder))
                     {
                         string path = Path.Combine(folder, itemIconName + ".dds");
-                        if (File.Exists(path)) return DdsLoader.Load(path);
+                        if (File.Exists(path)) return path;
                     }
                 }
                 return null;
             }
 
-            // Otherwise check monster icons
             if (!_monsterIcons.TryGetValue(id, out string monIconName) || string.IsNullOrEmpty(monIconName)) 
                 return null;
             
-            string cacheKey = "uiicon_" + monIconName;
-            if (_iconCache.TryGetValue(cacheKey, out var cached)) return cached;
-
-            string iconPath = Path.Combine(clientPath, "UI", "uiicon", monIconName + ".dds");
-            
-            try
-            {
-                var bitmap = DdsLoader.Load(iconPath);
-                if (bitmap != null)
-                {
-                    _iconCache[cacheKey] = bitmap;
-                }
-                return bitmap;
-            }
-            catch { return null; }
+            return Path.Combine(clientPath, "UI", "uiicon", monIconName + ".dds");
         }
 
         private void DropList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -368,7 +409,8 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                     slot.ItemName = ResolveName(slot.ItemId);
                     slot.Stack = row[start + 2];
                     slot.Rate = row[start + 3];
-                    slot.Icon = GetEntryIcon(slot.ItemId);
+                    slot.Icon = null; // Placeholder
+                    _ = LoadIconForSlotAsync(slot);
                 }
                 AllSlots.Add(slot);
             }
@@ -384,7 +426,8 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
                     slot.ItemName = ResolveName(slot.ItemId);
                     slot.Stack = row[start + 2];
                     slot.Rate = row[start + 3];
-                    slot.Icon = GetEntryIcon(slot.ItemId);
+                    slot.Icon = null; // Placeholder
+                    _ = LoadIconForSlotAsync(slot);
                 }
                 PbSlots.Add(slot);
             }
@@ -397,7 +440,12 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             _loading = false;
         }
 
-        private void HandleSlotIdChanged(DropItemSlot slot, string newId)
+        private async Task LoadIconForSlotAsync(DropItemSlot slot)
+        {
+            slot.Icon = await GetEntryIconAsync(slot.ItemId);
+        }
+
+        private async void HandleSlotIdChanged(DropItemSlot slot, string newId)
         {
             if (_loading) return;
             if (string.IsNullOrWhiteSpace(newId))
@@ -408,7 +456,7 @@ namespace GrandFantasiaINIEditor.Modules.DropItem
             }
 
             slot.ItemName = ResolveName(newId);
-            slot.Icon = GetEntryIcon(newId);
+            slot.Icon = await GetEntryIconAsync(newId);
         }
 
         private void UpdatePagination()

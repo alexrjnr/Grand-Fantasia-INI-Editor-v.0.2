@@ -118,11 +118,19 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
         };
 
         // ── Inner models ──────────────────────────────────────────────────────
-        private sealed class CombineEntry
+        private sealed class CombineEntry : INotifyPropertyChanged
         {
-            public string Id   { get; set; }
-            public string Name { get; set; }
-            public BitmapSource Icon { get; set; }
+            private string id;
+            private string name;
+            private BitmapSource icon;
+
+            public string Id { get => id; set { id = value; OnPropertyChanged(); } }
+            public string Name { get => name; set { name = value; OnPropertyChanged(); } }
+            public BitmapSource Icon { get => icon; set { icon = value; OnPropertyChanged(); } }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            private void OnPropertyChanged([CallerMemberName] string name = null)
+                => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public sealed class EffectRow : INotifyPropertyChanged
@@ -210,12 +218,8 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             LoadNamesFromFile(Path.Combine(clientPath, "data", "translate", "T_Item.ini"));
             LoadNamesFromFile(Path.Combine(clientPath, "data", "translate", "T_ItemMall.ini"));
 
-            // Icons: S_Item.ini col 1
-            string dataDb = Path.Combine(clientPath, "data", "db");
-            if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
-
-            LoadIconsFromFile(Path.Combine(dataDb, "S_Item.ini"));
-            LoadIconsFromFile(Path.Combine(dataDb, "S_ItemMall.ini"));
+            LoadIconsFromFile("S_Item.ini");
+            LoadIconsFromFile("S_ItemMall.ini");
         }
 
 
@@ -233,23 +237,58 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
                     _itemNames[id] = name;
             }
         }
-        private void LoadIconsFromFile(string path)
+        private void LoadIconsFromFile(string fileName)
         {
-            if (!File.Exists(path)) return;
-            var lines = File.ReadAllLines(path, Encoding.GetEncoding(950));
-            for (int i = 1; i < lines.Length; i++)
+            try
             {
-                var parts = lines[i].Split('|');
-                if (parts.Length < 2) continue;
-                string id = parts[0].Trim();
-                string icon = parts[1].Trim();
-                if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(icon))
-                    _itemIcons[id] = icon;
+                var itemDb = GenericIniLoader.Load(clientPath, schemasPath, fileName);
+                foreach (var row in itemDb.Rows)
+                {
+                    if (row.Value.Count > 1 && !string.IsNullOrWhiteSpace(row.Key) && !string.IsNullOrWhiteSpace(row.Value[1]))
+                    {
+                        _itemIcons[row.Key] = row.Value[1].Trim();
+                    }
+                }
             }
+            catch { }
         }
 
         // ── Icon helper ───────────────────────────────────────────────────────
+        private async Task<BitmapSource> LoadIconByItemIdAsync(string itemId)
+        {
+            if (string.IsNullOrEmpty(itemId)) return null;
+            if (!_itemIcons.TryGetValue(itemId, out var iconName) || string.IsNullOrEmpty(iconName)) return null;
+
+            string[] folders = {
+                Path.Combine(clientPath, "data", "icon"),
+                Path.Combine(clientPath, "Data", "icon"),
+                Path.Combine(clientPath, "UI", "itemicon"),
+                Path.Combine(clientPath, "ui", "itemicon"),
+                Path.Combine(clientPath, "UI", "Icon"),
+                Path.Combine(clientPath, "ui", "icon"),
+                Path.Combine(clientPath, "data", "item"),
+                Path.Combine(clientPath, "Data", "item"),
+                Path.Combine(clientPath, "ui", "item"),
+                Path.Combine(clientPath, "UI", "item")
+            };
+
+            foreach (var folder in folders)
+            {
+                if (Directory.Exists(folder))
+                {
+                    string path = Path.Combine(folder, iconName + ".dds");
+                    if (File.Exists(path)) return await DdsLoader.LoadAsync(path);
+                }
+            }
+            return null;
+        }
+
         private BitmapSource LoadIconByItemId(string itemId)
+        {
+            return DdsLoader.Load(GetIconPath(itemId));
+        }
+
+        private string GetIconPath(string itemId)
         {
             if (string.IsNullOrEmpty(itemId)) return null;
             if (!_itemIcons.TryGetValue(itemId, out var iconName) || string.IsNullOrEmpty(iconName)) return null;
@@ -268,7 +307,7 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
                 if (Directory.Exists(folder))
                 {
                     string path = Path.Combine(folder, iconName + ".dds");
-                    if (File.Exists(path)) return DdsLoader.Load(path);
+                    if (File.Exists(path)) return path;
                 }
             }
             return null;
@@ -294,12 +333,14 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             foreach (var kv in rows)
             {
                 string resultId = GetValue(kv.Value, IDX_ITEM_ID);
-                Entries.Add(new CombineEntry
+                var entry = new CombineEntry
                 {
                     Id   = kv.Key,
                     Name = GetItemName(resultId),
-                    Icon = LoadIconByItemId(resultId)
-                });
+                    Icon = null
+                };
+                Entries.Add(entry);
+                _ = LoadIconForEntryAsync(entry, resultId);
             }
 
             _suppressSelectionChanged = false;
@@ -309,6 +350,11 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
                 var match = Entries.FirstOrDefault(e => e.Id == _lastSelectedId);
                 if (match != null) CombineList.SelectedItem = match;
             }
+        }
+
+        private async Task LoadIconForEntryAsync(CombineEntry entry, string itemId)
+        {
+            entry.Icon = await LoadIconByItemIdAsync(itemId);
         }
 
         // ── Selection / population ────────────────────────────────────────────
@@ -605,7 +651,7 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             SetText(ResultItemIdBox, resultId);
             _loading = false;
             ResultItemNameText.Text = GetItemName(resultId);
-            ResultIcon.Source       = LoadIconByItemId(resultId);
+            _ = UpdateEntryIconAsync(ResultIcon, resultId);
 
             // Materials
             SetMaterialField(Mat1IdBox, Mat1NameText, Mat1Icon, Mat1QtyBox,
@@ -634,6 +680,11 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             if (tipIdx >= 0 && tipIdx < row.Count) SetText(TipBox, GetValue(row, tipIdx));
         }
 
+        private async Task UpdateEntryIconAsync(Image iconImg, string itemId)
+        {
+            iconImg.Source = await LoadIconByItemIdAsync(itemId);
+        }
+
         private void SetMaterialField(TextBox idBox, TextBlock nameBlock, Image iconImg,
             TextBox qtyBox, string itemId, string qty)
         {
@@ -641,7 +692,7 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             SetText(idBox, itemId);
             _loading = false;
             nameBlock.Text  = GetItemName(itemId);
-            iconImg.Source  = LoadIconByItemId(itemId);
+            _ = UpdateEntryIconAsync(iconImg, itemId);
             SetText(qtyBox, qty);
         }
 
@@ -690,7 +741,7 @@ namespace GrandFantasiaINIEditor.Modules.ElfCombine
             if (token.IsCancellationRequested) return;
 
             string name   = GetItemName(itemId);
-            var    bitmap = await Task.Run(() => LoadIconByItemId(itemId), token).ConfigureAwait(false);
+            var    bitmap = await LoadIconByItemIdAsync(itemId);
             if (token.IsCancellationRequested) return;
 
             await Dispatcher.InvokeAsync(() =>

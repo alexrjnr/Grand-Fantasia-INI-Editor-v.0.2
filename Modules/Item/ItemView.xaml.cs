@@ -1097,10 +1097,18 @@ namespace GrandFantasiaINIEditor.Modules.Item
 
                     return db.Rows
                         .Where(x =>
-                            string.IsNullOrEmpty(filter) ||
-                            x.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                            (db.Translations.ContainsKey(x.Key) &&
-                             (db.Translations[x.Key].Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) ?? false)))
+                        {
+                            if (string.IsNullOrEmpty(filter)) return true;
+                            if (filter.StartsWith("!enchant "))
+                            {
+                                string target = filter.Substring(9).Trim();
+                                return x.Value != null && x.Value.Count > Math.Max(IDX_ENCHANT_ID, IDX_EXPERT_ENCHANT_ID) &&
+                                       (x.Value[IDX_ENCHANT_ID] == target || x.Value[IDX_EXPERT_ENCHANT_ID] == target);
+                            }
+                            return x.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                   (db.Translations.ContainsKey(x.Key) &&
+                                    (db.Translations[x.Key].Name?.Contains(filter, StringComparison.OrdinalIgnoreCase) ?? false));
+                        })
                         .OrderBy(x => x.Key, Comparer<string>.Create(CompareItemIds))
                         .Select(x => new ItemEntry
                         {
@@ -1117,6 +1125,13 @@ namespace GrandFantasiaINIEditor.Modules.Item
             catch (OperationCanceledException)
             {
             }
+        }
+
+        public bool HasEnchant(string target)
+        {
+            if (db == null || db.Rows == null) return false;
+            return db.Rows.Values.Any(r => r != null && r.Count > Math.Max(IDX_ENCHANT_ID, IDX_EXPERT_ENCHANT_ID) && 
+                                           (r[IDX_ENCHANT_ID] == target || r[IDX_EXPERT_ENCHANT_ID] == target));
         }
 
         private void ItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1646,7 +1661,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
             _lastSelectedItemId = null;
         }
 
-        private void LoadIcon(string itemId)
+        private async void LoadIcon(string itemId)
         {
             if (string.IsNullOrWhiteSpace(itemId))
             {
@@ -1676,7 +1691,7 @@ namespace GrandFantasiaINIEditor.Modules.Item
                             string path = Path.Combine(folder, iconName + ".dds");
                             if (File.Exists(path))
                             {
-                                if (ItemIcon != null) ItemIcon.Source = DdsLoader.Load(path);
+                                if (ItemIcon != null) ItemIcon.Source = await DdsLoader.LoadAsync(path);
                                 return;
                             }
                         }
@@ -1703,6 +1718,11 @@ namespace GrandFantasiaINIEditor.Modules.Item
         {
             if (control != null)
                 control.ToolTip = tooltip;
+        }
+        private void ViewEnchant_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(EnchantIdBox.Text)) return;
+            GrandFantasiaINIEditor.Modules.Main.MainView.Instance.NavigateToEnchant(EnchantIdBox.Text);
         }
     }
 }

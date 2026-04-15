@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -70,13 +71,23 @@ namespace GrandFantasiaINIEditor.Modules.Store
             UpdatePageUi();
         }
 
-        private sealed class StoreEntry
+        private sealed class StoreEntry : INotifyPropertyChanged
         {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public BitmapSource Icon { get; set; }
-            public string Discount { get; set; }
-            public string DiscountText { get; set; }
+            private string _id;
+            private string _name;
+            private BitmapSource _icon;
+            private string _discount;
+            private string _discountText;
+
+            public string Id { get => _id; set { _id = value; OnPropertyChanged(); } }
+            public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+            public BitmapSource Icon { get => _icon; set { _icon = value; OnPropertyChanged(); } }
+            public string Discount { get => _discount; set { _discount = value; OnPropertyChanged(); } }
+            public string DiscountText { get => _discountText; set { _discountText = value; OnPropertyChanged(); } }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            private void OnPropertyChanged([CallerMemberName] string name = null)
+                => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
 
@@ -254,19 +265,20 @@ namespace GrandFantasiaINIEditor.Modules.Store
             }
         }
 
-        private void LoadIcons(string path)
+        private void LoadIcons(string fileName)
         {
-            if (!File.Exists(path)) return;
-            var lines = File.ReadAllLines(path, Encoding.GetEncoding(950));
-            for (int i = 1; i < lines.Length; i++)
+            try
             {
-                var parts = lines[i].Split('|');
-                if (parts.Length < 2) continue;
-                string id = parts[0].Trim();
-                string icon = parts[1].Trim();
-                if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(icon))
-                    itemIcons[id] = icon;
+                var itemDb = GenericIniLoader.Load(clientPath, schemasPath, fileName);
+                foreach (var row in itemDb.Rows)
+                {
+                    if (row.Value.Count > 1 && !string.IsNullOrWhiteSpace(row.Key) && !string.IsNullOrWhiteSpace(row.Value[1]))
+                    {
+                        itemIcons[row.Key] = row.Value[1].Trim();
+                    }
+                }
             }
+            catch { }
         }
 
         private void LoadDatabases()
@@ -285,15 +297,26 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 }
 
                 string nameTemplate = LocalizationManager.Instance.GetLocalizedString("Store.Legends.NameFormat") ?? "Loja {0}";
-                Entries.Add(new StoreEntry
+                var entry = new StoreEntry
                 {
                     Id = r.Key,
                     Name = string.Format(nameTemplate, r.Key),
-                    Icon = !string.IsNullOrEmpty(firstItem) ? LoadIconByItemId(firstItem) : null,
+                    Icon = null,
                     Discount = discountRaw,
                     DiscountText = GetDiscountDisplayText(discountRaw)
-                });
+                };
+                Entries.Add(entry);
+
+                if (!string.IsNullOrEmpty(firstItem))
+                {
+                    _ = LoadIconForEntryAsync(entry, firstItem);
+                }
             }
+        }
+
+        private async Task LoadIconForEntryAsync(StoreEntry entry, string itemId)
+        {
+            entry.Icon = await LoadIconByItemIdAsync(itemId);
         }
 
 
@@ -323,13 +346,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
         private void LoadItemIconMappings()
         {
-            string dataDb = Path.Combine(clientPath, "data", "db");
-            if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "db");
-            if (!Directory.Exists(dataDb)) dataDb = Path.Combine(clientPath, "Data", "DB");
-            if (!Directory.Exists(dataDb)) dataDb = clientPath;
-
-            LoadIcons(Path.Combine(dataDb, "S_Item.ini"));
-            LoadIcons(Path.Combine(dataDb, "S_ItemMall.ini"));
+            LoadIcons("S_Item.ini");
+            LoadIcons("S_ItemMall.ini");
         }
 
         private void LoadItemTranslations()
@@ -495,9 +513,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 string quantity = GetValue(_currentRow, baseCol + 2);
 
                 string visualName;
-                BitmapSource icon = null;
                 string visualInfo;
-
                 if (string.IsNullOrWhiteSpace(itemId))
                 {
                     visualName = LocalizationManager.Instance.GetLocalizedString("Store.Legends.EmptySlotName") ?? "(vazio)";
@@ -509,11 +525,8 @@ namespace GrandFantasiaINIEditor.Modules.Store
                         visualName = translatedName;
                     else
                         visualName = string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualNameFallback") ?? "Item {0}", itemId);
-
-                    icon = LoadIconByItemId(itemId);
-                    visualInfo = string.IsNullOrWhiteSpace(quantity)
-                        ? $"ID {itemId}"
-                        : string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualInfoFormat") ?? "ID {0} | Qtd {1}", itemId, quantity);
+                    
+                    visualInfo = itemId; // Or some description if available
                 }
 
                 var view = new StoreSlotView
@@ -524,8 +537,14 @@ namespace GrandFantasiaINIEditor.Modules.Store
                     Quantity = quantity,
                     VisualName = visualName,
                     VisualInfo = visualInfo,
-                    Icon = icon
+                    Icon = null
                 };
+
+
+                if (!string.IsNullOrWhiteSpace(itemId))
+                {
+                    _ = LoadIconForSlotAsync(view, itemId);
+                }
 
                 pageSlots.Add(view);
             }
@@ -582,7 +601,12 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 NextPageButton.IsEnabled = _currentPage < totalPages - 1;
         }
 
-        private BitmapSource LoadIconByItemId(string itemId)
+        private async Task LoadIconForSlotAsync(StoreSlotView slot, string itemId)
+        {
+            slot.Icon = await LoadIconByItemIdAsync(itemId);
+        }
+
+        private async Task<BitmapSource> LoadIconByItemIdAsync(string itemId)
         {
             if (string.IsNullOrEmpty(itemId)) return null;
             if (!itemIcons.TryGetValue(itemId, out var iconName) || string.IsNullOrEmpty(iconName)) return null;
@@ -592,8 +616,12 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 Path.Combine(clientPath, "Data", "icon"),
                 Path.Combine(clientPath, "UI", "itemicon"),
                 Path.Combine(clientPath, "ui", "itemicon"),
+                Path.Combine(clientPath, "UI", "Icon"),
+                Path.Combine(clientPath, "ui", "icon"),
                 Path.Combine(clientPath, "data", "item"),
-                Path.Combine(clientPath, "Data", "item")
+                Path.Combine(clientPath, "Data", "item"),
+                Path.Combine(clientPath, "ui", "item"),
+                Path.Combine(clientPath, "UI", "item")
             };
 
             foreach (var folder in folders)
@@ -601,7 +629,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                 if (Directory.Exists(folder))
                 {
                     string path = Path.Combine(folder, iconName + ".dds");
-                    if (File.Exists(path)) return DdsLoader.Load(path);
+                    if (File.Exists(path)) return await DdsLoader.LoadAsync(path);
                 }
             }
             return null;
@@ -634,14 +662,19 @@ namespace GrandFantasiaINIEditor.Modules.Store
                             {
                                 if (!string.IsNullOrWhiteSpace(x.Value[s])) { firstItem = x.Value[s]; break; }
                             }
-                            return new StoreEntry
+                            var storeEntry = new StoreEntry
                             {
                                 Id = x.Key,
                                 Name = $"Loja {x.Key}",
-                                Icon = !string.IsNullOrEmpty(firstItem) ? LoadIconByItemId(firstItem) : null,
+                                Icon = null,
                                 Discount = GetValue(x.Value, IDX_DISCOUNT),
                                 DiscountText = GetDiscountDisplayText(GetValue(x.Value, IDX_DISCOUNT))
                             };
+                            if (!string.IsNullOrEmpty(firstItem))
+                            {
+                                _ = LoadIconForEntryAsync(storeEntry, firstItem);
+                            }
+                            return storeEntry;
                         })
                         .ToList();
                 }, token);
@@ -1091,7 +1124,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
 
             try
             {
-                var result = await Task.Run(() =>
+                var result = await Task.Run(async () =>
                 {
                     token.ThrowIfCancellationRequested();
 
@@ -1099,7 +1132,7 @@ namespace GrandFantasiaINIEditor.Modules.Store
                         ? translatedName
                         : string.Format(LocalizationManager.Instance.GetLocalizedString("Store.Legends.VisualNameFallback") ?? "Item {0}", itemId);
 
-                    BitmapSource icon = LoadIconByItemId(itemId);
+                    BitmapSource icon = await LoadIconByItemIdAsync(itemId);
 
                     return (name, icon);
                 }, token);
